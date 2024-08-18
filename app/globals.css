@@ -16,14 +16,46 @@
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@font-face {
+  font-family: "Neue Montreal";
+  src: url("../public/fonts/neue/NeueMontreal-Regular.otf") format("otf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Neue Montreal";
+  src: url("../public/fonts/neue/NeueMontreal-Medium.otf") format("otf");
+  font-weight: semi-bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Neue Montreal";
+  src: url("../public/fonts/neue/NeueMontreal-Bold.otf") format("otf");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Neue Montreal";
+  src: url("../public/fonts/neue/NeueMontreal-Italic.otf") format("otf");
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Neue Montreal";
+  src: url("../public/fonts/neue/NeueMontreal-Light.otf");
+  font-weight: thin;
+  font-style: normal;
+}
+
+p,
+button,
+input {
+  font-family: "Neue Montreal", sans-serif;
+  font-weight: 600;
 }
 
 @layer utilities {

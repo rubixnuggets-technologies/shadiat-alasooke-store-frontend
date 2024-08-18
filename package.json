@@ -9,16 +9,25 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/font": "^14.2.5",
+    "@portabletext/react": "^3.1.0",
+    "@sanity/types": "^3.53.0",
+    "@svgr/webpack": "^8.1.0",
+    "classnames": "^2.5.1",
+    "next": "14.2.5",
+    "next-sanity": "^9.4.5",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.5"
+    "react-slick": "^0.30.2",
+    "sanity": "^3.53.0",
+    "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "postcss": "^8",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
   }
 }
