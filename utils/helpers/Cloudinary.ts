@@ -7,3 +7,9 @@ export const ImageLoader = ({ src, width }: ImageLoaderProps) => {
   // return `${origin}/w_${width}/${src}`
   return `${origin}/f_auto,q_auto/${src}`
 }
+
+export const MedusaImageLoader = ({ src, width }: ImageLoaderProps) => {
+  // TODO: extract keys from image & add cloudinary transformer
+  
+  return src
+}

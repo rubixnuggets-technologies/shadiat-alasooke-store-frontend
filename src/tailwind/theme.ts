@@ -5,10 +5,21 @@ const theme = {
     coral: "#FF6F61",
     mint_green: "#FF6F61",
     dark_blue: "#002B5B",
-    gold: "#FFD700",
+    gold: {
+      100: "#FFFBE7",
+    },
+    green: {
+      100: "#DEF2EB",
+    },
     brown: {
-      100: "#D7D2CE",
-      200: "#857B74",
+      100: "#FCFAF8",
+      500: "#F3E9E0",
+      200: "#FAF6F2",
+      1000: "#E8D4C1",
+      1200: "#D1BDAA",
+      1500: "#928477",
+      1900: "#3E3832",
+      2100: "#0C0B0A"
     },
 
     //   primary: "#3ECE7B", // Skanska Active Green

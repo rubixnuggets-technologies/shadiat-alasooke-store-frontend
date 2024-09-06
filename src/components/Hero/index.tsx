@@ -8,9 +8,10 @@ import Slider, { Settings } from "react-slick";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Button from "../ui/button";
+import DotsIndicator from "../ui/DotsIndicator";
 
 // TODO: slider takes more space causing a horizontal scroll
-
 const Hero = ({ data }: { data: IHero[] }) => {
   const [activeItem, setActiveItem] = useState(0);
   let sliderRef = useRef(null);
@@ -22,7 +23,7 @@ const Hero = ({ data }: { data: IHero[] }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     swipeToSlide: false,
-    draggable: false,
+    draggable: true,
     rtl: true,
     afterChange: (slideNumber: number) => setActiveItem(slideNumber),
   };
@@ -41,18 +42,16 @@ const Hero = ({ data }: { data: IHero[] }) => {
               { title, background_color, button_link, cover, cta_text },
               idx
             ) => (
-              <div>
+              <div key={idx}>
                 <div
-                  key={idx}
-                  style={{}}
                   className={cn(
-                    `bg-[#F0F0F0]`,
-                    "h-[684px] grid grid-cols-[684px_auto]"
+                    `bg-brown-200`,
+                    "h-[1084px] grid grid-cols-[684px_auto]"
                   )}
                 >
                   <div className="max-w-[330px] m-auto">
                     <div>
-                      <div className="mb-4 h-[54px] bg-brown-100 max-w-[420px] flex items-center justify-center rounded-full">
+                      <div className="mb-4 h-[54px] bg-brown-500 max-w-[420px] flex items-center justify-center rounded-full">
                         <p className="text-normal">{cta_text} </p>
                       </div>
 
@@ -60,10 +59,7 @@ const Hero = ({ data }: { data: IHero[] }) => {
                         <h1 className="text-[40px]"> {title} </h1>
                       </div>
 
-                      <button className="text-white bg-brown-200 h-[50px] w-[205px] border-brown-100 border-1">
-                        {" "}
-                        Shop Now{" "}
-                      </button>
+                      <Button title="Shop Now" />
                     </div>
                   </div>
 
@@ -73,7 +69,7 @@ const Hero = ({ data }: { data: IHero[] }) => {
                         alt={cta_text}
                         fill
                         loader={ImageLoader}
-                        className="absolute object-cover"
+                        className="absolute object-cover object-top"
                         src={cover.public_id}
                       />
                     </div>
@@ -84,24 +80,11 @@ const Hero = ({ data }: { data: IHero[] }) => {
           )}
       </Slider>
 
-      <div>
-        <ul className="mt-14 flex flex-row justify-center gap-3">
-          {data &&
-            data.map((_, idx) => (
-              <li key={idx}>
-                <div
-                  onClick={() => sliderRef.slickGoTo(idx)}
-                  className={cn(
-                    "h-[13px] rounded-full hover:cursor-pointer",
-                    activeItem === idx
-                      ? "w-[43px] bg-brown-200"
-                      : "w-[14px] bg-brown-100"
-                  )}
-                />
-              </li>
-            ))}
-        </ul>
-      </div>
+      <DotsIndicator
+        data={data}
+        activeItem={activeItem}
+        clickAction={(newSlide) => sliderRef.slickGoTo(newSlide)}
+      />
     </div>
   );
 };

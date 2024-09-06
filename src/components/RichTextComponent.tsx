@@ -1,122 +1,123 @@
 import {
-    PortableText,
-    PortableTextComponents,
-    toPlainText,
-  } from "@portabletext/react"
-  import { Anchor, H2Heading, H3Heading, H4Heading, Text, ULList } from "@/styles"
-  import React from "react"
-  import Image from "next/image"
-  import { truncateText } from "./helpers"
-  import { ImageLoader } from "./Cloudinary"
-  import CloudinaryAssetRenderer from "@/components/Cloudinary/AssetRender"
-  import ReactPlayer from "react-player"
-  
-  interface RichTextComponentProps {
-    richText: any
-    isClamped?: boolean
-    maxTextLength?: number
-  }
-  
-  interface RichTextOpts extends Omit<RichTextComponentProps, "richText"> {
-    listLength?: number
-  }
-  
-  const RichTextComponent = ({
-    richText,
+  PortableText,
+  PortableTextComponents,
+  toPlainText,
+} from "@portabletext/react";
+import React from "react";
+import Image from "next/image";
+import { ImageLoader } from "@/utils/helpers/Cloudinary";
+// import { truncateText } from "./helpers"
+// import { ImageLoader } from "./Cloudinary"
+// import CloudinaryAssetRenderer from "@/components/Cloudinary/AssetRender"
+// import ReactPlayer from "react-player"
+// import { Anchor, H2Heading, H3Heading, H4Heading, Text, ULList } from "@/styles"
+import { truncateText } from "@/utils/helpers/text";
+
+interface RichTextComponentProps {
+  richText: any;
+  isClamped?: boolean;
+  maxTextLength?: number;
+}
+
+interface RichTextOpts extends Omit<RichTextComponentProps, "richText"> {
+  listLength?: number;
+}
+
+const RichTextComponent = ({
+  richText,
+  isClamped,
+  maxTextLength,
+}: RichTextComponentProps) => {
+  let temp = "";
+
+  const richTextParagraphs = React.useMemo(() => {
+    if (Array.isArray(richText)) {
+      const blocks = richText!.filter(
+        // @ts-ignore
+        (item) => item.style === "normal"
+      );
+
+      return blocks.length;
+    }
+  }, [richText]);
+
+  const RichTextConfiguration = ({
+    listLength,
     isClamped,
     maxTextLength,
-  }: RichTextComponentProps) => {
-    let temp = ""
-  
-    const richTextParagraphs = React.useMemo(() => {
-      if (Array.isArray(richText)) {
-        const blocks = richText!.filter(
-          // @ts-ignore
-          item => item.style === "normal"
-        )
-  
-        return blocks.length
-      }
-    }, [richText])
-  
-    const RichTextConfiguration = ({
-      listLength,
-      isClamped,
-      maxTextLength,
-    }: RichTextOpts): PortableTextComponents => ({
-      types: {
-        "cloudinary.asset": ({ value }) => (
-          <CloudinaryAssetRenderer value={value} />
-        ),
-        image: ({ value }) => {
-          return (
-            <div>
-              <Image loader={ImageLoader} alt="" src={value} />
-            </div>
-          )
-        },
-        youtube: ({ value }) => {
-          return (
-            <div style={{ margin: "20px 0" }}>
-              <ReactPlayer width="100%" height="700px" url={value?.url} />
-            </div>
-          )
-        },
-      },
-      marks: {
-        link: ({ children, value }) => {
-          return <Anchor href={value.href}> {children} </Anchor>
-        },
-      },
-      block: {
-        h2: ({ children }) => {
-          return <H2Heading fontWeight={500}>{children}</H2Heading>
-        },
-        h3: ({ children }) => {
-          return <H3Heading fontWeight={400}>{children}</H3Heading>
-        },
-        h4: ({ children }) => {
-          return <H4Heading fontWeight={400}>{children}</H4Heading>
-        },
-        normal: ({ children, value, index }) => {
-          if (maxTextLength && richTextParagraphs) {
-            temp += toPlainText(value)
-  
-            if (index + 1 < richTextParagraphs) {
-              return <p> </p>
-            }
-  
-            return <Text> {truncateText(temp, maxTextLength)} </Text>
-          }
-  
-          return <Text> {children} </Text>
-        },
-      },
-      list: {
-        bullet: ({ children }) => {
-          return <ul>{children?.slice(0, isClamped ? listLength : 1000)}</ul>
-        },
-      },
-      listItem: ({ children }) => {
+  }: RichTextOpts): PortableTextComponents => ({
+    types: {
+      "cloudinary.asset": ({ value }) => (
+        <CloudinaryAssetRenderer value={value} />
+      ),
+      image: ({ value }) => {
         return (
-          <ULList>
-            <Text> {children} </Text>
-          </ULList>
-        )
+          <div>
+            <Image loader={ImageLoader} alt="" src={value} />
+          </div>
+        );
       },
-    })
-  
-    return (
-      <PortableText
-        value={richText}
-        components={RichTextConfiguration({
-          listLength: 2,
-          isClamped,
-          maxTextLength,
-        })}
-      />
-    )
-  }
-  
-  export default RichTextComponent
-  
+      // youtube: ({ value }) => {
+      //   return (
+      //     <div style={{ margin: "20px 0" }}>
+      //       <ReactPlayer width="100%" height="700px" url={value?.url} />
+      //     </div>
+      //   )
+      // },
+    },
+    marks: {
+      link: ({ children, value }) => {
+        return <a href={value.href}> {children} </a>;
+      },
+    },
+    block: {
+      h2: ({ children }) => {
+        return <p>{children}</p>;
+      },
+      h3: ({ children }) => {
+        return <p>{children}</p>;
+      },
+      h4: ({ children }) => {
+        return <p>{children}</p>;
+      },
+      normal: ({ children, value, index }) => {
+        if (maxTextLength && richTextParagraphs) {
+          temp += toPlainText(value);
+
+          if (index + 1 < richTextParagraphs) {
+            return <p> </p>;
+          }
+
+          return <p> {truncateText(temp, maxTextLength)} </p>;
+        }
+
+        return <p  className="text-base" > {children} </p>;
+      },
+    },
+    list: {
+      bullet: ({ children }) => {
+        return <ul>{children?.slice(0, isClamped ? listLength : 1000)}</ul>;
+      },
+    },
+    listItem: ({ children }) => {
+      return (
+        <ul>
+          <p> {children} </p>
+        </ul>
+      );
+    },
+  });
+
+  return (
+    <PortableText
+      value={richText}
+      components={RichTextConfiguration({
+        listLength: 2,
+        isClamped,
+        maxTextLength,
+      })}
+    />
+  );
+};
+
+export default RichTextComponent;

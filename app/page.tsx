@@ -1,25 +1,27 @@
-import Header from "@/src/components/Header";
-import Hero from "@/src/components/Hero";
+import React from "react";
+
 import { SanityClient } from "@/utils/Sanity/client";
-import { HERO_SECTION_QUERY } from "@/utils/Sanity/gqols";
+import { HOME_PAGE_QUERY } from "@/utils/Sanity/gqols";
+import Wrapper from "./wrapper";
 
 const getPageData = async () => {
-  const hero = await SanityClient().fetch(HERO_SECTION_QUERY);
+  const data = await SanityClient().fetch(HOME_PAGE_QUERY);
 
   return {
-    hero,
+    data: data[0],
   };
 };
 
 export default async function Home() {
-  const { hero } = await getPageData();
+  const { data } = await getPageData();
 
   return (
     <div>
-      <Header />
-      <Hero data={hero} />
-
-      <div></div>
+      <Wrapper
+        hero={data?.hero}
+        shopCTAs={data?.shop_ctas}
+        testimonials={data?.testimonials}
+      />
     </div>
   );
 }

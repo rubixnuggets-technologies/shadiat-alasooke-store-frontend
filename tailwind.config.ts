@@ -11,6 +11,9 @@ const config: Config = {
   theme: {
     colors: theme.colors,
     extend: {
+      gridTemplateColumns: {
+        10: "repeat(auto-fit, minmax(256px, 1fr))",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
