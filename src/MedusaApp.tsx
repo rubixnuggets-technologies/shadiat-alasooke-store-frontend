@@ -8,7 +8,7 @@ export default function MedusaApp({ children }: { children: React.ReactNode }) {
   return (
     <MedusaProvider
       queryClientProviderProps={{ client: queryClient }}
-      baseUrl="http://localhost:9000"
+      baseUrl={process.env.NEXT_PUBLIC_MEDUSA_ENDPOINT || ""}
     >
       <div>{children}</div>
     </MedusaProvider>
