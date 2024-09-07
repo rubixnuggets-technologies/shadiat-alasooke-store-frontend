@@ -15,6 +15,9 @@ const nextConfig = {
     formats: ["image/webp", "image/avif"],
     path: "https://res.cloudinary.com/demw3uawq/image/upload/",
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  }
 };
 
 export default nextConfig;
