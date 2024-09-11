@@ -40,6 +40,35 @@ export const ABOUT_PAGE_QUERY = (slug?: string) => {
     `;
 };
 
+export const EXPLORE_PAGE_QUERY = (slug?: string) => {
+    if (slug) {
+      return `
+          *[_type == 'explore' && slug == "${slug}"]{ 
+              _id,
+              name, 
+              title,
+              description,
+              slug,
+              collection_key,
+              by_color_filters,
+              by_product_filters,
+              by_new_arrivals_filters
+          }
+      `;
+    }
+  
+    return `
+          *[_type == 'explore']{ 
+              _id,
+              name, 
+              title,
+              description,
+              slug,
+              collection_key
+          }
+      `;
+  };
+
 export const FAQ_PAGE_QUERY = `
           *[_type == 'faq']{ 
               _id,

@@ -12,6 +12,7 @@ const config: Config = {
     colors: theme.colors,
     extend: {
       gridTemplateColumns: {
+        6: "repeat(auto-fit, minmax(90px, 1fr))",
         10: "repeat(auto-fit, minmax(256px, 1fr))",
       },
       backgroundImage: {

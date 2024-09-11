@@ -1,3 +1,4 @@
+"use client"
 import { MedusaProvider } from "medusa-react";
 import { QueryClient } from "@tanstack/react-query";
 import React from "react";

@@ -43,7 +43,7 @@ const Hero = ({ data }: { data: IHero[] }) => {
               idx
             ) => (
               <div key={idx}>
-                <div
+               <div
                   className={cn(
                     `bg-brown-200`,
                     "h-[1084px] grid grid-cols-[684px_auto]"
@@ -74,17 +74,19 @@ const Hero = ({ data }: { data: IHero[] }) => {
                       />
                     </div>
                   </div>
-                </div>
+                </div> 
               </div>
             )
           )}
       </Slider>
 
-      <DotsIndicator
-        data={data}
-        activeItem={activeItem}
-        clickAction={(newSlide) => sliderRef.slickGoTo(newSlide)}
-      />
+      {data?.length >= 2 && (
+        <DotsIndicator
+          data={data}
+          activeItem={activeItem}
+          clickAction={(newSlide) => sliderRef.slickGoTo(newSlide)}
+        />
+      )}
     </div>
   );
 };

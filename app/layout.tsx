@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Inter, Playfair, Playfair_Display,  } from "next/font/google";
+import { Inter, Playfair, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import MedusaApp from "@/src/MedusaApp";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 const font = Playfair_Display({
-  subsets: ["latin", ],
+  subsets: ["latin"],
   weight: ["400", "400", "600", "700"],
 });
 
@@ -21,7 +22,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={font.className}>{children}</body>
+      <body className={font.className}>
+        <MedusaApp>{children}</MedusaApp>
+      </body>
     </html>
   );
 }

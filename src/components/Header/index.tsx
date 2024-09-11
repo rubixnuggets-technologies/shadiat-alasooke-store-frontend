@@ -9,11 +9,11 @@ import { useState } from "react";
 const LIST_ITEMS = [
   {
     name: "aso oke",
-    url: "/aso-oke",
+    url: "/explore/shop-aso-oke",
   },
   {
     name: "ready to wear",
-    url: "/ready-to-wear",
+    url: "/explore/shop-rtw",
   },
   {
     name: "about",
