@@ -45,12 +45,12 @@ export default function ProductNavigation() {
                     style={{
                       padding:
                         idx === tabs.length - 1 || tab.title === tabs[0].title
-                          ? "0px"
-                          : "0px 32px"
+                          ? "8px 0"
+                          : "8px 32px"
                     }}
                     onClick={() => setCurrentTab(tab.key)}
                     className={cn(
-                      "border-b-2 pb-2 px-9 hover:cursor-pointer",
+                      "border-b-2 hover:cursor-pointer",
                       currentTab === tab.key
                         ? "border-brown-2100"
                         : "border-brown-1000 hover:border-brown-2100"

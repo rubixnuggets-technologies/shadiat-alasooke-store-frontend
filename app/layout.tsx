@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import MedusaApp from "@/src/MedusaApp";
+import { UserProvider } from "@auth0/nextjs-auth0/client";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +24,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
-        <MedusaApp>{children}</MedusaApp>
+        <UserProvider>
+          <MedusaApp>{children}</MedusaApp>
+        </UserProvider>
       </body>
     </html>
   );

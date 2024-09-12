@@ -1,8 +1,11 @@
 import React from "react";
 import Button from "../../ui/button";
 import Icon from "../../ui/icons";
+import { useRouter } from "next/navigation";
 
 const LgBreadcrumb = () => {
+  const router = useRouter();
+
   return (
     <div className="bg-brown-100 px-8 py-8 rounded-xl w-60">
       <ul className="flex flex-col gap-6">
@@ -41,7 +44,12 @@ const LgBreadcrumb = () => {
             <Button title="Log in" />
 
             <div className="mt-4">
-              <p className="text-center"> Create Account </p>
+              <div
+                className="hover:cursor-pointer"
+                onClick={() => router.push("/api/auth/login")}
+              >
+                <p className="text-center"> Create Account </p>
+              </div>
             </div>
           </div>
         </li>

@@ -24,7 +24,22 @@ export default function Wrapper({ hero, shopCTAs, testimonials }) {
         </div>
 
         <section className="mt-36">
-          <ProductsHighlight title="Ready To Wear" showPrice />
+          <ProductsHighlight
+            collectionKey="pcol_01J77YW8NCQZTYCTHXWM7GPJRY"
+            title="Aso Oke Collections"
+            itemsPerPage={6}
+            showPrice
+            slug="/explore/shop-aso-oke"
+          />
+        </section>
+
+        <section className="mt-36">
+          <ProductsHighlight
+            slug="/explore/shop-rtw"
+            title="Ready To Wear Collections"
+            showPrice
+            collectionKey="pcol_01J77Z78T528S0FFDJCREQ6ZBA"
+          />
         </section>
 
         <section className="mt-36">
