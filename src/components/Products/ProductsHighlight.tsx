@@ -22,7 +22,7 @@ interface ProductsHighlightProps {
 }
 
 export default function ProductsHighlight({
-  itemsPerPage = 12,
+  itemsPerPage,
   title,
   showPrice,
   collectionKey,

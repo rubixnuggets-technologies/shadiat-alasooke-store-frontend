@@ -11,5 +11,5 @@ export const ImageLoader = ({ src, width }: ImageLoaderProps) => {
 export const MedusaImageLoader = ({ src, width }: ImageLoaderProps) => {
   // TODO: extract keys from image & add cloudinary transformer
   
-  return src
+  return `${src}`
 }

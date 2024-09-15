@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { LiaBookmark } from "react-icons/lia";
 import { TfiPlus } from "react-icons/tfi";
 import Image from "next/image";
-import { MedusaImageLoader } from "@/utils/helpers/Cloudinary";
+import { ImageLoader, MedusaImageLoader } from "@/utils/helpers/Cloudinary";
 import { truncateText } from "@/utils/helpers/text";
 
 export default function ProductCard({ product, showPrice }: any) {
@@ -17,7 +17,7 @@ export default function ProductCard({ product, showPrice }: any) {
           fill
           loader={MedusaImageLoader}
           className="absolute object-cover"
-          src={product?.thumbnail || "    "}
+          src={product?.thumbnail}
         />
 
         <div className="flex justify-center hover:cursor-pointer">

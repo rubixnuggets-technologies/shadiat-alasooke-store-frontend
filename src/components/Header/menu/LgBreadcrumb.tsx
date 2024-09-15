@@ -2,9 +2,11 @@ import React from "react";
 import Button from "../../ui/button";
 import Icon from "../../ui/icons";
 import { useRouter } from "next/navigation";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 const LgBreadcrumb = () => {
   const router = useRouter();
+  const user = useUser()
 
   return (
     <div className="bg-brown-100 px-8 py-8 rounded-xl w-60">
