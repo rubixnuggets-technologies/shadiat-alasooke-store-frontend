@@ -10,19 +10,18 @@ import ShopNow from "@/src/components/Shop/ShopNow";
 import ReadyToWear from "@/src/components/Shop/ReadyToWear";
 import SearchResultsView from "@/src/components/Search/SearchResults";
 import Testimonials from "@/src/components/Testimonials";
+import { useSearchStore } from "@/src/state/store";
 
 export default function Wrapper({ hero, shopCTAs, testimonials }) {
-  const [searchResults, setSearchResults] = useState(null);
+  const store = useSearchStore();
 
   return (
     <div>
       <div>
-        <Header
-          handleSearchResultsResponse={(data) => setSearchResults(data)}
-        />
+        <Header />
 
-        {searchResults ? (
-          <SearchResultsView data={searchResults} />
+        {store?.searchItems && store?.isOpen ? (
+          <SearchResultsView />
         ) : (
           <div>
             <Hero data={hero} />

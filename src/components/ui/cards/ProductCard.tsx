@@ -6,17 +6,25 @@ import Image from "next/image";
 import { ImageLoader, MedusaImageLoader } from "@/utils/helpers/Cloudinary";
 import { truncateText } from "@/utils/helpers/text";
 
+import Link from "next/link";
+
 export default function ProductCard({ product, showPrice }: any) {
   const [bookmarked, setBookmamrk] = useState(false);
 
   return (
     <div className="border-2 border-black">
       <div className="w-full relative h-[390px]">
-        <Image
+        {/* <Image
           alt={product?.title || "alasooke"}
           fill
           loader={MedusaImageLoader}
           className="absolute object-cover"
+          src={product?.thumbnail}
+        /> */}
+
+        <img
+          alt={product?.title || "alasooke"}
+          className="absolute object-cover w-full h-full"
           src={product?.thumbnail}
         />
 
@@ -27,19 +35,21 @@ export default function ProductCard({ product, showPrice }: any) {
         </div>
       </div>
 
-      <div className="pt-6 pl-7 pr-2 pb-12 flex flex-row justify-between ">
-        <div>
-          <p className="text-base uppercase">
-            {truncateText(product.title, 3)}
-          </p>
+      <Link href={`/shop/${product?.handle}`}>
+        <div className="pt-6 pl-7 pr-2 pb-12 flex flex-row justify-between ">
+          <div>
+            <p className="text-base uppercase">
+              {truncateText(product.title, 3)}
+            </p>
 
-          {showPrice && <p className="text-base">N1000</p>}
-        </div>
+            {showPrice && <p className="text-base">N1000</p>}
+          </div>
 
-        <div>
-          <LiaBookmark size={22} />
+          <div>
+            <LiaBookmark size={22} />
+          </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import LgBreadcrumb from "./menu/LgBreadcrumb";
 import { useState } from "react";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import MedusaClient from "@/utils/Medusa/MedusaClient";
+import { useSearchStore } from "@/src/state/store";
 
 const LIST_ITEMS = [
   {
@@ -29,27 +30,12 @@ const LIST_ITEMS = [
 
 const HERO_URL = "/alasooke-project/mzdijupfwpi4tscjk5ya";
 
-const Header = ({
-  handleSearchResultsResponse,
-}: {
-  handleSearchResultsResponse: (data: any) => void;
-}) => {
+const Header = () => {
   const [isMenuOpen, openMenu] = useState(false);
-  const [isSearchOpen, openSearch] = useState(false);
-  const [searchText, setSearchText] = useState("");
-
-  const handleSearch = async () => {
-    try {
-      const { hits } = await MedusaClient.products.search({ q: searchText });
-
-      handleSearchResultsResponse(hits);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const searchStore = useSearchStore()
 
   return (
-    <div>
+    <div className="" >
       <div className="h-[130px] flex items-center px-24 ">
         <div className="max-h-[56px] h-[56px] w-full ">
           <div className="flex flex-row justify-between ">
@@ -78,7 +64,7 @@ const Header = ({
             <div className="flex items-center flex-row">
               <div className="mr-8">
                 <div
-                  onClick={() => openSearch(true)}
+                  onClick={searchStore?.toggleSearch}
                   className="flex flex-row border border-brown-1500 w-64 h-9 px-4"
                 >
                   <div className="flex items-center mr-2">
@@ -121,23 +107,19 @@ const Header = ({
         </div>
       </div>
 
-      {isSearchOpen && (
+      {searchStore.isOpen && (
         <div className="w-full flex justify-center mb-16">
           <div className="w-full flex flex-row justify-center">
             <input
-              onChange={(e) => setSearchText(e.target.value)}
+              onChange={(e) => searchStore?.setSearchText(e.target.value)}
               placeholder="Search"
               className="border-b-2 w-[70%] h-14 text-2xl text-brown-1500"
             />
-
-            <button onClick={handleSearch}>Search</button>
+            {/* <button onClick={() => searchStore?.executeSearch(searchStore?.searchText)}>Search</button> */}
 
             <div
               className="ml-4 hover:cursor-pointer"
-              onClick={() => {
-                openSearch(false);
-                handleSearchResultsResponse(null);
-              }}
+              onClick={searchStore?.toggleSearch}
             >
               <IoCloseCircleOutline size={32} />
             </div>

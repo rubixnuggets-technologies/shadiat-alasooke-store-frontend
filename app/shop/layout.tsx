@@ -1,3 +1,4 @@
+import Footer from "@/src/components/Footer";
 import Header from "@/src/components/Header";
 
 const Page = ({ children }: { children: any }) => {
@@ -6,6 +7,8 @@ const Page = ({ children }: { children: any }) => {
       <Header />
 
       {children}
+
+      <Footer />
     </div>
   );
 };

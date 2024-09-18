@@ -2,7 +2,9 @@ const theme = {
   colors: {
     white: "#ffffff",
     light_grey: "#F0F0F0",
-    coral: "#FF6F61",
+    coral: {
+      700: "#D45C50",
+    },
     mint_green: "#FF6F61",
     dark_blue: "#002B5B",
     gold: {
@@ -19,7 +21,7 @@ const theme = {
       1200: "#D1BDAA",
       1500: "#928477",
       1900: "#3E3832",
-      2100: "#0C0B0A"
+      2100: "#0C0B0A",
     },
 
     //   primary: "#3ECE7B", // Skanska Active Green
