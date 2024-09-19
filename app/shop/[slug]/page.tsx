@@ -1,8 +1,10 @@
 import MedusaClient from "@/utils/Medusa/MedusaClient";
 import { notFound } from "next/navigation";
 import ProductDetails from "@/src/components/Product/ProductDetails";
+import { Product } from "@medusajs/medusa";
+import RecentlyViewed from "@/src/components/Product/RecentlyViewed";
 
-const getPage = async (slug: string) => {
+const getPage = async (slug: string): Promise<{ product: Product }> => {
   try {
     const { products } = await MedusaClient.products.list({
       handle: slug,
@@ -18,12 +20,14 @@ const getPage = async (slug: string) => {
   }
 };
 
-const Page = async ({ params }) => {
+const Page = async ({ params }: { params: { slug: string } }) => {
   const { product } = await getPage(params?.slug);
 
   return (
     <div>
       <ProductDetails product={product} />
+
+      <RecentlyViewed currentProduct={product.handle} />
     </div>
   );
 };

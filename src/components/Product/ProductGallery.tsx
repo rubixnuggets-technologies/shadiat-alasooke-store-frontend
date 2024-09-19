@@ -25,6 +25,7 @@ const ProductGallery = ({ product } : { product: Product }) => {
       <div className="flex flex-row gap-6 mt-8">
         {product?.images.map((image) => (
           <div
+          key={image?.id}
             onClick={() => setCurrentImage(image)}
             className={cn(
               "hover:cursor-pointer",

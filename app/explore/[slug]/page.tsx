@@ -6,6 +6,7 @@ import { EXPLORE_PAGE_QUERY } from "@/utils/Sanity/gqols";
 import { notFound } from "next/navigation";
 import ProductsHighlight from "@/src/components/Products/ProductsHighlight";
 import ProductNavigation from "@/src/components/ExploreProducts/ProductNavigation";
+import RecentlyViewed from "@/src/components/Product/RecentlyViewed";
 
 const getPageData = async (slug: string) => {
   const data = await SanityClient().fetch(EXPLORE_PAGE_QUERY(slug));
@@ -47,6 +48,8 @@ export default async function ExplorePage({ params }) {
           collectionKey={data?.collection_key}
         />
       </div>
+
+      <RecentlyViewed />
 
       <Footer />
     </div>

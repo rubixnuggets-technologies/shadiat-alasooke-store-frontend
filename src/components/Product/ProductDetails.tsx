@@ -1,15 +1,17 @@
 "use client";
-import Image from "next/image";
-import { MedusaImageLoader } from "@/utils/helpers/Cloudinary";
 import { FaHeart } from "react-icons/fa";
-import { useState } from "react";
-import cn from "classnames";
+import { useEffect, useState } from "react";
 import ProductGallery from "./ProductGallery";
 import { formatCurrency } from "@/utils/helpers/formatter";
 import { Product } from "@medusajs/medusa";
+import { db } from "@/utils/Storage/db";
+import { useDexieDB } from "@/utils/hooks/useDexieDB";
 
 const ProductDetails = ({ product }: { product: Product }) => {
   const [itemVariant, setVariant] = useState(product?.variants[0]);
+
+  const { storeProduct } = useDexieDB();
+  storeProduct(product)
 
   const addToCart = () => {};
 

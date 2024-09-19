@@ -2,8 +2,6 @@
 import React, { useState } from "react";
 import { LiaBookmark } from "react-icons/lia";
 import { TfiPlus } from "react-icons/tfi";
-import Image from "next/image";
-import { ImageLoader, MedusaImageLoader } from "@/utils/helpers/Cloudinary";
 import { truncateText } from "@/utils/helpers/text";
 
 import Link from "next/link";
@@ -12,7 +10,7 @@ export default function ProductCard({ product, showPrice }: any) {
   const [bookmarked, setBookmamrk] = useState(false);
 
   return (
-    <div className="border-2 border-black">
+    <div className="border-2 border-black max-w-64">
       <div className="w-full relative h-[390px]">
         {/* <Image
           alt={product?.title || "alasooke"}
