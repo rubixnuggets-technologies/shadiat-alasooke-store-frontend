@@ -14,6 +14,7 @@ const getPageData = async (slug: string) => {
   return { data: data[0] };
 };
 
+
 export default async function ExplorePage({ params }) {
   const { slug } = params;
   const { data } = await getPageData(slug);
@@ -22,7 +23,7 @@ export default async function ExplorePage({ params }) {
 
   const { by_color_filters, by_product_filters, by_new_arrivals_filters } = data;
 
-  return (
+  return (  
     <div>
       <Header />
 

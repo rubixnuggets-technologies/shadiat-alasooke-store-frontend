@@ -1,8 +1,7 @@
 export const formatCurrency = (amount: number, currency?: string) => {
-    if (!amount) return null
+  if (!amount) return null;
 
-    return amount.toLocaleString("en-US", {
-        style: "currency",
-        currency: currency || "NGN",
-      })
-}
+  return `₦${amount.toLocaleString("en-US", {
+    style: "decimal",
+  })}`;
+};

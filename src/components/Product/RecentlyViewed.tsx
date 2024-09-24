@@ -11,6 +11,10 @@ export default function RecentlyViewed({
 }) {
   const { products } = useDexieDB(currentProduct);
 
+  if (products?.length <= 0) {
+    return null;
+  }
+
   return (
     <div className="my-24">
       <div>

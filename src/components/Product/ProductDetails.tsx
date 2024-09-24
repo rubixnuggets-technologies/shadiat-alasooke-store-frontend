@@ -1,19 +1,41 @@
 "use client";
 import { FaHeart } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ProductGallery from "./ProductGallery";
 import { formatCurrency } from "@/utils/helpers/formatter";
 import { Product } from "@medusajs/medusa";
-import { db } from "@/utils/Storage/db";
 import { useDexieDB } from "@/utils/hooks/useDexieDB";
+import { useCartStore } from "@/src/state/cart";
 
 const ProductDetails = ({ product }: { product: Product }) => {
   const [itemVariant, setVariant] = useState(product?.variants[0]);
 
-  const { storeProduct } = useDexieDB();
-  storeProduct(product)
+  const { storeProduct, storeCart, cartId, addProductToCart, getCart } =
+    useDexieDB();
+  storeProduct(product);
 
-  const addToCart = () => {};
+  const cartStore = useCartStore();
+
+  const handleAddToCart = async () => {
+    if (!cartId) {
+      const { cart: createdCart } = await cartStore?.createCart();
+      await storeCart(createdCart);
+
+      await addProductToCart({
+        variant_id: itemVariant?.id,
+        quantity: 1,
+        cart_id: cartId,
+      });
+
+      return;
+    }
+
+    await addProductToCart({
+      variant_id: itemVariant?.id,
+      quantity: 1,
+      cart_id: cartId,
+    });
+  };
 
   return (
     <div className="layout">
@@ -70,7 +92,7 @@ const ProductDetails = ({ product }: { product: Product }) => {
               </div>
 
               <div
-                onClick={addToCart}
+                onClick={handleAddToCart}
                 className="border-2 h-12  flex items-center justify-center hover:cursor-pointer"
               >
                 <p className="uppercase"> Add To Cart </p>

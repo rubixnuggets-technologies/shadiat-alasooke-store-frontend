@@ -8,6 +8,9 @@ interface Props {
   color?: string;
   override_classname?: string;
   icon?: ReactNode;
+
+  width?: string;
+  height?: string;
 }
 
 const Button = ({
@@ -17,15 +20,16 @@ const Button = ({
   override_classname,
   color,
   icon,
+
+  width,
+  height,
 }: Props) => {
   return (
     <button
       onClick={clickAction}
       disabled={disabled}
       className={classNames(
-        override_classname
-          ? override_classname
-          : "flex flex-row items-center justify-center text-brown-2100 border-2 border-brown-2100 h-[48px] px-12 border-brown-100 border-1"
+        `flex flex-row hover:cursor-pointer items-center justify-center text-brown-2100 border-2 border-brown-2100 h-[48px] px-12 border-brown-100 border-1 w-${width}`
       )}
     >
       {icon}
