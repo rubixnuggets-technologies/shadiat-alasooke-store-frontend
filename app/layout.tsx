@@ -3,8 +3,8 @@ import { Inter, Playfair, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import MedusaApp from "@/src/MedusaApp";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
-
-const inter = Inter({ subsets: ["latin"] });
+import classNames from "classnames";
+import {  playfair, roboto_mono } from "./font"
 
 export const metadata: Metadata = {
   title: "Alasooke",
@@ -23,6 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      {/* <body className={classNames( playfair.className, roboto_mono.className )}> */}
       <body className={font.className}>
         <UserProvider>
           <MedusaApp>{children}</MedusaApp>

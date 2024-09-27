@@ -12,7 +12,7 @@ const Testimonials = ({ testimonials }) => {
         <ul className="flex flex-col gap-3 lg:grid lg:grid-cols-10 gap-x-8">
           {testimonials.map((item, idx) => (
             <li key={idx}>
-              <div className="border-2 mx-8 border-black p-9 lg:p-14">
+              <div className="border-[1px] mx-8 border-black p-9 lg:p-14">
                 <p className="mb-2 text-sm lg:text-xl font-bold">{item.title}</p>
                 <RichTextComponent textClassname="text-sm lg:text-base" richText={item.body} />
 

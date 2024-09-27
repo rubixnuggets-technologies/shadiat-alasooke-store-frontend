@@ -30,7 +30,9 @@ export default async function Page({ params }) {
         </div>
 
         <div className="layout">
-          <RichTextComponent richText={data?.body} />
+          <div className="layout-container">
+            <RichTextComponent richText={data?.body} />
+          </div>
         </div>
       </div>
 

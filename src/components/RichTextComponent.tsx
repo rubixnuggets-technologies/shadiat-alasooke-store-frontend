@@ -12,13 +12,13 @@ import { ImageLoader } from "@/utils/helpers/Cloudinary";
 // import ReactPlayer from "react-player"
 // import { Anchor, H2Heading, H3Heading, H4Heading, Text, ULList } from "@/styles"
 import { truncateText } from "@/utils/helpers/text";
-import cn from 'classnames'
+import cn from "classnames";
 
 interface RichTextComponentProps {
   richText: any;
   isClamped?: boolean;
   maxTextLength?: number;
-  textClassname?: string
+  textClassname?: string;
 }
 
 interface RichTextOpts extends Omit<RichTextComponentProps, "richText"> {
@@ -29,7 +29,7 @@ const RichTextComponent = ({
   richText,
   isClamped,
   maxTextLength,
-  textClassname
+  textClassname,
 }: RichTextComponentProps) => {
   let temp = "";
 
@@ -72,11 +72,24 @@ const RichTextComponent = ({
       link: ({ children, value }) => {
         return <a href={value.href}> {children} </a>;
       },
+      b: ({ children }) => {
+        return (
+          <b>{children}</b>
+        )
+      },
+      bold: ({ children }) => {
+        return (
+          <b>{children}</b>
+        )
+      },
     },
     block: {
       h2: ({ children }) => {
         return <p>{children}</p>;
       },
+      b: ({ children }) => (
+        <b>{children}</b>
+      ),
       h3: ({ children }) => {
         return <p>{children}</p>;
       },
@@ -94,7 +107,12 @@ const RichTextComponent = ({
           return <p> {truncateText(temp, maxTextLength)} </p>;
         }
 
-        return <p  className={cn(textClassname ? textClassname : "text-base")} > {children} </p>;
+        return (
+          <p className={cn(textClassname ? textClassname : "text-base")}>
+            {" "}
+            {children}{" "}
+          </p>
+        );
       },
     },
     list: {
