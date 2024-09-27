@@ -21,10 +21,10 @@ const DotsIndicator = ({
             <div
               onClick={() => clickAction(idx)}
               className={cn(
-                "h-[13px] rounded-full hover:cursor-pointer",
+                "h-1 lg:h-[13px] rounded-full hover:cursor-pointer",
                 activeItem === idx
-                  ? "w-[43px] bg-brown-1900"
-                  : "w-[14px] bg-brown-100"
+                  ? "w-3.5 lg:w-[43px] bg-brown-1900"
+                  : "w-1 lg:w-[14px] bg-brown-1200"
               )}
             />
           </li>

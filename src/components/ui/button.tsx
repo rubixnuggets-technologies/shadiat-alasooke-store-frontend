@@ -29,7 +29,7 @@ const Button = ({
       onClick={clickAction}
       disabled={disabled}
       className={classNames(
-        `flex flex-row hover:cursor-pointer items-center justify-center text-brown-2100 border-2 border-brown-2100 h-[48px] px-12 border-brown-100 border-1 w-${width}`
+        `flex flex-row hover:cursor-pointer items-center justify-center text-brown-2100 border-[1px] border-brown-2100 h-9 lg:h-[48px] text-sm lg:text-base font-semibold px-12 border-brown-100 border-1 w-${width}`
       )}
     >
       {icon}

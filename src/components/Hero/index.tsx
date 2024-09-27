@@ -43,28 +43,35 @@ const Hero = ({ data }: { data: IHero[] }) => {
               idx
             ) => (
               <div key={idx}>
-               <div
+                <div
                   className={cn(
                     `bg-brown-200`,
-                    "h-[1084px] grid grid-cols-[684px_auto]"
+                    "h-full lg:h-[1084px] flex flex-col-reverse md:grid md:grid-cols-[684px_auto]"
                   )}
                 >
-                  <div className="max-w-[330px] m-auto">
+                  <div className="max-w-[330px] m-auto py-9 lg:py-0">
                     <div>
-                      <div className="mb-4 h-[54px] bg-brown-500 max-w-[420px] flex items-center justify-center rounded-full">
-                        <p className="text-normal">{cta_text} </p>
+                      <div  className="flex justify-center lg:justify-start" >
+                        <div className="mb-4 h-8 lg:h-[54px] bg-brown-500 w-fit px-5 lg:px-6 flex items-center justify-center rounded-full">
+                          <p className="text-xs lg:text-sm">{cta_text} </p>
+                        </div>
                       </div>
 
-                      <div className="mb-12">
-                        <h1 className="text-[40px]"> {title} </h1>
+                      <div className="mb-5 lg:mb-12">
+                        <h1 className="text-center leading-8 lg:leading-[55px] lg:text-left text-2xl lg:text-[40px]">
+                          {" "}
+                          {title}{" "}
+                        </h1>
                       </div>
 
-                      <Button title="Shop Now" />
+                      <div className="flex justify-center lg:justify-start">
+                        <Button title="Shop Now" />
+                      </div>
                     </div>
                   </div>
 
-                  <div className="w-full h-full">
-                    <div className="relative h-full w-full">
+                  <div className="w-full h-[397px] lg:h-full">
+                    <div className="relative h-full lg:h-full w-full">
                       <Image
                         alt={cta_text}
                         fill
@@ -74,7 +81,7 @@ const Hero = ({ data }: { data: IHero[] }) => {
                       />
                     </div>
                   </div>
-                </div> 
+                </div>
               </div>
             )
           )}

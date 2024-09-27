@@ -8,15 +8,17 @@ import cn from "classnames";
 
 export default function ReadyToWear({}) {
   return (
-    <div className="w-full bg-brown-100 py-36">
+    <div className="w-full bg-brown-100 py-11 lg:py-36">
       <div className="layout">
         <div className="mb-8">
-          <p className="text-[40px]"> Visit Ready to Wear Shop </p>
+          <h1 className="text-[20px] text-brown-2100 lg:text-[40px]">
+            Visit Ready to Wear Shop 
+          </h1>
         </div>
 
-        <div className="grid grid-cols-[521px_auto] gap-24">
-          <div>
-            <div className="relative h-[495px] mb-12">
+        <div className="flex flex-col lg:grid lg:grid-cols-[521px_auto] lg:gap-24">
+          <div className="">
+            <div className="relative h-[372px] lg:h-[495px] mb-7 lg:mb-12">
               <Image
                 fill
                 alt=""
@@ -28,19 +30,26 @@ export default function ReadyToWear({}) {
               />
             </div>
 
-            <p className="text-[40px]"> Cool & Casual </p>
-            <p className="text-base">
-              Add a touch of elegance to any outfit with luxurious scarves,
-              available in variety of styles and fabrics.
-            </p>
+            <div className="flex flex-col mb-8 lg:mb-0 max-w-[215px] lg:max-w-full m-auto justify-center">
+              <h1 className="text-[20px] text-center lg:text-left text-brown-2100 lg:text-[40px]">
+                Cool & Casual
+              </h1>
 
-            <div className="mt-8">
-              <Button title="Shop Now" />
+              <div className="mt-4">
+                <p className="text-xs text-center lg:text-left lg:text-lg">
+                  Add a touch of elegance to any outfit with luxurious scarves,
+                  available in variety of styles and fabrics.
+                </p>
+              </div>
+
+              <div className="mt-6 flex justify-center lg:justify-start">
+                <Button title="Shop Now" />
+              </div>
             </div>
           </div>
 
           <div>
-            <div className="relative h-[921px] mb-12">
+            <div className="hidden lg:flex relative h-[921px] mb-12">
               <Image
                 fill
                 alt=""

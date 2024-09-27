@@ -36,15 +36,25 @@ export interface ICheckoutState {
   paymentDetails: Record<IPaymentDetail, string>;
 
   setDeliveryDetail: (key: string, value: string) => void;
-  setPaymentDetail: (key: string, value: string) => void;
-
-  createCart: () => void;
+  setPaymentDetail: () => void;
+  startPayment: ({
+    cartId,
+    paymentDetails,
+  }: {
+    cartId: string;
+    paymentDetails: any;
+  }) => void;
+  removeCart: ({ cartId }: { cartId: string }) => void;
+  completeCartOrder: (cartId: string) => void;
+  createCart: (regionId?: string, customerId?: string) => void;
   addDeliveryAddress: ({
     cartId,
     deliveryDetails,
+    deliveryMethod,
   }: {
     cartId: string;
     deliveryDetails: any;
+    deliveryMethod: any;
   }) => void;
   setCheckoutStage: (stage: ICheckoutState["checkoutStage"]) => void;
 }
@@ -57,7 +67,7 @@ const initialState: Pick<
   ICheckoutState,
   "checkoutStage" | "deliveryDetails" | "paymentDetails"
 > = {
-  checkoutStage: CHECKOUT_VIEW,
+  checkoutStage: CART_VIEW,
 
   deliveryDetails: {
     fullName: "",
@@ -86,17 +96,25 @@ export const useCartStore = create<ICheckoutState>((set) => ({
   setCheckoutStage: (stage: ICheckoutState["checkoutStage"]) =>
     set({ checkoutStage: stage }),
 
-  createCart: async () => {
+  createCart: async (regionId, customerId) => {
     try {
-      const cart = await MedusaClient.carts.create();
+      const response = await MedusaClient.carts.create({
+        region_id: regionId,
+      });
 
-      return cart;
+      if (!response.cart) return null;
+
+      await MedusaClient.carts.update(response?.cart?.id, {
+        customer_id: customerId,
+      });
+
+      return response;
     } catch (e) {
       console.log(e);
     }
   },
 
-  addDeliveryAddress: async ({ cartId, deliveryDetails }) => {
+  addDeliveryAddress: async ({ cartId, deliveryDetails, deliveryMethod }) => {
     if (!cartId) {
       return;
     }
@@ -108,10 +126,28 @@ export const useCartStore = create<ICheckoutState>((set) => ({
           last_name: deliveryDetails.fullName,
           address_1: deliveryDetails.address,
           city: deliveryDetails.city,
-          country_code: "gb",
+          country_code: "ng",
           postal_code: deliveryDetails.postalCode,
           phone: deliveryDetails.phoneNumber,
         },
+      });
+
+      await MedusaClient.carts.addShippingMethod(cartId, {
+        option_id: deliveryMethod?.id,
+      });
+
+      const IDEMPOTENCY_KEY = "create_payment_session_key";
+
+      const { cart } = await MedusaClient.carts.createPaymentSessions(cartId, {
+        "Idempotency-Key": IDEMPOTENCY_KEY,
+      });
+
+      const paystack = cart?.payment_sessions?.find(
+        (session) => session?.provider_id === "paystack"
+      );
+
+      await MedusaClient.carts.setPaymentSession(cartId, {
+        provider_id: paystack?.provider_id
       });
 
       set({ checkoutStage: "PAYMENT_VIEW" });
@@ -128,11 +164,40 @@ export const useCartStore = create<ICheckoutState>((set) => ({
       },
     })),
 
-    setPaymentDetail: (key: string, value: string) =>
-      set((state: ICheckoutState) => ({
-        paymentDetails: {
-          ...state.paymentDetails,
-          [key]: value,
-        },
-      })),
+    completeCartOrder: async (cartId) => {
+      try {
+        await MedusaClient.carts.complete(cartId);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+  setPaymentDetail: (key: string, value: string) =>
+    set((state: ICheckoutState) => ({
+      paymentDetails: {
+        ...state.paymentDetails,
+        [key]: value,
+      },
+    })),
+
+  // startPayment: async ({ cartId, paymentDetails }) => {
+  //   try {
+  //     const IDEMPOTENCY_KEY = "create_payment_session_key";
+
+  //     const session = await MedusaClient.carts.createPaymentSessions(cartId, {
+  //       "Idempotency-Key": IDEMPOTENCY_KEY
+  //     });
+
+  //     return session;
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // },
+
+  removeCart: async ({ cartId }) => {
+    try {
+    } catch (e) {
+      console.log(e);
+    }
+  },
 }));

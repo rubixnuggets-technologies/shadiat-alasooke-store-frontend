@@ -6,8 +6,9 @@ import { ImageLoader } from "@/utils/helpers/Cloudinary";
 import LgBreadcrumb from "./menu/LgBreadcrumb";
 import { useState } from "react";
 import { IoCloseCircleOutline } from "react-icons/io5";
-import MedusaClient from "@/utils/Medusa/MedusaClient";
 import { useSearchStore } from "@/src/state/store";
+import Breadcrumb from "./BreacrumbSm/Breadcrumb";
+import AccountMenu from "./AccountSm/AccountMenu";
 
 const LIST_ITEMS = [
   {
@@ -32,52 +33,50 @@ const HERO_URL = "/alasooke-project/mzdijupfwpi4tscjk5ya";
 
 const Header = () => {
   const [isMenuOpen, openMenu] = useState(false);
-  const searchStore = useSearchStore()
+  const searchStore = useSearchStore();
 
   return (
-    <div className="" >
-      <div className="h-[130px] flex items-center px-24 ">
+    <div className="">
+      <div className="h-[100px] lg:h-[130px] flex items-center px-5 lg:px-24">
         <div className="max-h-[56px] h-[56px] w-full ">
           <div className="flex flex-row justify-between ">
             <Link href={"/"}>
-              <Image
-                loader={ImageLoader}
-                src={HERO_URL}
-                alt="Alasooke"
-                width={100}
-                height={100}
-              />
+              <div className="relative w-16 h-8 lg:w-[116px] lg:h-[56px]">
+                <Image
+                  src={HERO_URL}
+                  alt="Shadiat Alasooke"
+                  loader={ImageLoader}
+                  fill
+                  className="absolute object-cover"
+                />
+              </div>
             </Link>
 
-            <div className="flex items-center ">
+            <div className="hidden lg:flex items-center ">
               <ul className="flex flex-row">
                 {LIST_ITEMS.map((item) => (
                   <li key={item.name} className="inline mr-8">
                     <Link href={item.url}>
-                      <p className="uppercase text-sm">{item.name}</p>
+                      <p className="uppercase text-base">{item.name}</p>
                     </Link>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="flex items-center flex-row">
+            <div className="hidden lg:flex items-center flex-row">
               <div className="mr-8">
                 <div
                   onClick={searchStore?.toggleSearch}
-                  className="flex flex-row border border-brown-1500 w-64 h-9 px-4"
+                  className="flex flex-row items-center border border-brown-1500 w-64 h-9 px-4"
                 >
                   <div className="flex items-center mr-2">
                     <Icon type="search" className="text-red" />
                   </div>
 
-                  <input
-                    placeholder="Search Aso Oke, Collections..."
-                    type="text "
-                    id="search_text"
-                    disabled
-                    className="border-transparent text-brown-1500 focus:border-transparent focus:ring-0 w-full"
-                  />
+                  <p className="text-brown-2000">
+                    Search Aso Oke, Collections...
+                  </p>
                 </div>
               </div>
 
@@ -103,6 +102,25 @@ const Header = () => {
                 )}
               </div>
             </div>
+
+            {/* MOBILE HEADER ITEMS */}
+            <div className="flex gap-6 lg:hidden items-center flex-row">
+              <div>
+                <div className="flex items-center mr-2">
+                  <Icon type="search" className="text-red" />
+                </div>
+              </div>
+
+              <div>
+                <Icon type="cart" />
+              </div>
+
+              <AccountMenu />
+
+              <div className="hover:cursor-pointer">
+                <Breadcrumb />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -113,9 +131,8 @@ const Header = () => {
             <input
               onChange={(e) => searchStore?.setSearchText(e.target.value)}
               placeholder="Search"
-              className="border-b-2 w-[70%] h-14 text-2xl text-brown-1500"
+              className="border-b-2 w-[70%] h-14 text-2xl text-brown-1500 focus:outline-none"
             />
-            {/* <button onClick={() => searchStore?.executeSearch(searchStore?.searchText)}>Search</button> */}
 
             <div
               className="ml-4 hover:cursor-pointer"

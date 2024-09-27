@@ -7,10 +7,23 @@ import PathFlow from "../../assets/svg/path-flow.svg";
 import QualityCraft from "../../assets/svg/quality-craft.svg";
 import UserNoUnderline from "../../assets/svg/user-no-underline.svg";
 import Heart from "../../assets/svg/heart.svg";
+import Orders from "../../assets/svg/orders.svg";
+
+import Google from "../../assets/custom-icons/google.svg";
 
 export type IconProps = {
   className?: string;
-  type: "user" | "cart" | "search" | "award" | "pathFlow" | "qualityCraft" | "userNoUnderline" | "heart";
+  type:
+    | "user"
+    | "cart"
+    | "search"
+    | "award"
+    | "pathFlow"
+    | "qualityCraft"
+    | "userNoUnderline"
+    | "heart"
+    | "orders"
+    | "google";
 };
 
 const components: Record<IconProps["type"], string> = {
@@ -22,6 +35,8 @@ const components: Record<IconProps["type"], string> = {
   award: Award,
   heart: Heart,
   userNoUnderline: UserNoUnderline,
+  orders: Orders,
+  google: Google,
 };
 
 export default function Icon({ className = "inline-block", type }: IconProps) {

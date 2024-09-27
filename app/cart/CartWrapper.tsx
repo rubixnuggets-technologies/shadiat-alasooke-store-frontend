@@ -6,7 +6,7 @@ import CheckoutForm from "@/src/components/Cart/CheckoutForm";
 import PaymentForm from "@/src/components/Cart/PaymentForm";
 import { CART_VIEW, CHECKOUT_VIEW, useCartStore } from "@/src/state/cart";
 import { useDexieDB } from "@/utils/hooks/useDexieDB";
-import { Cart } from "medusa-react";
+import { Cart, useCart } from "medusa-react";
 import { useEffect, useState } from "react";
 
 export default function CartWrapper() {
@@ -14,9 +14,6 @@ export default function CartWrapper() {
 
   const [currentCart, setCart] = useState<Cart | null>(null);
   const { getCart, cartId } = useDexieDB();
-
-  console.log(currentCart);
-  
 
   useEffect(() => {
     if (!cartId) return;
@@ -57,7 +54,7 @@ export default function CartWrapper() {
         </div>
       ) : (
         <div className=" grid grid-cols-2 gap-32">
-          <PaymentForm />
+          <PaymentForm cart={currentCart} />
           <CartSummary cart={currentCart} />
         </div>
       )}

@@ -1,7 +1,7 @@
 import Dexie, { type EntityTable } from "dexie";
 import { Product, Cart } from "@medusajs/medusa";
 
-export const PRODUCT_DATABASE = "shadiat-store-db";
+export const PRODUCT_DATABASE = "shadiat-product-local-store-db";
 
 interface CustomCartEntity extends Cart { 
   id: string

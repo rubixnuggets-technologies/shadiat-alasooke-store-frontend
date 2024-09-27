@@ -14,6 +14,7 @@ interface ProductsHighlightProps {
   showPrice?: boolean;
   collectionKey?: string;
   slug?: string;
+  itemsType?: "PRODUCTS" | "COLLECTIONS"
   filters?: {
     by_color_filters: string[];
     by_product_filters: string[];
@@ -27,7 +28,8 @@ export default function ProductsHighlight({
   showPrice,
   collectionKey,
   filters,
-  slug
+  slug,
+  itemsType
 }: ProductsHighlightProps) {
   const [filterControlOpen, openFilterControl] = useState(true);
   const [productTags, setProductTags] = useState<Array<string>>([]);
@@ -50,7 +52,7 @@ export default function ProductsHighlight({
   return (
     <div>
       <div className="layout ">
-        <p className="text-[40px]">{title}</p>
+        <h1 className="text-[20px] text-brown-2100 lg:text-[40px]">{title}</h1>
       </div>
 
       <div
@@ -172,16 +174,17 @@ export default function ProductsHighlight({
         )}
 
         <div className={cn("mt-14", filters ? "ml-12" : "")}>
-          <ul className="grid grid-cols-10">
+          {/* <ul className="flex flex-row flex-wrap"> */}
+          <ul className="grid grid-cols-2 lg:flex flex-row flex-wrap">
             {products?.map((product) => (
-              <li key={product.id}>
-                <ProductCard {...{ product, showPrice }} />
+              <li className="" key={product.id}>
+                <ProductCard {...{ product, showPrice, itemsType }} />
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="flex justify-center mt-20">
+        <div className="flex justify-center mt-9 lg:mt-20">
           <Link href={slug || ""}>
             <Button title="Browse All" />
           </Link>

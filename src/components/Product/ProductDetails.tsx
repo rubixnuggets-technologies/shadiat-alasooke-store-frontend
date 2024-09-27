@@ -6,6 +6,8 @@ import { formatCurrency } from "@/utils/helpers/formatter";
 import { Product } from "@medusajs/medusa";
 import { useDexieDB } from "@/utils/hooks/useDexieDB";
 import { useCartStore } from "@/src/state/cart";
+import { useRegions } from "medusa-react";
+import { getUserData } from "@/utils/actions/user";
 
 const ProductDetails = ({ product }: { product: Product }) => {
   const [itemVariant, setVariant] = useState(product?.variants[0]);
@@ -13,12 +15,28 @@ const ProductDetails = ({ product }: { product: Product }) => {
   const { storeProduct, storeCart, cartId, addProductToCart, getCart } =
     useDexieDB();
   storeProduct(product);
+  const { regions, isLoading: isRegionLoading } = useRegions();
 
   const cartStore = useCartStore();
+  const userLocalRegion = regions?.find(
+    (region) => region.name === "Nigeria"
+  );
+
+  console.log("LOCAL REGION", userLocalRegion);
 
   const handleAddToCart = async () => {
+    // TODO: support fetching region through browswer geolocation
+    const userLocalRegion = regions?.find(
+      (region) => region.name === "Nigeria"
+    );
+
+    const user = await getUserData();
+
     if (!cartId) {
-      const { cart: createdCart } = await cartStore?.createCart();
+      const { cart: createdCart } = await cartStore?.createCart(
+        userLocalRegion?.id,
+        user?.id
+      );
       await storeCart(createdCart);
 
       await addProductToCart({

@@ -70,6 +70,19 @@ input, label {
   margin: 0 auto;
 }
 
+.layout-container {
+  margin: 0 30px;
+
+  /* @apply mx-5 flex flex-col gap-y-5; */
+  /* @apply sm:mx-8;   */
+  /* @apply md:mx-8;   */
+  /* @apply md:mx-16;  
+  @apply lg:mx-20;
+  @apply xl:mx-28;
+  @apply 3xl:max-w-[1920px] 4xl:mx-auto;
+  @apply 4xl:w-full; */
+}
+
 .auth__button {
   height: 47px;
   width: 100%;

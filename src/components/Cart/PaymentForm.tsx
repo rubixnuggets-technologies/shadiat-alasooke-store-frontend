@@ -2,8 +2,11 @@
 import { useCartStore } from "@/src/state/cart";
 import { formatCurrency } from "@/utils/helpers/formatter";
 import cn from "classnames";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Button from "../ui/button";
+import { useDexieDB } from "@/utils/hooks/useDexieDB";
+import { PaystackButton } from "react-paystack";
+import PaymentProvider from "../Payment/PaymentProvider";
 
 const Circle = ({ active }: { active: boolean }) => (
   <div
@@ -15,11 +18,21 @@ const Circle = ({ active }: { active: boolean }) => (
   </div>
 );
 
-export default function PaymentForm() {
-  const { setPaymentDetail, paymentDetails, setCheckoutStage } =
+export default function PaymentForm({ cart }) {
+  const { setPaymentDetail, paymentDetails, setCheckoutStage, startPayment } =
     useCartStore();
 
+  const { getCart } = useDexieDB();
+
   const [paymentMode, setPaymentMode] = useState("CREDIT_CARD");
+  const handlePayment = async ({ cartId }) => {
+    const payment = await startPayment({ cartId: cart?.id });
+
+    // console.log("payment =>", payment);
+  };
+
+  const paystackSession = useMemo(() => cart?.payment_sessions.find((session) => session?.provider_id === "paystack"), [cart])
+  const PAYSTACK_PUBLIC_KEY = "pk_test_93cb82cb04d2d40bbbc13bba150817535f2e3037"
 
   return (
     <div>
@@ -48,7 +61,7 @@ export default function PaymentForm() {
                     type="number"
                     name="creditCardNumber"
                     id="creditCardNumber"
-                    value={ paymentDetails.email}
+                    value={paymentDetails.email}
                     onChange={(e) => setPaymentDetail("", e.target.value)}
                     className="block h-11 px-3 mt-3 w-full text-sm text-gray-900 bg-transparent border-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
                     placeholder="Credit card number"
@@ -61,7 +74,7 @@ export default function PaymentForm() {
                     type="text"
                     name="cardName"
                     id="cardName"
-                    value={ paymentDetails.email}
+                    value={paymentDetails.email}
                     onChange={(e) => setPaymentDetail("", e.target.value)}
                     className="block h-11 px-3 mt-3 w-full text-sm text-gray-900 bg-transparent border-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
                     placeholder="Name on card"
@@ -74,7 +87,7 @@ export default function PaymentForm() {
                     <input
                       type="text"
                       name="cardCVC"
-                      value={ paymentDetails.city}
+                      value={paymentDetails.city}
                       onChange={(e) =>
                         setPaymentDetail("cardCVC", e.target.value)
                       }
@@ -87,7 +100,7 @@ export default function PaymentForm() {
                   <div className="relative z-0 w-full   group">
                     <input
                       type="email"
-                      value={ paymentDetails.region}
+                      value={paymentDetails.region}
                       name="region"
                       id="region"
                       onChange={(e) =>
@@ -144,9 +157,7 @@ export default function PaymentForm() {
           <p className="text-xl mb-2">Billing Address</p>
 
           <div>
-            <div>
-
-            </div>
+            <div></div>
             <p className="text-lg">Same as my shipping address</p>
           </div>
         </div>
@@ -161,7 +172,7 @@ export default function PaymentForm() {
               type="text"
               name="address"
               id="address"
-              value={ paymentDetails.address}
+              value={paymentDetails.address}
               onChange={(e) => setPaymentDetail("address", e.target.value)}
               className="block h-11 px-3 mt-3 w-full text-sm text-gray-900 bg-transparent border-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
               placeholder="Enter Your Address"
@@ -179,7 +190,7 @@ export default function PaymentForm() {
               type="text"
               name="address"
               id="address"
-              value={ paymentDetails.address}
+              value={paymentDetails.address}
               onChange={(e) => setPaymentDetail("address", e.target.value)}
               className="block h-11 px-3 mt-3 w-full text-sm text-gray-900 bg-transparent border-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
               placeholder="Enter Your Address"
@@ -197,7 +208,7 @@ export default function PaymentForm() {
                 type="text"
                 name="city"
                 id="city"
-                value={ paymentDetails.city}
+                value={paymentDetails.city}
                 onChange={(e) => setPaymentDetail("city", e.target.value)}
                 className="block h-11 px-3 mt-3 w-full text-sm text-gray-900 bg-transparent border-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
                 placeholder="City"
@@ -212,7 +223,7 @@ export default function PaymentForm() {
 
               <input
                 type="email"
-                value={ paymentDetails.region}
+                value={paymentDetails.region}
                 name="region"
                 id="region"
                 onChange={(e) => setPaymentDetail("region", e.target.value)}
@@ -233,7 +244,7 @@ export default function PaymentForm() {
               type="text"
               name="address"
               id="address"
-              value={ paymentDetails.address}
+              value={paymentDetails.address}
               onChange={(e) => setPaymentDetail("address", e.target.value)}
               className="block h-11 px-3 mt-3 w-full text-sm text-gray-900 bg-transparent border-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
               placeholder="Enter Your Address"
@@ -254,11 +265,13 @@ export default function PaymentForm() {
       </div>
 
       <div className="mt-8">
-        <Button
-          clickAction={() => setCheckoutStage("PAYMENT_VIEW")}
+        {/* <Button
+          clickAction={handlePayment}
           width="full"
           title="Continue to Payment"
-        />
+        /> */}
+
+        <PaymentProvider cart={cart} paymentSession={paystackSession} />
       </div>
     </div>
   );

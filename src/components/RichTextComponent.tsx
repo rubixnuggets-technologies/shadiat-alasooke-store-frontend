@@ -12,11 +12,13 @@ import { ImageLoader } from "@/utils/helpers/Cloudinary";
 // import ReactPlayer from "react-player"
 // import { Anchor, H2Heading, H3Heading, H4Heading, Text, ULList } from "@/styles"
 import { truncateText } from "@/utils/helpers/text";
+import cn from 'classnames'
 
 interface RichTextComponentProps {
   richText: any;
   isClamped?: boolean;
   maxTextLength?: number;
+  textClassname?: string
 }
 
 interface RichTextOpts extends Omit<RichTextComponentProps, "richText"> {
@@ -27,6 +29,7 @@ const RichTextComponent = ({
   richText,
   isClamped,
   maxTextLength,
+  textClassname
 }: RichTextComponentProps) => {
   let temp = "";
 
@@ -91,7 +94,7 @@ const RichTextComponent = ({
           return <p> {truncateText(temp, maxTextLength)} </p>;
         }
 
-        return <p  className="text-base" > {children} </p>;
+        return <p  className={cn(textClassname ? textClassname : "text-base")} > {children} </p>;
       },
     },
     list: {
