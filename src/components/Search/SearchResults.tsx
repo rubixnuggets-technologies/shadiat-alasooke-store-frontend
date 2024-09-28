@@ -13,9 +13,9 @@ export default function SerchResults() {
   return (
     <div>
       <div className="layout">
-        <div className="mb-24">
-          <h1 className="text-[40px] text-center">Search Results</h1>
-          <p className="text-center mt-6">
+        <div className="mb-8 lg:mb-24">
+          <h1 className="text-xl lg:text-[40px] text-center">Search Results</h1>
+          <p className="text-sm lg:text-base text-center mt-3 lg:mt-6">
             Showing {store?.searchItems?.length} results found for '
             {store?.searchText}'{" "}
           </p>

@@ -106,7 +106,7 @@ const Header = () => {
             {/* MOBILE HEADER ITEMS */}
             <div className="flex gap-6 lg:hidden items-center flex-row">
               <div>
-                <div className="flex items-center mr-2">
+                <div onClick={searchStore?.toggleSearch} className="cursor:pointer flex items-center mr-2">
                   <Icon type="search" className="text-red" />
                 </div>
               </div>
