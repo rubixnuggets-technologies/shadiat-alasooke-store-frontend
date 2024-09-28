@@ -6,9 +6,11 @@ import { truncateText } from "@/utils/helpers/text";
 
 import Link from "next/link";
 import { formatCurrency } from "@/utils/helpers/formatter";
+import { useSearchStore } from "@/src/state/store";
 
 export default function ProductCard({ product, showPrice, itemsType }: any) {
   const [bookmarked, setBookmamrk] = useState(false);
+  const { resetSearch } = useSearchStore();
 
   return (
     <div 
@@ -38,7 +40,7 @@ export default function ProductCard({ product, showPrice, itemsType }: any) {
         )}
       </div>
 
-      <Link href={`/shop/${product?.handle}`}>
+      <Link onClick={resetSearch} href={`/shop/${product?.handle}`}>
         <div className="pt-4 lg:pt-6 pl-1 lg:pl-7 pr-2 pb-12 flex flex-row justify-between ">
           <div>
             <p className="text-sm uppercase">

@@ -20,8 +20,6 @@ const ProductDetails = ({ product }: { product: Product }) => {
   const cartStore = useCartStore();
   const userLocalRegion = regions?.find((region) => region.name === "Nigeria");
 
-  console.log("LOCAL REGION", userLocalRegion);
-
   const handleAddToCart = async () => {
     // TODO: support fetching region through browswer geolocation
     const userLocalRegion = regions?.find(
@@ -60,7 +58,7 @@ const ProductDetails = ({ product }: { product: Product }) => {
 
         <div className="max-w-full mt-20 lg:mt-0 lg:max-w-[466px]">
           <div>
-            <h1 className="text-brown-1500 text-sm" >By Dresses</h1>
+            <h1 className="text-brown-1500 text-sm">By Dresses</h1>
             <p className="text-brown-2100 mt-2xl lg:text-3xl">
               {product?.title}
             </p>
@@ -87,8 +85,12 @@ const ProductDetails = ({ product }: { product: Product }) => {
               <ul className="flex flex-row flex-wrap gap-4">
                 {product?.variants.map((variant) => (
                   <li onClick={() => setVariant(variant)} key={variant?.id}>
-                    <div className="flex py-2 lg:h-12 hover:cursor-pointer px-3 lg:px-6 items-center justify-center flex-row gap-2 lg:gap-3 border-[1px] border-brown-1500">
-                      <p className="text-base lg:text-lg capitalize">{variant?.title}</p>
+                    <div
+                      className={`flex py-2 lg:h-12 hover:cursor-pointer px-3 lg:px-6 items-center justify-center flex-row gap-2 lg:gap-3 ${itemVariant?.id === variant.id ? "border-[2px]" : "border-[1px]"} border-brown-1500`}
+                    >
+                      <p className="text-base lg:text-lg capitalize">
+                        {variant?.title}
+                      </p>
                     </div>
                   </li>
                 ))}
@@ -100,15 +102,21 @@ const ProductDetails = ({ product }: { product: Product }) => {
             <div className="grid grid-cols-[80px_auto_80px] gap-2">
               <div className="flex h-12  max-w-[80px] items-center justify-center flex-row gap-2 lg:gap-3 border-[1px]">
                 <div>
-                  <p className="text-base text-brown-1500 lg:text-lg hover:cursor-pointer">-</p>
+                  <p className="text-base text-brown-1500 lg:text-lg hover:cursor-pointer">
+                    -
+                  </p>
                 </div>
 
                 <div>
-                  <p className="text-base text-brown-1500 lg:text-lg hover:cursor-pointer">1</p>
+                  <p className="text-base text-brown-1500 lg:text-lg hover:cursor-pointer">
+                    1
+                  </p>
                 </div>
 
                 <div>
-                  <p className="text-base text-brown-1500 lg:text-lg hover:cursor-pointer">+</p>
+                  <p className="text-base text-brown-1500 lg:text-lg hover:cursor-pointer">
+                    +
+                  </p>
                 </div>
               </div>
 

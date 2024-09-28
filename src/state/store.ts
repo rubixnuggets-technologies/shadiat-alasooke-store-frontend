@@ -30,6 +30,7 @@ export const useSearchStore = create((set) => ({
       set({ searchItems: null, searchText: "" });
     }
   },
+  resetSearch: () => set({ ...initialState }),
   // executeSearch: async (text: string) => {
   //   try {
   //     const { hits } = await MedusaClient.products.search({ q: text });

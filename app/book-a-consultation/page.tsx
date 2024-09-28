@@ -1,5 +1,3 @@
-import Footer from "@/src/components/Footer";
-import Header from "@/src/components/Header";
 import Dollar from "../../src/assets/custom-icons/dollar.svg";
 import Note from "../../src/assets/custom-icons/note.svg";
 
@@ -13,8 +11,6 @@ const CONULTATION_IMAGE = `
 export default function BookAConsultationPage() {
   return (
     <div>
-      <Header />
-
       <div className="flex w-full mb-7 lg:grid lg:grid-cols-[720px_auto]">
         <div className="hidden lg:flex items-center justify-center h-full w-full bg-brown-200">
           <div className="flex flex-col">
@@ -100,8 +96,6 @@ export default function BookAConsultationPage() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

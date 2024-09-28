@@ -22,7 +22,7 @@ export default function SerchResults() {
         </div>
 
         <div>
-          <ul className="grid grid-cols-10">
+          <ul className="flex flex-row flex-wrap">
             {store?.searchItems?.map((product) => (
               <li key={product.id}>
                 <ProductCard {...{ product, showPrice: true }} />

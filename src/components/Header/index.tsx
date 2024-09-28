@@ -5,10 +5,10 @@ import Link from "next/link";
 import { ImageLoader } from "@/utils/helpers/Cloudinary";
 import LgBreadcrumb from "./menu/LgBreadcrumb";
 import { useState } from "react";
-import { IoCloseCircleOutline } from "react-icons/io5";
 import { useSearchStore } from "@/src/state/store";
 import Breadcrumb from "./BreacrumbSm/Breadcrumb";
 import AccountMenu from "./AccountSm/AccountMenu";
+import SearchLg from "./SearchLg";
 
 const LIST_ITEMS = [
   {
@@ -37,7 +37,7 @@ const Header = () => {
 
   return (
     <div className="">
-      <div className="h-[100px] lg:h-[130px] flex items-center layout">
+      <div className="h-[80px] lg:h-[100px] flex items-center layout">
         <div className="max-h-[56px] h-[56px] w-full ">
           <div className="flex flex-row justify-between ">
             <Link href={"/"}>
@@ -126,22 +126,7 @@ const Header = () => {
       </div>
 
       {searchStore.isOpen && (
-        <div className="w-full flex justify-center mb-16">
-          <div className="w-full flex flex-row justify-center">
-            <input
-              onChange={(e) => searchStore?.setSearchText(e.target.value)}
-              placeholder="Search"
-              className="border-b-2 w-[70%] h-14 text-2xl text-brown-1500 focus:outline-none"
-            />
-
-            <div
-              className="ml-4 hover:cursor-pointer"
-              onClick={searchStore?.toggleSearch}
-            >
-              <IoCloseCircleOutline size={32} />
-            </div>
-          </div>
-        </div>
+         <SearchLg />
       )}
     </div>
   );
