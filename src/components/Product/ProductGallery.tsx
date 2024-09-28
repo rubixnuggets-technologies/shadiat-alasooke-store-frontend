@@ -5,14 +5,14 @@ import { useState } from "react";
 import cn from "classnames";
 import { Product } from "@medusajs/medusa";
 
-const ProductGallery = ({ product } : { product: Product }) => {
+const ProductGallery = ({ product }: { product: Product }) => {
   const [currentImage, setCurrentImage] = useState({
     url: product?.thumbnail,
   });
 
   return (
     <div>
-      <div className="relative h-[586px] w-[586px]">
+      <div className="relative h-[452px] lg:h-[586px] w-full lg:w-[586px]">
         <Image
           fill
           loader={MedusaImageLoader}
@@ -22,23 +22,22 @@ const ProductGallery = ({ product } : { product: Product }) => {
         />
       </div>
 
-      <div className="flex flex-row gap-6 mt-8">
+      <div className="flex flex-row gap-2 lg:gap-6 mt-8">
         {product?.images.map((image) => (
           <div
-          key={image?.id}
+            key={image?.id}
             onClick={() => setCurrentImage(image)}
             className={cn(
-              "hover:cursor-pointer",
-              currentImage.url === image.url ? "border-2" : ""
+              "relative w-16 h-16 lg:h-28 lg:w-32 hover:cursor-pointer",
+              currentImage.url === image.url ? "border-[1px]" : ""
             )}
           >
             <Image
               key={image?.id}
               loader={MedusaImageLoader}
               src={image.url}
-              height={118}
-              width={131}
-              className="object-cover"
+              fill
+              className="absolute object-cover"
               alt={product?.title}
             />
           </div>

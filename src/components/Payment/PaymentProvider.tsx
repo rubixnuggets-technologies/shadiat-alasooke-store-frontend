@@ -28,7 +28,7 @@ export default function PaymentProvider({
     case "stripe":
       return (
         <div>
-          <div>  
+          <div>
             <Button width="full" title="Continue to Payment" />
           </div>
         </div>
@@ -36,24 +36,24 @@ export default function PaymentProvider({
     case "paystack":
       return (
         <div>
-          <PaystackButton
-            amount={cart?.total}
-            email="Vickywane@gmail.com"
-            currency={cart?.region?.currency_code.toUpperCase()}
-            publicKey={PAYSTACK_PUBLIC_KEY}
-            onSuccess={async () => {
-              await completeCartOrder(cart?.id);
+            {/* <PaystackButton
+              amount={cart?.total}
+              email="Vickywane@gmail.com"
+              currency={cart?.region?.currency_code.toUpperCase()}
+              publicKey={PAYSTACK_PUBLIC_KEY}
+              onSuccess={async () => {
+                await completeCartOrder(cart?.id);
 
-              console.log("PAYMENT SUCCESS!");
-            }}
-            onClose={() => {
-              console.log("PAYMENT WINDOW CLOSED!");
-            }}
-            reference={paymentSession?.data?.paystackTxRef}
-            className="w-full"
-          >
-            <Button width="full" title="Continue to Payment" />
-          </PaystackButton>
+                console.log("PAYMENT SUCCESS!");
+              }}
+              onClose={() => {
+                console.log("PAYMENT WINDOW CLOSED!");
+              }}
+              reference={paymentSession?.data?.paystackTxRef}
+              className="w-full"
+            >
+              <Button width="full" title="Continue to Payment" />
+            </PaystackButton> */}
         </div>
       );
 

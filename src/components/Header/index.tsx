@@ -37,7 +37,7 @@ const Header = () => {
 
   return (
     <div className="">
-      <div className="h-[100px] lg:h-[130px] flex items-center px-5 lg:px-24">
+      <div className="h-[100px] lg:h-[130px] flex items-center layout">
         <div className="max-h-[56px] h-[56px] w-full ">
           <div className="flex flex-row justify-between ">
             <Link href={"/"}>

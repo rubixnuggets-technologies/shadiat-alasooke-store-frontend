@@ -4,7 +4,8 @@ import "./globals.css";
 import MedusaApp from "@/src/MedusaApp";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
 import classNames from "classnames";
-import {  playfair, roboto_mono } from "./font"
+import { playfair, roboto_mono } from "./font";
+import LazyLoader from "@/src/framer/LazyLoader";
 
 export const metadata: Metadata = {
   title: "Alasooke",
@@ -26,7 +27,9 @@ export default function RootLayout({
       {/* <body className={classNames( playfair.className, roboto_mono.className )}> */}
       <body className={font.className}>
         <UserProvider>
-          <MedusaApp>{children}</MedusaApp>
+          <MedusaApp>
+            <LazyLoader>{children}</LazyLoader>
+          </MedusaApp>
         </UserProvider>
       </body>
     </html>

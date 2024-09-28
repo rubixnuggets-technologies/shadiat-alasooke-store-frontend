@@ -19,15 +19,15 @@ export default function CartWrapper() {
     if (!cartId) return;
 
     (async () => {
-      const data: Cart = await getCart(cartId as string);
+      // const data: Cart = await getCart(cartId as string);
 
-      setCart(data);
+      // setCart(data);
     })();
   }, [cartId]);
 
   return (
     <div>
-      {cartStore?.checkoutStage === CART_VIEW ? (
+     {cartStore?.checkoutStage === CART_VIEW ? (
         <div>
           <div>
             <div className="mb-12">
@@ -39,25 +39,25 @@ export default function CartWrapper() {
 
           <div className="layout">
             <div className="mt-12 grid grid-cols-[732px_auto]">
-              <CartTable cart={currentCart} />
+             <CartTable cart={currentCart} />
 
               <div className="flex justify-end">
                 <CartCost cart={currentCart} />
-              </div>
+              </div>  
             </div>
           </div>
         </div>
       ) : cartStore?.checkoutStage === CHECKOUT_VIEW ? (
         <div className=" grid grid-cols-2 gap-32">
-          <CheckoutForm />
-          <CartSummary cart={currentCart} />
+        <CheckoutForm />
+          <CartSummary cart={currentCart} /> 
         </div>
       ) : (
         <div className=" grid grid-cols-2 gap-32">
-          <PaymentForm cart={currentCart} />
-          <CartSummary cart={currentCart} />
+           <PaymentForm cart={currentCart} />
+          <CartSummary cart={currentCart} /> 
         </div>
-      )}
+      )} 
     </div>
   );
 }

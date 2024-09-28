@@ -109,8 +109,7 @@ const RichTextComponent = ({
 
         return (
           <p className={cn(textClassname ? textClassname : "text-base")}>
-            {" "}
-            {children}{" "}
+            {children}
           </p>
         );
       },

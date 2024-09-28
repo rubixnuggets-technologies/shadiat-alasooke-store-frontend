@@ -7,6 +7,7 @@ import { IoChevronDown } from "react-icons/io5";
 import ProductCard from "../ui/cards/ProductCard";
 import Button from "../ui/button";
 import Link from "next/link";
+import { useProductStore } from "@/src/state/product";
 
 interface ProductsHighlightProps {
   itemsPerPage?: number;
@@ -14,7 +15,7 @@ interface ProductsHighlightProps {
   showPrice?: boolean;
   collectionKey?: string;
   slug?: string;
-  itemsType?: "PRODUCTS" | "COLLECTIONS"
+  itemsType?: "PRODUCTS" | "COLLECTIONS";
   filters?: {
     by_color_filters: string[];
     by_product_filters: string[];
@@ -29,10 +30,11 @@ export default function ProductsHighlight({
   collectionKey,
   filters,
   slug,
-  itemsType
+  itemsType,
 }: ProductsHighlightProps) {
-  const [filterControlOpen, openFilterControl] = useState(true);
   const [productTags, setProductTags] = useState<Array<string>>([]);
+
+  const { isFilterPaneVisible, toggleFilterPane } = useProductStore();
 
   const { products, isLoading, error } = useProducts({
     limit: itemsPerPage,
@@ -58,20 +60,20 @@ export default function ProductsHighlight({
       <div
         className={cn(
           "grid",
-          filterControlOpen && filters
-            ? "grid-cols-[450px_auto]"
+          isFilterPaneVisible && filters
+            ? "flex flex-col lg:grid-cols-[450px_auto]"
             : "grid-cols-[auto]"
         )}
       >
-        {filterControlOpen && filters && (
-          <div className="w-fill border-r-2 border-brown-1200 pl-12 pr-6 pt-8 ">
-            <div className="flex flex-row justify-between">
-              <div>
-                <p className="text-4xl"> Filters </p>
+        {isFilterPaneVisible && filters && (
+          <div className="hidden lg:flex w-fill border-r-2 border-brown-1200 pl-12 pr-6 pt-8 ">
+            <div className="flex flex-row items-center justify-between">
+              <div className="flex items-center">
+                <h1 className="text-[40px]"> Filters </h1>
               </div>
 
               <div
-                onClick={() => openFilterControl(false)}
+                onClick={toggleFilterPane}
                 className="h-9 w-9 rounded-full border-2 border-black flex items-center justify-center hover:cursor-pointer"
               >
                 <AiFillCaretLeft size={22} />
@@ -173,7 +175,7 @@ export default function ProductsHighlight({
           </div>
         )}
 
-        <div className={cn("mt-14", filters ? "ml-12" : "")}>
+        <div className={cn("mt-9 lg:mt-14", filters ? "ml-0 lg:ml-12" : "")}>
           {/* <ul className="flex flex-row flex-wrap"> */}
           <ul className="grid grid-cols-2 lg:flex flex-row flex-wrap">
             {products?.map((product) => (

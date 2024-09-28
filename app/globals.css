@@ -70,12 +70,16 @@ input, label {
 }
 
 .layout {
-  max-width: 1480px;
+  max-width: 1440px;
   margin: 0 auto;
+
+  @media (max-width: 640px) {
+    margin: 0 20px;
+  }
 }
 
 .layout-container {
-  margin: 0 30px;
+  /* margin: 0 30px; */
 
   /* @apply mx-5 flex flex-col gap-y-5; */
   /* @apply sm:mx-8;   */

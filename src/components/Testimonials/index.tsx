@@ -9,7 +9,7 @@ const Testimonials = ({ testimonials }) => {
       </div>
 
       <div className="my-7 lg:my-12">
-        <ul className="flex flex-col gap-3 lg:grid lg:grid-cols-10 gap-x-8">
+        <ul className="flex flex-col gap-3 lg:grid lg:flex-col gap-x-8">
           {testimonials.map((item, idx) => (
             <li key={idx}>
               <div className="border-[1px] mx-8 border-black p-9 lg:p-14">

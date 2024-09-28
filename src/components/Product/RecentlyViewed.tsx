@@ -16,12 +16,12 @@ export default function RecentlyViewed({
   }
 
   return (
-    <div className="my-24">
+    <div className="my-20 lg:my-24">
       <div>
-        <h1 className="text-[40px] text-center"> Recently Viewed </h1>
+        <h1 className="text-[20px] lg:text-[40px] text-center"> Recently Viewed </h1>
       </div>
 
-      <div className="my-12">
+      <div className="my-8 lg:my-12">
         <ul className="flex flex-row overflow">
           {products?.map((product) => (
             <li key={product?.id}>
