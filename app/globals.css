@@ -102,7 +102,7 @@ input, label {
 .auth__input {
   border-bottom: 1px solid #0c0b0a;
   padding: 14px 0;
-  font-size: 16px;
+  color: #181615;
 }
 
 .cover__image {

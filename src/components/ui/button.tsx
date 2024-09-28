@@ -8,6 +8,7 @@ interface Props {
   color?: string;
   override_classname?: string;
   icon?: ReactNode;
+  type?: "submit" | "reset" | "button";
 
   width?: string;
   height?: string;
@@ -25,9 +26,11 @@ const Button = ({
   width,
   textClassname,
   height,
+  type,
 }: Props) => {
   return (
     <button
+      type={type}
       onClick={clickAction}
       disabled={disabled}
       className={classNames(
