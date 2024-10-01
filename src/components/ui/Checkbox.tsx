@@ -1,21 +1,28 @@
 import { useState } from "react";
 
-export default function Checkbox() {
-  const [isChecked, setCheck] = useState("");
-
+export default function Checkbox({
+  isActive,
+  selectCheckbox = () => {},
+}: {
+  selectCheckbox: () => void;
+  isActive?: boolean;
+}) {
+ 
   return (
     <div className="inline-flex items-center">
       <label className="flex items-center cursor-pointer relative">
         <input
           type="checkbox"
-          checked={true}
-          className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800"
+          className="peer h-3.5 w-3.5 lg:h-5 lg:w-5 cursor-pointer transition-all appearance-none  border border-brown-1500 checked:bg-slate-800 checked:border-slate-800"
           id="check"
+          style={{ borderRadius: "2px" }}
+          checked={isActive}
+          onChange={() => selectCheckbox()}
         />
-        <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+        <span className="absolute text-brown-2100 opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-3.5 w-3.5"
+            className="h-3 w-3 lg:h-3.5 lg:w-3.5"
             viewBox="0 0 20 20"
             fill="currentColor"
             stroke="currentColor"

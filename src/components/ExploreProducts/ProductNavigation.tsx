@@ -145,7 +145,9 @@ export default function ProductNavigation() {
           </div>
         </div>
 
-        <ProductsFilterSm />
+        <div className="flex lg:hidden" >
+          <ProductsFilterSm />
+        </div>
       </div>
     </div>
   );

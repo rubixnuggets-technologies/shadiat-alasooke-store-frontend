@@ -1,14 +1,13 @@
 "use client";
 import { MedusaImageLoader } from "@/utils/helpers/Cloudinary";
 import { formatCurrency } from "@/utils/helpers/formatter";
-import { useDexieDB } from "@/utils/hooks/useDexieDB";
-import { Cart, useCart } from "medusa-react";
 import Image from "next/image";
 import Button from "../ui/button";
 import Link from "next/link";
+import { useCartStore } from "@/src/state/cart";
 
-export default function CartSummary({ cart }: { cart: Cart }) {
-  const {} = useDexieDB();
+export default function CartSummary() {
+  const { cart } = useCartStore();
 
   return (
     <div className="max-w-96 w-96">
@@ -18,9 +17,9 @@ export default function CartSummary({ cart }: { cart: Cart }) {
         </div>
 
         <ul>
-          {cart?.items.map(
-            ({ id, title, thumbnail, quantity, total, variant }) => (
-              <li key={id}>
+          {cart?.items.map(({ id, title, thumbnail, total, variant }) => (
+            <li key={id}>
+              <div className="flex flex-row justify-between">
                 <div className="flex flex-row">
                   <Image
                     alt={title}
@@ -30,26 +29,26 @@ export default function CartSummary({ cart }: { cart: Cart }) {
                     width={70}
                   />
 
-                  <div className="flex ml-2">
-                    <div className="flex flex-col  ml-4">
-                      <p className="text-lg font-semibold"> {title} </p>
-                      <p>Green</p>
-                      <p>{variant?.title}</p>
-                    </div>
-                  </div>
-
-                  <div className="ml-12">
-                    <p> {formatCurrency(total)} </p>
+                  <div className="flex flex-col ml-4">
+                    <p className="text-sm text-brown-1700 lg:text-lg mb-2 font-semibold">
+                      {title}{" "}
+                    </p>
+                    <p className="text-xs mb-2">COLOR</p>
+                    <p className="text-[10px]">{variant?.title}</p>
                   </div>
                 </div>
-              </li>
-            )
-          )}
+
+                <div className="">
+                  <p> {formatCurrency(total)} </p>
+                </div>
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
 
       <div className="my-10">
-        <hr className="text-brown-1000" />
+        <hr className="text-[#D0D8E1] lg:text-brown-1000" />
       </div>
 
       <div>
@@ -58,14 +57,14 @@ export default function CartSummary({ cart }: { cart: Cart }) {
 
           <div className="mt-4 mb-2 w-full h-12 gap-2 flex flex-row ">
             <input
-              className="w-full border-2 border-brown-2100 bg-transparent text-2100 px-4"
+              className="w-full text-xs lg:text-base rounded-none border-[1px] border-brown-2100 bg-transparent text-2100 px-4"
               placeholder="Add discount code"
             />
 
             <button className="bg-brown-2100 text-brown-100 w-36">Apply</button>
           </div>
 
-          <p className="text-sm text-brown-1500">
+          <p className="text-xs lg:text-sm text-brown-1500">
             New customer?
             <Link href={"/customer/login"}>
               <span className="underline text-green-600"> Sign up </span>
@@ -75,18 +74,18 @@ export default function CartSummary({ cart }: { cart: Cart }) {
         </div>
 
         <div className="flex justify-between">
-          <p>Subtotal</p>
-          <p>{formatCurrency(cart?.total)}</p>
+          <p className="text-lg" >Subtotal</p>
+          <p className="text-lg" >{formatCurrency(cart?.total)}</p>
         </div>
 
         <div className="flex mt-4 justify-between">
-          <p>Discount</p>
-          <p>{formatCurrency(cart?.discount_total || 0)}</p>
+          <p className="text-lg" >Discount</p>
+          <p className="text-lg" >{formatCurrency(cart?.discount_total || 0)}</p>
         </div>
 
-        <div className="flex justify-between">
-          <p>Shipping Cost</p>
-          <p>{formatCurrency(cart?.total)}</p>
+        <div className="flex mt-2 justify-between">
+          <p className="text-lg" >Shipping Cost</p>
+          <p className="text-lg" >{formatCurrency(cart?.total)}</p>
         </div>
 
         <div className="my-6">
@@ -94,7 +93,7 @@ export default function CartSummary({ cart }: { cart: Cart }) {
         </div>
 
         <div className="flex justify-between">
-          <p>Grand total</p>
+          <p className="text-lg" >Grand total</p>
           <p>{formatCurrency(cart?.total)}</p>
         </div>
 

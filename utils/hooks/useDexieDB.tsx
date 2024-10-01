@@ -4,9 +4,12 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { Cart } from "medusa-react";
 import MedusaClient from "../Medusa/MedusaClient";
 import { useRouter } from "next/navigation";
+import { useCartStore } from "@/src/state/cart";
 
 export const useDexieDB = (pathname?: Product["handle"]) => {
   const router = useRouter();
+
+  const { setCart } = useCartStore();
 
   const products = useLiveQuery(
     async () =>
@@ -15,6 +18,8 @@ export const useDexieDB = (pathname?: Product["handle"]) => {
         .notEqual(`${pathname}`)
         .toArray()
   );
+
+  // const cart = use(MedusaClient.carts.retrieve(cart_id))
 
   const cartId = useLiveQuery(async () => {
     const item = await db.cart.toArray();
@@ -27,13 +32,13 @@ export const useDexieDB = (pathname?: Product["handle"]) => {
   const getCart = async (cart_id: string) => {
     if (!cart_id) return null;
 
-    try {
-      const { cart } = await MedusaClient.carts.retrieve(cart_id);
+    // try {
+    const { cart } = await MedusaClient.carts.retrieve(cart_id);
 
-      return cart;
-    } catch (error) {
-      console.log("GET CART ERR:", error);
-    }
+    return cart;
+    // } catch (error) {
+    //   console.log("GET CART ERR:", error);
+    // }
   };
 
   const storeProduct = async (product?: Product) => {
@@ -75,7 +80,15 @@ export const useDexieDB = (pathname?: Product["handle"]) => {
     }
   };
 
-  const addProductToCart = async ({ variant_id, quantity, cart_id }) => {
+  const addProductToCart = async ({
+    variant_id,
+    quantity,
+    cart_id,
+  }: {
+    variant_id: string;
+    quantity: number;
+    cart_id: string;
+  }) => {
     try {
       const cart = await MedusaClient.carts.lineItems.create(cart_id, {
         variant_id,
@@ -90,11 +103,55 @@ export const useDexieDB = (pathname?: Product["handle"]) => {
     }
   };
 
+  const removeProductFromCart = async ({
+    item_id,
+    cart_id,
+  }: {
+    item_id: string;
+    cart_id: string;
+  }) => {
+    try {
+      const cart = await MedusaClient.carts.lineItems.delete(cart_id, item_id);
+
+      return cart;
+    } catch (error) {
+      console.log("REMOVE FROM CART ERR:", error);
+    }
+  };
+
+  const updateProductInCart = async ({
+    item_id,
+    cart_id,
+    quantity,
+  }: {
+    item_id: string;
+    cart_id: string;
+    quantity: number;
+  }) => {
+    try {
+      const { cart } = await MedusaClient.carts.lineItems.update(
+        cart_id,
+        item_id,
+        {
+          quantity,
+        }
+      );
+
+      setCart({ cart });
+
+      return cart;
+    } catch (error) {
+      console.log("UPDATE CART ITEM ERR:", error);
+    }
+  };
+
   return {
     storeProduct,
     storeCart,
     addProductToCart,
     getCart,
+    removeProductFromCart,
+    updateProductInCart,
 
     cartId,
     products,

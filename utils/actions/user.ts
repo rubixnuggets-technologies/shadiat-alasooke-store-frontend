@@ -32,3 +32,11 @@ export const getUserData = async () => {
     console.error("Error getting user data", error);
   }
 };
+
+export const removeUserData = async () => {
+  try {
+    cookies().delete(SHADIAT_FASHION_APP_USER);
+  } catch (error) {
+    console.log(error);
+  }
+};

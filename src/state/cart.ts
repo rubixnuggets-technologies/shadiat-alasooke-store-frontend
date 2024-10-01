@@ -1,6 +1,7 @@
 import MedusaClient from "@/utils/Medusa/MedusaClient";
 import { create } from "zustand";
 import { AddressPayload } from "@medusajs/medusa";
+import { Cart } from "medusa-react";
 
 type IDeliveryDetail =
   | "fullName"
@@ -29,7 +30,9 @@ type IPaymentDetail =
 //   | "cardRegion";
 
 export interface ICheckoutState {
-  checkoutStage: "CART_VIEW" | "CHECKOUT_VIEW" | "PAYMENT_VIEW";
+  checkoutStage: "CART_VIEW" | "CHECKOUT_VIEW" | "PAYMENT_VIEW" | "PAYMENT_SUCCESS";
+
+  cart: Cart | null;
   // checkoutDetails: Record<ICheckoutDetail, string>;
 
   deliveryDetails: Record<IDeliveryDetail, string>;
@@ -57,17 +60,20 @@ export interface ICheckoutState {
     deliveryMethod: any;
   }) => void;
   setCheckoutStage: (stage: ICheckoutState["checkoutStage"]) => void;
+  setCart: ({ cart_id, cart }: { cart_id?: string; cart?: Cart }) => void;
 }
 
 export const CART_VIEW = "CART_VIEW";
 export const CHECKOUT_VIEW = "CHECKOUT_VIEW";
 export const PAYMENT_VIEW = "PAYMENT_VIEW";
+export const PAYMENT_SUCCESS = "PAYMENT_SUCCESS";
 
 const initialState: Pick<
   ICheckoutState,
-  "checkoutStage" | "deliveryDetails" | "paymentDetails"
+  "cart" | "checkoutStage" | "deliveryDetails" | "paymentDetails"
 > = {
   checkoutStage: CART_VIEW,
+  cart: null,
 
   deliveryDetails: {
     fullName: "",
@@ -114,6 +120,24 @@ export const useCartStore = create<ICheckoutState>((set) => ({
     }
   },
 
+  setCart: async ({ cart_id, cart }) => {
+    if (!cart_id && !cart) return null;
+
+    // console.log("INCOMING", { cart_id, cart });
+
+    if (cart) {
+      return set({ cart: cart });
+    }
+
+    try {
+      const { cart } = await MedusaClient.carts.retrieve(cart_id);
+
+      return set({ cart: cart });
+    } catch (error) {
+      console.log("GET CART ERR:", error);
+    }
+  },
+
   addDeliveryAddress: async ({ cartId, deliveryDetails, deliveryMethod }) => {
     if (!cartId) {
       return;
@@ -147,10 +171,12 @@ export const useCartStore = create<ICheckoutState>((set) => ({
       );
 
       await MedusaClient.carts.setPaymentSession(cartId, {
-        provider_id: paystack?.provider_id
+        provider_id: paystack?.provider_id,
       });
 
       set({ checkoutStage: "PAYMENT_VIEW" });
+
+      return cart;
     } catch (e) {
       console.log(e);
     }
@@ -164,13 +190,13 @@ export const useCartStore = create<ICheckoutState>((set) => ({
       },
     })),
 
-    completeCartOrder: async (cartId) => {
-      try {
-        await MedusaClient.carts.complete(cartId);
-      } catch (e) {
-        console.log(e);
-      }
-    },
+  completeCartOrder: async (cartId) => {
+    try {
+      await MedusaClient.carts.complete(cartId);
+    } catch (e) {
+      console.log(e);
+    }
+  },
 
   setPaymentDetail: (key: string, value: string) =>
     set((state: ICheckoutState) => ({
@@ -179,21 +205,7 @@ export const useCartStore = create<ICheckoutState>((set) => ({
         [key]: value,
       },
     })),
-
-  // startPayment: async ({ cartId, paymentDetails }) => {
-  //   try {
-  //     const IDEMPOTENCY_KEY = "create_payment_session_key";
-
-  //     const session = await MedusaClient.carts.createPaymentSessions(cartId, {
-  //       "Idempotency-Key": IDEMPOTENCY_KEY
-  //     });
-
-  //     return session;
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // },
-
+    
   removeCart: async ({ cartId }) => {
     try {
     } catch (e) {

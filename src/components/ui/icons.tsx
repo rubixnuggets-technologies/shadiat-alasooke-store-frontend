@@ -8,6 +8,7 @@ import QualityCraft from "../../assets/svg/quality-craft.svg";
 import UserNoUnderline from "../../assets/svg/user-no-underline.svg";
 import Heart from "../../assets/svg/heart.svg";
 import Orders from "../../assets/svg/orders.svg";
+import Logout from "../../assets/svg/logout.svg";
 
 import Google from "../../assets/custom-icons/google.svg";
 
@@ -23,7 +24,8 @@ export type IconProps = {
     | "userNoUnderline"
     | "heart"
     | "orders"
-    | "google";
+    | "google"
+    | "logout";
 };
 
 const components: Record<IconProps["type"], string> = {
@@ -37,6 +39,7 @@ const components: Record<IconProps["type"], string> = {
   userNoUnderline: UserNoUnderline,
   orders: Orders,
   google: Google,
+  logout: Logout,
 };
 
 export default function Icon({ className = "inline-block", type }: IconProps) {

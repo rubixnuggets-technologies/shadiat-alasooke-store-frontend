@@ -6,7 +6,13 @@ import MedusaClient from "@/utils/Medusa/MedusaClient";
 import { useRouter } from "next/navigation";
 import { storeUserData } from "@/utils/actions/user";
 import Header from "../Header";
+import { SubmitHandler, useForm } from "react-hook-form";
 import Icon from "../ui/icons";
+
+interface AuthData {
+  email: "";
+  password: "";
+}
 
 export default function Login() {
   const [userDetails, setUserDetails] = useState<
@@ -15,6 +21,17 @@ export default function Login() {
     email: "",
     password: "",
   });
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<{
+    email: "";
+    password: "";
+  }>();
+
   const [authStatus, setAuthStatus] = useState({
     status: "",
     message: "",
@@ -29,14 +46,22 @@ export default function Login() {
     }));
   };
 
-  const handleSubmit = async () => {
+  const submitAuthInfo: SubmitHandler<AuthData> = async () => {
     try {
       const user = await MedusaClient.auth.authenticate({
         email: userDetails.email,
         password: userDetails.password,
       });
 
+      await MedusaClient.auth.getToken({
+        email: userDetails.email,
+        password: userDetails.password,
+      });
+
       await storeUserData({ user: user?.customer });
+
+      // console.log("AUTH TOKEN", auth);
+
       router.push("/cart");
     } catch (error) {
       setAuthStatus({
@@ -59,9 +84,9 @@ export default function Login() {
     <div>
       <Header />
 
-      <div className="layout-container">
-        <div className="h-full w-full">
-          <div className="max-w-[950px] mt-10 lg:mt-36">
+      <div className="layout">
+        <div className="h-full w-full justify-center">
+          <div className="max-w-[950px] m-auto mt-10 lg:mt-36">
             <div
               id="login-auth-container"
               className="flex flex-col lg:grid lg:grid-cols-[50%_50%] gap-8"
@@ -78,14 +103,14 @@ export default function Login() {
                   </div>
 
                   {authStatus.status === "ERROR" && (
-                    <div className="bg-[red] h-12 my-4 flex items-center justify-center">
+                    <div className="bg-coral-700 h-12 my-4 flex items-center justify-center">
                       <p className="text-white">{authStatus.message}</p>
                     </div>
                   )}
 
                   <div id="auth-form-fields" className="w-full">
                     <form
-                      onSubmit={(e) => e.preventDefault()}
+                      onSubmit={handleSubmit(submitAuthInfo)}
                       method="POST"
                       className="w-full"
                     >
@@ -93,24 +118,44 @@ export default function Login() {
                         <input
                           type="email"
                           className="form-control auth__input focus:outline-none"
-                          id="email"
-                          onChange={(e) =>
-                            handleChange("email", e.target.value)
-                          }
+                          // id="email"
+                          defaultValue={""}
+                          {...register("email", {
+                            required: true,
+                          })}
+                          // onChange={(e) =>
+                          //   handleChange("email", e.target.value)
+                          // }
                           placeholder="EMAIL ADDRESS*"
                         />
+
+                        {errors.email && (
+                          <p className="mt-1 text-coral-700 text-xs">
+                            *Required Field
+                          </p>
+                        )}
                       </div>
 
                       <div className="form-group flex flex-col mt-8">
                         <input
                           type="password"
                           className="form-control auth__input focus:outline-none"
-                          id="password"
-                          onChange={(e) =>
-                            handleChange("password", e.target.value)
-                          }
+                          // id="password"
+                          defaultValue={""}
+                          {...register("password", {
+                            required: true,
+                          })}
+                          // onChange={(e) =>
+                          //   handleChange("password", e.target.value)
+                          // }
                           placeholder="PASSWORD*"
                         />
+
+                        {errors.password && (
+                          <p className="mt-1 text-coral-700 text-xs">
+                            *Required Field
+                          </p>
+                        )}
                       </div>
 
                       <div className="mt-4">
@@ -127,7 +172,6 @@ export default function Login() {
                       <div className="flex flex-col mt-8">
                         <button
                           type="submit"
-                          onClick={handleSubmit}
                           id="btn-login"
                           className="auth__button"
                         >

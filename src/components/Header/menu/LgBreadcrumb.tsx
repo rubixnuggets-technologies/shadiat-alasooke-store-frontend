@@ -45,7 +45,7 @@ const LgBreadcrumb = () => {
         <li>
           <div>
             <Link href={"/customer/login"}>
-              <Button title="Log in" />
+              <Button width="full" title="Log in" />
             </Link>
 
             <div className="mt-4">

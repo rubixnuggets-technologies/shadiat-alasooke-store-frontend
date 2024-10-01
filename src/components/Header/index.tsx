@@ -81,7 +81,9 @@ const Header = () => {
               </div>
 
               <div className="mr-8">
-                <Icon type="cart" />
+                <Link href="/cart">
+                  <Icon type="cart" />
+                </Link>
               </div>
 
               <div className="relative">
@@ -106,7 +108,10 @@ const Header = () => {
             {/* MOBILE HEADER ITEMS */}
             <div className="flex gap-6 lg:hidden items-center flex-row">
               <div>
-                <div onClick={searchStore?.toggleSearch} className="cursor:pointer flex items-center mr-2">
+                <div
+                  onClick={searchStore?.toggleSearch}
+                  className="cursor:pointer flex items-center mr-2"
+                >
                   <Icon type="search" className="text-red" />
                 </div>
               </div>
@@ -125,9 +130,7 @@ const Header = () => {
         </div>
       </div>
 
-      {searchStore.isOpen && (
-         <SearchLg />
-      )}
+      {searchStore.isOpen && <SearchLg />}
     </div>
   );
 };

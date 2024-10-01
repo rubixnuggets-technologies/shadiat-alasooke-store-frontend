@@ -66,7 +66,7 @@ export default function ProductsHighlight({
         )}
       >
         {isFilterPaneVisible && filters && (
-          <div className="hidden lg:flex w-fill border-r-2 border-brown-1200 pl-12 pr-6 pt-8 ">
+          <div className="hidden lg:flex flex-col w-fill border-r-2 border-brown-1200 pl-12 pr-6 pt-8 ">
             <div className="flex flex-row items-center justify-between">
               <div className="flex items-center">
                 <h1 className="text-[40px]"> Filters </h1>

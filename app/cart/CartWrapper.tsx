@@ -4,60 +4,158 @@ import CartSummary from "@/src/components/Cart/CartSummary";
 import CartTable from "@/src/components/Cart/CartTable";
 import CheckoutForm from "@/src/components/Cart/CheckoutForm";
 import PaymentForm from "@/src/components/Cart/PaymentForm";
-import { CART_VIEW, CHECKOUT_VIEW, useCartStore } from "@/src/state/cart";
+import Breadcrumb from "@/src/components/ui/Breadcrumb";
+import {
+  CART_VIEW,
+  CHECKOUT_VIEW,
+  ICheckoutState,
+  useCartStore,
+} from "@/src/state/cart";
 import { useDexieDB } from "@/utils/hooks/useDexieDB";
-import { Cart, useCart } from "medusa-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import cn from "classnames";
+import PaymentSuccess from "@/src/components/Payment/PaymentSuccess";
+
+const CheckoutStage = ({
+  checkoutStage,
+}: {
+  checkoutStage: ICheckoutState;
+}) => {
+  switch (checkoutStage) {
+    case "CART_VIEW":
+      return (
+        <div className="flex flex-col lg:grid lg:grid-cols-[732px_auto]">
+          <CartTable />
+
+          <div className="flex mt-12 lg:mt-1 justify-center lg:justify-end">
+            <CartCost />
+          </div>
+        </div>
+      );
+
+    case "CHECKOUT_VIEW":
+      return (
+        <div className="flex flex-col gap-14 mt-6 lg:mt-1 lg:grid lg:grid-cols-2 lg:gap-32">
+          <CheckoutForm />
+          <CartSummary />
+        </div>
+      );
+
+    case "PAYMENT_VIEW":
+      return (
+        <div className="flex flex-col lg:grid mt-6 lg:mt-1 lg:grid-cols-2 gap-14 lg:gap-32">
+          <PaymentForm />
+          <CartSummary />
+        </div>
+      );
+
+    case "PAYMENT_SUCCESS":
+      return (
+        <div>
+          <PaymentSuccess />
+        </div>
+      );
+
+    default:
+      return <></>;
+  }
+};
 
 export default function CartWrapper() {
-  const cartStore = useCartStore();
-
-  const [currentCart, setCart] = useState<Cart | null>(null);
+  const { checkoutStage, setCart, cart } = useCartStore();
   const { getCart, cartId } = useDexieDB();
 
   useEffect(() => {
     if (!cartId) return;
 
     (async () => {
-      // const data: Cart = await getCart(cartId as string);
-
-      // setCart(data);
+      await setCart({ cart_id: cartId });
     })();
   }, [cartId]);
 
   return (
     <div>
-     {cartStore?.checkoutStage === CART_VIEW ? (
-        <div>
-          <div>
-            <div className="mb-12">
-              <h1 className="text-[40px] text-center">My Cart</h1>
+      {checkoutStage !== "PAYMENT_SUCCESS" && (
+        <div className="mb-2 lg:mb-16">
+          <div className="mb-12">
+            <div className="flex justify-center">
+              <Breadcrumb
+                items={[
+                  { route: "/", text: "Home" },
+                  { route: "/cart", text: "Cart" },
+                ]}
+              />
             </div>
 
-            <hr className="text-brown-1000" />
+            <h1 className="text-[30px] lg:text-[40px] text-center">My Cart</h1>
           </div>
 
-          <div className="layout">
-            <div className="mt-12 grid grid-cols-[732px_auto]">
-             <CartTable cart={currentCart} />
+          <hr className="text-brown-1000" />
 
-              <div className="flex justify-end">
-                <CartCost cart={currentCart} />
-              </div>  
+          <div>
+            <div className="flex flex-row gap-4 mt-7 lg:mt-9">
+              <h3
+                className={cn(
+                  "text-sm lg:text-xl",
+                  checkoutStage === "CART_VIEW"
+                    ? "text-[red]"
+                    : "text-brown-1500"
+                )}
+              >
+                Cart
+              </h3>
+
+              <span>{">"}</span>
+
+              <h3
+                className={cn(
+                  "text-sm lg:text-xl",
+                  checkoutStage === "CHECKOUT_VIEW"
+                    ? "text-[red]"
+                    : "text-brown-1500"
+                )}
+              >
+                Check out
+              </h3>
+
+              <span>{">"}</span>
+
+              <h3
+                className={cn(
+                  "text-sm lg:text-xl",
+                  checkoutStage === "PAYMENT_VIEW"
+                    ? "text-[red]"
+                    : "text-brown-1500"
+                )}
+              >
+                Payment
+              </h3>
             </div>
           </div>
         </div>
-      ) : cartStore?.checkoutStage === CHECKOUT_VIEW ? (
-        <div className=" grid grid-cols-2 gap-32">
-        <CheckoutForm />
-          <CartSummary cart={currentCart} /> 
+      )}
+
+      {/* {checkoutStage === CART_VIEW ? (
+        <div className="flex flex-col lg:grid lg:grid-cols-[732px_auto]">
+          <CartTable />
+
+          <div className="flex mt-12 lg:mt-1 justify-center lg:justify-end">
+            <CartCost />
+          </div>
+        </div>
+      ) : checkoutStage === CHECKOUT_VIEW ? (
+        <div className="flex flex-col gap-14 mt-6 lg:mt-1 lg:grid lg:grid-cols-2 lg:gap-32">
+          <CheckoutForm />
+          <CartSummary />
         </div>
       ) : (
-        <div className=" grid grid-cols-2 gap-32">
-           <PaymentForm cart={currentCart} />
-          <CartSummary cart={currentCart} /> 
+        <div className="flex flex-col lg:grid mt-6 lg:mt-1 lg:grid-cols-2 gap-14 lg:gap-32">
+          <PaymentForm />
+          <CartSummary />
         </div>
-      )} 
+      )} */}
+
+      <CheckoutStage checkoutStage={checkoutStage} />
     </div>
   );
 }
