@@ -15,15 +15,15 @@ interface PaymentProviderProps {
 export default function PaymentProvider() {
   const { cart } = useCartStore();
 
-  // console.log(
-  //   "PaymentProvider CART ->",
-  //   cart
-  // );
+  console.log(
+    "PaymentProvider CART ->",
+    cart
+  );
 
-  // console.log(
-  //   "PaymentProvider paymentSession ->",
-  //   cart?.payment_session
-  // );
+  console.log(
+    "PaymentProvider paymentSession ->",
+    cart?.payment_session
+  );
   
 
   if (!cart || !cart?.payment_session) return null;

@@ -19,17 +19,18 @@ const Circle = ({ active }: { active: boolean }) => (
   </div>
 );
 
-export default function PaymentForm({ cart }) {
+export default function PaymentForm() {
   const { setPaymentDetail, paymentDetails, setCheckoutStage, startPayment } =
     useCartStore();
 
-  const { getCart } = useDexieDB();
+  // const { getCart } = useDexieDB();
 
   const [paymentMode, setPaymentMode] = useState("CREDIT_CARD");
-  const handlePayment = async ({ cartId }) => {
-    const payment = await startPayment({ cartId: cart?.id });
-    // console.log("payment =>", payment);
-  };
+  
+  // const handlePayment = async ({ cartId }) => {
+  //   const payment = await startPayment({ cartId: cart?.id });
+  //   // console.log("payment =>", payment);
+  // };
 
   // const paystackSession = useMemo(() => cart?.payment_sessions.find((session) => session?.provider_id === "paystack"), [cart])
 

@@ -4,22 +4,32 @@ import { LiaBookmark } from "react-icons/lia";
 import { TfiPlus } from "react-icons/tfi";
 import { IoIosBookmark } from "react-icons/io";
 import Link from "next/link";
-
+import { useCartStore } from "@/src/state/cart";
+import { useRegions } from "medusa-react";
 import { truncateText } from "@/utils/helpers/text";
 import { formatCurrency } from "@/utils/helpers/formatter";
 import { useSearchStore } from "@/src/state/store";
 import { Customer, Product } from "@medusajs/medusa";
 import { useCustomerStore } from "@/src/state/customer";
+import { useRouter } from "next/navigation";
+import { useDexieDB } from "@/utils/hooks/useDexieDB";
 
 export default function ProductCard({ product, showPrice, itemsType }: any) {
   const { customer, setCustomer, bookmarkProduct, removeBookmark } =
     useCustomerStore();
 
   const { resetSearch } = useSearchStore();
+  const router = useRouter();
+
+  const { storeProduct, storeCart, cartId, addProductToCart, getCart } =
+    useDexieDB();
 
   useEffect(() => {
     setCustomer();
   }, []);
+
+  const { regions, isLoading: isRegionLoading } = useRegions();
+  const cartStore = useCartStore();
 
   const productBookmark = useMemo(() => {
     if (customer?.metadata) {
@@ -28,6 +38,39 @@ export default function ProductCard({ product, showPrice, itemsType }: any) {
       );
     }
   }, [customer]);
+
+  const quickAddToCart = async () => {
+    if (!customer) {
+      return router.push("/customer/login");
+    }
+
+    const userLocalRegion = regions?.find(
+      (region) => region.name === "Nigeria"
+    );
+
+    if (!cartId) {
+      const { cart: createdCart } = await cartStore?.createCart(
+        userLocalRegion?.id,
+        customer?.id
+      );
+
+      await storeCart(createdCart);
+
+      await addProductToCart({
+        variant_id: product?.variants[0]?.id,
+        quantity: 1,
+        cart_id: createdCart?.id,
+      });
+
+      return;
+    }
+
+    await addProductToCart({
+      variant_id: product?.variants[0]?.id,
+      quantity: 1,
+      cart_id: cartId,
+    });
+  };
 
   return (
     <div
@@ -50,7 +93,10 @@ export default function ProductCard({ product, showPrice, itemsType }: any) {
         />
 
         {itemsType === "PRODUCTS" && (
-          <div className="flex justify-center hover:cursor-pointer">
+          <div
+            onClick={quickAddToCart}
+            className="flex justify-center hover:cursor-pointer"
+          >
             <div className="h-6 w-6 absolute bottom-4 z-5 rounded-full bg-white flex items-center justify-center">
               <TfiPlus size={16} />
             </div>

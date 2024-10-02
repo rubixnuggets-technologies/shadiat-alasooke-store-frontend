@@ -113,7 +113,7 @@ export const useDexieDB = (pathname?: Product["handle"]) => {
     try {
       const cart = await MedusaClient.carts.lineItems.delete(cart_id, item_id);
 
-      return cart;
+      return setCart({ cart });
     } catch (error) {
       console.log("REMOVE FROM CART ERR:", error);
     }

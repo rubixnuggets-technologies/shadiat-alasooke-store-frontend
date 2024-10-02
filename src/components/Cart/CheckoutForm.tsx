@@ -231,7 +231,7 @@ export default function CheckoutForm() {
 
       {!isLoadingShippingMethods && (
         <div className="mt-7">
-          <div className="mb-3" >
+          <div className="mb-3">
             <p className="text-xs lg:text-base"> Delivery Method </p>
           </div>
 
@@ -267,13 +267,11 @@ export default function CheckoutForm() {
       <div className="mt-8">
         <Button
           clickAction={async () => {
-            const cart = await addDeliveryAddress({
+            await addDeliveryAddress({
               cartId,
               deliveryDetails,
               deliveryMethod,
             });
-
-            setCart({ cart });
           }}
           width="full"
           title="Continue to Payment"

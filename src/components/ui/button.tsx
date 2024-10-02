@@ -35,7 +35,7 @@ const Button = ({
       disabled={disabled}
       className={classNames(
         textClassname ? `text-xs lg:text-base font-semibold` : textClassname,
-        `flex flex-row hover:cursor-pointer items-center justify-center text-brown-2100 border-[1px] border-brown-2100 h-9 lg:h-[48px] px-8 border-brown-100 border-1 w-${width}`
+        `bg-[#857B74] hover:bg-[#001F40] flex flex-row hover:cursor-pointer items-center justify-center text-white border-[1px] border-[#857B74] hover:border-[#001F40] h-9 lg:h-[48px] px-8 border-brown-100 border-1 w-${width}`
       )}
     >
       {icon}

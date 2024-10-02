@@ -2,6 +2,7 @@ import MedusaClient from "@/utils/Medusa/MedusaClient";
 import { create } from "zustand";
 import { AddressPayload } from "@medusajs/medusa";
 import { Cart } from "medusa-react";
+import zukeeper from "zukeeper";
 
 type IDeliveryDetail =
   | "fullName"
@@ -30,7 +31,11 @@ type IPaymentDetail =
 //   | "cardRegion";
 
 export interface ICheckoutState {
-  checkoutStage: "CART_VIEW" | "CHECKOUT_VIEW" | "PAYMENT_VIEW" | "PAYMENT_SUCCESS";
+  checkoutStage:
+    | "CART_VIEW"
+    | "CHECKOUT_VIEW"
+    | "PAYMENT_VIEW"
+    | "PAYMENT_SUCCESS";
 
   cart: Cart | null;
   // checkoutDetails: Record<ICheckoutDetail, string>;
@@ -49,7 +54,7 @@ export interface ICheckoutState {
   }) => void;
   removeCart: ({ cartId }: { cartId: string }) => void;
   completeCartOrder: (cartId: string) => void;
-  createCart: (regionId?: string, customerId?: string) => void;
+  createCart: (regionId?: string, customerId?: string) => Promise<any>;
   addDeliveryAddress: ({
     cartId,
     deliveryDetails,
@@ -97,119 +102,133 @@ const initialState: Pick<
 };
 
 export const useCartStore = create<ICheckoutState>((set) => ({
-  ...initialState,
+    ...initialState,
 
-  setCheckoutStage: (stage: ICheckoutState["checkoutStage"]) =>
-    set({ checkoutStage: stage }),
+    setCheckoutStage: (stage: ICheckoutState["checkoutStage"]) =>
+      set({ checkoutStage: stage }),
 
-  createCart: async (regionId, customerId) => {
-    try {
-      const response = await MedusaClient.carts.create({
-        region_id: regionId,
-      });
+    createCart: async (regionId, customerId) => {
+      try {
+        const response = await MedusaClient.carts.create({
+          region_id: regionId,
+        });
 
-      if (!response.cart) return null;
+        if (!response.cart) return null;
 
-      await MedusaClient.carts.update(response?.cart?.id, {
-        customer_id: customerId,
-      });
+        const { cart } = await MedusaClient.carts.update(response?.cart?.id, {
+          customer_id: customerId,
+        });
 
-      return response;
-    } catch (e) {
-      console.log(e);
-    }
-  },
+        set({ cart });
 
-  setCart: async ({ cart_id, cart }) => {
-    if (!cart_id && !cart) return null;
+        return response;
+      } catch (e) {
+        console.log(e);
+      }
+    },
 
-    // console.log("INCOMING", { cart_id, cart });
+    setCart: async ({ cart_id, cart }) => {
+      if (!cart_id && !cart) return null;
 
-    if (cart) {
-      return set({ cart: cart });
-    }
+      if (cart) {
+        return set({ cart: cart });
+      }
 
-    try {
-      const { cart } = await MedusaClient.carts.retrieve(cart_id);
+      try {
+        const { cart } = await MedusaClient.carts.retrieve(cart_id);
 
-      return set({ cart: cart });
-    } catch (error) {
-      console.log("GET CART ERR:", error);
-    }
-  },
+        return set({ cart: cart });
+      } catch (error) {
+        console.log("GET CART ERR:", error);
+      }
+    },
 
-  addDeliveryAddress: async ({ cartId, deliveryDetails, deliveryMethod }) => {
-    if (!cartId) {
-      return;
-    }
+    addDeliveryAddress: async ({ cartId, deliveryDetails, deliveryMethod }) => {
+      if (!cartId) {
+        return;
+      }
 
-    try {
-      await MedusaClient.carts.update(cartId, {
-        shipping_address: {
-          first_name: deliveryDetails.fullName,
-          last_name: deliveryDetails.fullName,
-          address_1: deliveryDetails.address,
-          city: deliveryDetails.city,
-          country_code: "ng",
-          postal_code: deliveryDetails.postalCode,
-          phone: deliveryDetails.phoneNumber,
+      try {
+        await MedusaClient.carts.update(cartId, {
+          shipping_address: {
+            first_name: deliveryDetails.fullName,
+            last_name: deliveryDetails.fullName,
+            address_1: deliveryDetails.address,
+            city: deliveryDetails.city,
+            country_code: "ng",
+            postal_code: deliveryDetails.postalCode,
+            phone: deliveryDetails.phoneNumber,
+          },
+        });
+
+        await MedusaClient.carts.addShippingMethod(cartId, {
+          option_id: deliveryMethod?.id,
+        });
+
+        const IDEMPOTENCY_KEY = "create_payment_session_key";
+
+        const { cart } = await MedusaClient.carts.createPaymentSessions(
+          cartId,
+          {
+            "Idempotency-Key": IDEMPOTENCY_KEY,
+          }
+        );
+
+        const paystack = cart?.payment_sessions?.find(
+          (session) => session?.provider_id === "paystack"
+        );
+
+        const { cart: cartWithPaymentSession } =
+          await MedusaClient.carts.setPaymentSession(cartId, {
+            provider_id: paystack?.provider_id,
+          });
+
+        console.log("CART WITH PAYMENT SESSION STORE", cartWithPaymentSession);
+
+        set({ cart: cartWithPaymentSession });
+        set({ checkoutStage: "PAYMENT_VIEW" });
+
+        return cart;
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    setDeliveryDetail: (key: string, value: string) =>
+      set((state: ICheckoutState) => ({
+        deliveryDetails: {
+          ...state.deliveryDetails,
+          [key]: value,
         },
-      });
+      })),
 
-      await MedusaClient.carts.addShippingMethod(cartId, {
-        option_id: deliveryMethod?.id,
-      });
+    completeCartOrder: async (cartId) => {
+      try {
+        set({ checkoutStage: "PAYMENT_SUCCESS" });
 
-      const IDEMPOTENCY_KEY = "create_payment_session_key";
+        await MedusaClient.carts.complete(cartId);
+      } catch (e) {
+        console.log(e);
+      }
+    },
 
-      const { cart } = await MedusaClient.carts.createPaymentSessions(cartId, {
-        "Idempotency-Key": IDEMPOTENCY_KEY,
-      });
+    setPaymentDetail: (key: string, value: string) =>
+      set((state: ICheckoutState) => ({
+        paymentDetails: {
+          ...state.paymentDetails,
+          [key]: value,
+        },
+      })),
 
-      const paystack = cart?.payment_sessions?.find(
-        (session) => session?.provider_id === "paystack"
-      );
+    removeCart: async ({ cartId }) => {
+      try {
+      } catch (e) {
+        console.log(e);
+      }
+    },
+  })
+);
 
-      await MedusaClient.carts.setPaymentSession(cartId, {
-        provider_id: paystack?.provider_id,
-      });
+// window.store = useCartStore;
 
-      set({ checkoutStage: "PAYMENT_VIEW" });
-
-      return cart;
-    } catch (e) {
-      console.log(e);
-    }
-  },
-
-  setDeliveryDetail: (key: string, value: string) =>
-    set((state: ICheckoutState) => ({
-      deliveryDetails: {
-        ...state.deliveryDetails,
-        [key]: value,
-      },
-    })),
-
-  completeCartOrder: async (cartId) => {
-    try {
-      await MedusaClient.carts.complete(cartId);
-    } catch (e) {
-      console.log(e);
-    }
-  },
-
-  setPaymentDetail: (key: string, value: string) =>
-    set((state: ICheckoutState) => ({
-      paymentDetails: {
-        ...state.paymentDetails,
-        [key]: value,
-      },
-    })),
-    
-  removeCart: async ({ cartId }) => {
-    try {
-    } catch (e) {
-      console.log(e);
-    }
-  },
-}));
+// export { useCartStore };

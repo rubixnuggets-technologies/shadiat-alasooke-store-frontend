@@ -15,13 +15,6 @@ interface AuthData {
 }
 
 export default function Login() {
-  const [userDetails, setUserDetails] = useState<
-    Record<"email" | "password", string>
-  >({
-    email: "",
-    password: "",
-  });
-
   const {
     register,
     handleSubmit,
@@ -39,28 +32,19 @@ export default function Login() {
 
   const router = useRouter();
 
-  const handleChange = (key: "email" | "password", value: string) => {
-    setUserDetails((prevState) => ({
-      ...prevState,
-      [key]: value,
-    }));
-  };
-
-  const submitAuthInfo: SubmitHandler<AuthData> = async () => {
+  const submitAuthInfo: SubmitHandler<AuthData> = async (data) => {
     try {
       const user = await MedusaClient.auth.authenticate({
-        email: userDetails.email,
-        password: userDetails.password,
+        email: data.email,
+        password: data.password,
       });
 
       await MedusaClient.auth.getToken({
-        email: userDetails.email,
-        password: userDetails.password,
+        email: data.email,
+        password: data.password,
       });
 
       await storeUserData({ user: user?.customer });
-
-      // console.log("AUTH TOKEN", auth);
 
       router.push("/cart");
     } catch (error) {
@@ -118,14 +102,12 @@ export default function Login() {
                         <input
                           type="email"
                           className="form-control auth__input focus:outline-none"
-                          // id="email"
                           defaultValue={""}
                           {...register("email", {
                             required: true,
+                            pattern:
+                              /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
                           })}
-                          // onChange={(e) =>
-                          //   handleChange("email", e.target.value)
-                          // }
                           placeholder="EMAIL ADDRESS*"
                         />
 
@@ -140,14 +122,10 @@ export default function Login() {
                         <input
                           type="password"
                           className="form-control auth__input focus:outline-none"
-                          // id="password"
                           defaultValue={""}
                           {...register("password", {
                             required: true,
                           })}
-                          // onChange={(e) =>
-                          //   handleChange("password", e.target.value)
-                          // }
                           placeholder="PASSWORD*"
                         />
 

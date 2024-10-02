@@ -14,6 +14,7 @@ const theme = {
     green: {
       100: "#DEF2EB",
       600: "#3EB489",
+      700: "#339672"
     },
     brown: {
       100: "#FCFAF8",

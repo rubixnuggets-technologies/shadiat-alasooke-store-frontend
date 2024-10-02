@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import Checkbox from "../ui/Checkbox";
 import Icon from "../ui/icons";
 import Header from "../Header";
+import MedusaClient from "@/utils/Medusa/MedusaClient";
 
 type UserDetailsEnum = "name" | "password" | "confirmPassword" | "email";
 
@@ -28,6 +29,8 @@ export default function CreateAccount() {
     confirmPassword: "",
   });
 
+  const [isTOCAccepted, acceptTOC] = useState(false);
+
   const router = useRouter();
 
   const {
@@ -39,11 +42,23 @@ export default function CreateAccount() {
 
   const createCustomer = useCreateCustomer();
 
-  const handleChange = (key: UserDetailsEnum, value: string) => {
-    setUserDetails((prevState) => ({
-      ...prevState,
-      [key]: value,
-    }));
+  const [authStatus, setAuthStatus] = useState({
+    status: "",
+    message: "",
+  });
+
+  const handleCreateAccountError = (message: string) => {
+    setAuthStatus({
+      status: "ERROR",
+      message,
+    });
+
+    setTimeout(() => {
+      setAuthStatus({
+        status: "",
+        message: "",
+      });
+    }, 3000);
   };
 
   const submitUserDetails: SubmitHandler<UserDetails> = async (data) => {
@@ -53,23 +68,30 @@ export default function CreateAccount() {
       createCustomer.mutate(
         {
           first_name: nameSplit[0],
-          last_name: nameSplit[1],
+          last_name: nameSplit[1] || "",
           email: data.email,
           password: data.password,
         },
         {
-          onSuccess: () => {
+          onSuccess: async () => {
+            await MedusaClient.auth.getToken({
+              email: data.email,
+              password: data.password,
+            });
+
             console.log("Customer created successfully");
 
             router.push("/explore/shop-rtw");
           },
           onError: (error) => {
-            console.error(error);
+            handleCreateAccountError(
+              "An error occurred while creating account"
+            );
           },
         }
       );
     } catch (error) {
-      console.error(error);
+      handleCreateAccountError("An error occurred while creating account");
     }
   };
 
@@ -84,7 +106,7 @@ export default function CreateAccount() {
     <div>
       <Header />
 
-      <div className="layout-container" >
+      <div className="layout">
         <div className="h-full w-full">
           <div className="max-w-[950px] m-auto mt-10 lg:mt-36">
             <div
@@ -101,6 +123,12 @@ export default function CreateAccount() {
                       Create your account
                     </h1>
                   </div>
+
+                  {authStatus.status === "ERROR" && (
+                    <div className="bg-coral-700 h-12 my-4 flex items-center justify-center">
+                      <p className="text-white">{authStatus.message}</p>
+                    </div>
+                  )}
 
                   <div id="auth-form-fields" className="w-full">
                     <form
@@ -136,7 +164,6 @@ export default function CreateAccount() {
                             pattern:
                               /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
                           })}
-                          // onChange={(e) => handleChange("email", e.target.value)}
                           placeholder="EMAIL ADDRESS*"
                         />
 
@@ -155,9 +182,6 @@ export default function CreateAccount() {
                           {...register("password", {
                             required: true,
                           })}
-                          // onChange={(e) =>
-                          //   handleChange("confirmPassword", e.target.value)
-                          // }
                           placeholder="PASSWORD*"
                         />
 
@@ -176,9 +200,6 @@ export default function CreateAccount() {
                           {...register("confirmPassword", {
                             required: true,
                           })}
-                          // onChange={(e) =>
-                          //   handleChange("password", e.target.value)
-                          // }
                           placeholder="CONFIRM PASSWORD*"
                         />
 
@@ -190,7 +211,10 @@ export default function CreateAccount() {
                       </div>
 
                       <div className="mt-4 flex flex-row gap-2">
-                        {/* <Checkbox /> */}
+                        <Checkbox
+                          selectCheckbox={() => acceptTOC(!isTOCAccepted)}
+                          isActive={isTOCAccepted}
+                        />
 
                         <p className="text-[12px] text-[#574F4B]">
                           I have read and agree to the

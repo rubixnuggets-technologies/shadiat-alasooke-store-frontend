@@ -1,18 +1,25 @@
-"use client"
+"use client";
 import AccountManagementLg from "@/src/components/Customer/AccountManagementLg";
 import Footer from "@/src/components/Footer";
 import Header from "@/src/components/Header";
 import RecentlyViewed from "@/src/components/Product/RecentlyViewed";
 import Breadcrumb from "@/src/components/ui/Breadcrumb";
 import { useCustomerStore } from "@/src/state/customer";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Layout({ children }) {
   const { customer, setCustomer } = useCustomerStore();
+  const router = useRouter();
 
   useEffect(() => {
     setCustomer();
   }, []);
+
+  if (!customer) {
+    router.push("/customer/login");
+    return;
+  }
 
   return (
     <div>
