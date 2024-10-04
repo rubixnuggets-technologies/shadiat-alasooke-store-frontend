@@ -62,8 +62,8 @@ const ProductDetails = ({ product }: { product: Product }) => {
   };
 
   const productBookmark = useMemo(() => {
-    if (customer?.metadata) {
-      return customer?.metadata?.bookmarks.find(
+    if (customer?.metadata?.bookmarks) {
+      return customer?.metadata?.bookmarks?.find(
         (item: Product) => item.id === product.id
       );
     }

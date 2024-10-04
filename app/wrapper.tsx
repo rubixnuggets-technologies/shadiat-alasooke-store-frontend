@@ -36,7 +36,6 @@ export default function Wrapper({ hero, shopCTAs, testimonials }) {
               collectionKey="pcol_01J77YW8NCQZTYCTHXWM7GPJRY"
               title="Aso Oke Collections"
               itemsPerPage={6}
-              showPrice
               itemsType="COLLECTIONS"
               slug="/explore/shop-aso-oke"
             />

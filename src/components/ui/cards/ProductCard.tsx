@@ -32,8 +32,8 @@ export default function ProductCard({ product, showPrice, itemsType }: any) {
   const cartStore = useCartStore();
 
   const productBookmark = useMemo(() => {
-    if (customer?.metadata) {
-      return customer?.metadata?.bookmarks.find(
+    if (customer?.metadata?.bookmarks) {
+      return customer?.metadata?.bookmarks?.find(
         (item: Product) => item.id === product.id
       );
     }
@@ -70,6 +70,22 @@ export default function ProductCard({ product, showPrice, itemsType }: any) {
       quantity: 1,
       cart_id: cartId,
     });
+  };
+
+  const handleProductBookmark = async () => {
+    if (!customer) {
+      return router.push("/customer/login");
+    }
+
+    await bookmarkProduct(product, customer?.metadata?.bookmarks || {});
+  };
+
+  const handleRemoveProductBookmark = async () => {
+    if (!customer) {
+      return router.push("/customer/login");
+    }
+
+    await removeBookmark(product, customer?.metadata?.bookmarks || {});
   };
 
   return (
@@ -124,18 +140,14 @@ export default function ProductCard({ product, showPrice, itemsType }: any) {
             {productBookmark ? (
               <div
                 className="hover:cursor-pointer"
-                onClick={() =>
-                  removeBookmark(product, customer?.metadata?.bookmarks || {})
-                }
+                onClick={handleRemoveProductBookmark}
               >
                 <IoIosBookmark size={22} />
               </div>
             ) : (
               <div
                 className="hover:cursor-pointer"
-                onClick={() =>
-                  bookmarkProduct(product, customer?.metadata?.bookmarks || {})
-                }
+                onClick={handleProductBookmark}
               >
                 <LiaBookmark size={22} />
               </div>

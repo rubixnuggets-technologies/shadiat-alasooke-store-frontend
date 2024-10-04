@@ -41,7 +41,7 @@ export const useCustomerStore = create<ICustomerState>((set) => ({
     }
   },
 
-  removeBookmark: async (product, bookmarks) => {
+  removeBookmark: async (product, bookmarks = {}) => {
     try {
       const { customer } = await MedusaClient.customers.update({
         metadata: {
@@ -55,7 +55,7 @@ export const useCustomerStore = create<ICustomerState>((set) => ({
     }
   },
 
-  bookmarkProduct: async (product, bookmarks) => {
+  bookmarkProduct: async (product, bookmarks = {}) => {
     try {
       const { customer } = await MedusaClient.customers.update({
         metadata: {
