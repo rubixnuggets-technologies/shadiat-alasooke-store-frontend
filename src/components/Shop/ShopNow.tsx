@@ -9,7 +9,6 @@ import RichTextComponent from "../RichTextComponent";
 
 export default function ShopNow({ data }) {
   return (
-    <div className="w-full">
       <div className="h-[248px] lg:h-[850px] relative w-full">
         <div
           style={{ zIndex: 99999999 }}
@@ -47,6 +46,5 @@ export default function ShopNow({ data }) {
           src={data?.image?.public_id}
         />
       </div>
-    </div>
   );
 }

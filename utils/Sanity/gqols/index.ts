@@ -7,6 +7,16 @@ export const HOME_PAGE_QUERY = `
     }
 `;
 
+export const ALL_TESTIMONIALS_QUERY = `
+    *[_type == 'testimonial']{ 
+         fullname,
+         location,
+         body,
+         rating_count,
+         title
+    }
+`;
+
 export const ALL_PRODUCTS_QUERY = `
     *[_type == 'product']{ 
         _id,
