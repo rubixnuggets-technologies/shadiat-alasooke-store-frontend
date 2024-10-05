@@ -79,9 +79,8 @@ export default function CreateAccount() {
               password: data.password,
             });
 
-            console.log("Customer created successfully");
-
-            router.push("/explore/shop-rtw");
+            router.refresh()
+            router.push("/");
           },
           onError: (error) => {
             handleCreateAccountError(

@@ -7,6 +7,7 @@ import Button from "../ui/button";
 import { useDexieDB } from "@/utils/hooks/useDexieDB";
 import { useCartShippingOptions } from "medusa-react";
 import { useRegions } from "medusa-react";
+import { useCustomerStore } from "@/src/state/customer";
 
 const Circle = ({ active }: { active: boolean }) => (
   <div
@@ -22,21 +23,17 @@ export default function CheckoutForm() {
   const {
     setDeliveryDetail,
     deliveryDetails,
-    setCheckoutStage,
     addDeliveryAddress,
-    setCart,
   } = useCartStore();
 
-  const { cartId } = useDexieDB();
+  const { customer } = useCustomerStore()
 
   const { shipping_options, isLoading: isLoadingShippingMethods } =
-    useCartShippingOptions(cartId || "");
+    useCartShippingOptions(customer?.metadata?.cartId || "");
 
   const [deliveryMethod, selectDeliveryMethod] = useState(
     isLoadingShippingMethods ? null : shipping_options[0]
   );
-
-  const { regions, isLoading } = useRegions();
 
   return (
     <div>
@@ -268,7 +265,7 @@ export default function CheckoutForm() {
         <Button
           clickAction={async () => {
             await addDeliveryAddress({
-              cartId,
+              cartId: customer?.metadata?.cartId,
               deliveryDetails,
               deliveryMethod,
             });

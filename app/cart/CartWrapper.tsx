@@ -5,16 +5,11 @@ import CartTable from "@/src/components/Cart/CartTable";
 import CheckoutForm from "@/src/components/Cart/CheckoutForm";
 import PaymentForm from "@/src/components/Cart/PaymentForm";
 import Breadcrumb from "@/src/components/ui/Breadcrumb";
-import {
-  CART_VIEW,
-  CHECKOUT_VIEW,
-  ICheckoutState,
-  useCartStore,
-} from "@/src/state/cart";
-import { useDexieDB } from "@/utils/hooks/useDexieDB";
+import { ICheckoutState, useCartStore } from "@/src/state/cart";
 import { useEffect } from "react";
 import cn from "classnames";
 import PaymentSuccess from "@/src/components/Payment/PaymentSuccess";
+import { useCustomerStore } from "@/src/state/customer";
 
 const CheckoutStage = ({
   checkoutStage,
@@ -63,15 +58,15 @@ const CheckoutStage = ({
 
 export default function CartWrapper() {
   const { checkoutStage, setCart, cart } = useCartStore();
-  const { getCart, cartId } = useDexieDB();
+  const { customer } = useCustomerStore();
 
   useEffect(() => {
-    if (!cartId) return;
+    if (!customer) return;
 
     (async () => {
-      await setCart({ cart_id: cartId });
+      await setCart({ cart_id: customer?.metadata?.cartId });
     })();
-  }, [cartId]);
+  }, [customer]);
 
   return (
     <div>

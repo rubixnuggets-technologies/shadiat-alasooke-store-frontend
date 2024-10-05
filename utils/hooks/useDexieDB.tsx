@@ -21,13 +21,27 @@ export const useDexieDB = (pathname?: Product["handle"]) => {
 
   // const cart = use(MedusaClient.carts.retrieve(cart_id))
 
-  const cartId = useLiveQuery(async () => {
-    const item = await db.cart.toArray();
+  // const cartId = useLiveQuery(async () => {
 
-    if (!item) return null;
+  //   // try {
+  //   //   const { customer } = await MedusaClient.customers.update({
+  //   //     metadata: {
+  //   //       cartId: ""
+  //   //     },
+  //   //   });
 
-    return item[0]?.id;
-  });
+  //   // } catch (error) {
+
+  //   // }
+
+   
+
+  //   // const item = await db.cart.toArray();
+
+  //   // if (!item) return null;
+
+  //   // return item[0]?.id;
+  // });
 
   const getCart = async (cart_id: string) => {
     if (!cart_id) return null;
@@ -61,20 +75,29 @@ export const useDexieDB = (pathname?: Product["handle"]) => {
     if (!cart) return;
 
     try {
-      const doesProductExist = await db.cart.get({
-        id: cart?.id,
-      });
 
-      if (!doesProductExist) {
-        return await db.cart.add({
-          id: cart.id,
-          billing_address_id: cart.billing_address_id,
-          shipping_address_id: cart.shipping_address_id,
-          region_id: cart.region_id,
-          customer_id: cart.customer_id,
-          customer: cart.customer,
-        });
-      }
+      // const { customer } = await MedusaClient.customers.update({
+      //   metadata: {
+      //     cartId: cart?.id,
+      //   },
+      // });
+
+      // return set({ customer });
+
+      // const doesProductExist = await db.cart.get({
+      //   id: cart?.id,
+      // });
+
+      // if (!doesProductExist) {
+      //   return await db.cart.add({
+      //     id: cart.id,
+      //     billing_address_id: cart.billing_address_id,
+      //     shipping_address_id: cart.shipping_address_id,
+      //     region_id: cart.region_id,
+      //     customer_id: cart.customer_id,
+      //     customer: cart.customer,
+      //   });
+      // }
     } catch (error) {
       console.log(error);
     }
@@ -153,7 +176,7 @@ export const useDexieDB = (pathname?: Product["handle"]) => {
     removeProductFromCart,
     updateProductInCart,
 
-    cartId,
+    // cartId,
     products,
   };
 };

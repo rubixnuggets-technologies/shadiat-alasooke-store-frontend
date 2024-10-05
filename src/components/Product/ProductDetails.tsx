@@ -13,11 +13,12 @@ import { useCustomerStore } from "@/src/state/customer";
 const ProductDetails = ({ product }: { product: Product }) => {
   const [itemVariant, setVariant] = useState(product?.variants[0]);
 
-  const { customer, bookmarkProduct, removeBookmark } = useCustomerStore();
+  const { customer, bookmarkProduct, removeBookmark, modifyCustomerCartId } =
+    useCustomerStore();
 
   const [productQuantity, setProductQuantity] = useState(1);
 
-  const { storeProduct, storeCart, cartId, addProductToCart, getCart } =
+  const { storeProduct, addProductToCart, getCart } =
     useDexieDB();
 
   useEffect(() => {
@@ -37,27 +38,27 @@ const ProductDetails = ({ product }: { product: Product }) => {
 
     const user = await getUserData();
 
-    if (!cartId) {
+    if (!customer?.metadata?.cartId) {
       const { cart: createdCart } = await cartStore?.createCart(
         userLocalRegion?.id,
         user?.id
       );
 
-      await storeCart(createdCart);
+      await modifyCustomerCartId(createdCart);
 
       await addProductToCart({
         variant_id: itemVariant?.id,
         quantity: productQuantity,
         cart_id: createdCart?.id,
       });
-      
+
       return;
     }
 
     await addProductToCart({
       variant_id: itemVariant?.id,
-      quantity: 1,
-      cart_id: cartId,
+      quantity: productQuantity,
+      cart_id: customer?.metadata?.cartId,
     });
   };
 

@@ -46,7 +46,8 @@ export default function Login() {
 
       await storeUserData({ user: user?.customer });
 
-      router.push("/cart");
+      router.refresh()
+      router.push("/");
     } catch (error) {
       setAuthStatus({
         status: "ERROR",

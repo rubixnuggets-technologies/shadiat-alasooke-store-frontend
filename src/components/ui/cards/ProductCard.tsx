@@ -9,19 +9,19 @@ import { useRegions } from "medusa-react";
 import { truncateText } from "@/utils/helpers/text";
 import { formatCurrency } from "@/utils/helpers/formatter";
 import { useSearchStore } from "@/src/state/store";
-import { Customer, Product } from "@medusajs/medusa";
+import { Product } from "@medusajs/medusa";
 import { useCustomerStore } from "@/src/state/customer";
 import { useRouter } from "next/navigation";
 import { useDexieDB } from "@/utils/hooks/useDexieDB";
 
 export default function ProductCard({ product, showPrice, itemsType }: any) {
-  const { customer, setCustomer, bookmarkProduct, removeBookmark } =
+  const { customer, setCustomer, modifyCustomerCartId, bookmarkProduct, removeBookmark } =
     useCustomerStore();
 
   const { resetSearch } = useSearchStore();
   const router = useRouter();
 
-  const { storeProduct, storeCart, cartId, addProductToCart, getCart } =
+  const { storeProduct, addProductToCart, getCart } =
     useDexieDB();
 
   useEffect(() => {
@@ -48,13 +48,13 @@ export default function ProductCard({ product, showPrice, itemsType }: any) {
       (region) => region.name === "Nigeria"
     );
 
-    if (!cartId) {
+    if (!customer?.metadata?.cartId) {
       const { cart: createdCart } = await cartStore?.createCart(
         userLocalRegion?.id,
         customer?.id
       );
 
-      await storeCart(createdCart);
+      await modifyCustomerCartId(createdCart);
 
       await addProductToCart({
         variant_id: product?.variants[0]?.id,
@@ -68,7 +68,7 @@ export default function ProductCard({ product, showPrice, itemsType }: any) {
     await addProductToCart({
       variant_id: product?.variants[0]?.id,
       quantity: 1,
-      cart_id: cartId,
+      cart_id: customer?.metadata?.cartId,
     });
   };
 

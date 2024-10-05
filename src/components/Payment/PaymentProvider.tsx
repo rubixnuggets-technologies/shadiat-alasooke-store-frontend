@@ -6,6 +6,7 @@ import { PaystackButton } from "react-paystack";
 import { useCartStore } from "@/src/state/cart";
 import { useEffect, useState } from "react";
 import { getUserData } from "@/utils/actions/user";
+import { useCustomerStore } from "@/src/state/customer";
 
 interface PaymentProviderProps {
   cart: any;
@@ -14,18 +15,18 @@ interface PaymentProviderProps {
 
 export default function PaymentProvider() {
   const { cart } = useCartStore();
+  const { modifyCustomerCartId } = useCustomerStore()
 
-  console.log(
-    "PaymentProvider CART ->",
-    cart
-  );
+  // console.log(
+  //   "PaymentProvider CART ->",
+  //   cart
+  // );
 
-  console.log(
-    "PaymentProvider paymentSession ->",
-    cart?.payment_session
-  );
+  // console.log(
+  //   "PaymentProvider paymentSession ->",
+  //   cart?.payment_session
+  // );
   
-
   if (!cart || !cart?.payment_session) return null;
   const [ user, setUser ] = useState(null)
 
@@ -62,6 +63,7 @@ export default function PaymentProvider() {
             publicKey={PAYSTACK_PUBLIC_KEY}
             onSuccess={async () => {
               await completeCartOrder(cart?.id);
+              await modifyCustomerCartId();
 
               console.log("PAYMENT SUCCESS!");
             }}

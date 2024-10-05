@@ -6,6 +6,7 @@ import { useDexieDB } from "@/utils/hooks/useDexieDB";
 import { Cart } from "medusa-react";
 import Image from "next/image";
 import Checkbox from "../ui/Checkbox";
+import { useCustomerStore } from "@/src/state/customer";
 
 export default function CartTableItem({
   isMarked,
@@ -14,7 +15,8 @@ export default function CartTableItem({
   product: Cart["items"][0];
   isMarked: boolean;
 }) {
-  const { cartId, removeProductFromCart, updateProductInCart } = useDexieDB();
+  const { removeProductFromCart, updateProductInCart } = useDexieDB();
+  const { customer } = useCustomerStore()
   const [itemCount, setItemCount] = useState<number>(quantity);
 
   const modifyItemCount = async (type: "INCREASE" | "DECREASE") => {
@@ -24,7 +26,7 @@ export default function CartTableItem({
 
       setItemCount(count);
       await updateProductInCart({
-        cart_id: cartId!,
+        cart_id: customer?.metadata?.cartId!,
         item_id: id,
         quantity: count,
       });
@@ -38,7 +40,7 @@ export default function CartTableItem({
 
       setItemCount(count);
       await updateProductInCart({
-        cart_id: cartId!,
+        cart_id: customer?.metadata?.cartId!,
         item_id: id,
         quantity: count,
       });
@@ -103,7 +105,7 @@ export default function CartTableItem({
             onClick={() =>
               removeProductFromCart({
                 item_id: id,
-                cart_id: cartId!,
+                cart_id: customer?.metadata?.cartId!,
               })
             }
             className="flex justify-center hover:cursor-pointer mt-2 lg:mt-4"
