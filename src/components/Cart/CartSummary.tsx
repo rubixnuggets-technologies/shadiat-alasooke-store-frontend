@@ -1,4 +1,6 @@
 "use client";
+import dynamic from "next/dynamic";
+
 import { MedusaImageLoader } from "@/utils/helpers/Cloudinary";
 import { formatCurrency } from "@/utils/helpers/formatter";
 import Image from "next/image";
@@ -6,8 +8,16 @@ import Button from "../ui/button";
 import Link from "next/link";
 import { useCartStore } from "@/src/state/cart";
 
-export default function CartSummary() {
-  const { cart } = useCartStore();
+const DynamicPayement = dynamic(() => import("../Payment/PaymentProvider"), {
+  loading: () => <p>Loading Payment Provider</p>,
+});
+
+export default function CartSummary({
+  nextClickAction,
+}: {
+  nextClickAction?: () => void;
+}) {
+  const { cart, checkoutStage } = useCartStore();
 
   return (
     <div className="max-w-96 w-96">
@@ -74,18 +84,18 @@ export default function CartSummary() {
         </div>
 
         <div className="flex justify-between">
-          <p className="text-lg" >Subtotal</p>
-          <p className="text-lg" >{formatCurrency(cart?.total)}</p>
+          <p className="text-lg">Subtotal</p>
+          <p className="text-lg">{formatCurrency(cart?.total)}</p>
         </div>
 
         <div className="flex mt-4 justify-between">
-          <p className="text-lg" >Discount</p>
-          <p className="text-lg" >{formatCurrency(cart?.discount_total || 0)}</p>
+          <p className="text-lg">Discount</p>
+          <p className="text-lg">{formatCurrency(cart?.discount_total || 0)}</p>
         </div>
 
         <div className="flex mt-2 justify-between">
-          <p className="text-lg" >Shipping Cost</p>
-          <p className="text-lg" >{formatCurrency(cart?.total)}</p>
+          <p className="text-lg">Shipping Cost</p>
+          <p className="text-lg">{formatCurrency(cart?.total)}</p>
         </div>
 
         <div className="my-6">
@@ -93,17 +103,21 @@ export default function CartSummary() {
         </div>
 
         <div className="flex justify-between">
-          <p className="text-lg" >Grand total</p>
+          <p className="text-lg">Grand total</p>
           <p>{formatCurrency(cart?.total)}</p>
         </div>
+      </div>
 
-        <div className="mt-8">
+      <div className="mt-8">
+        {checkoutStage === "PAYMENT_VIEW" ? (
+          <DynamicPayement />
+        ) : (
           <Button
-            clickAction={() => {}}
+            clickAction={nextClickAction}
             width="full"
             title="Continue to Payment"
           />
-        </div>
+        )}
       </div>
     </div>
   );

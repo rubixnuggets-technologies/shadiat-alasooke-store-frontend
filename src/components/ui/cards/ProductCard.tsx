@@ -14,15 +14,27 @@ import { useCustomerStore } from "@/src/state/customer";
 import { useRouter } from "next/navigation";
 import { useDexieDB } from "@/utils/hooks/useDexieDB";
 
-export default function ProductCard({ product, showPrice, itemsType }: any) {
-  const { customer, setCustomer, modifyCustomerCartId, bookmarkProduct, removeBookmark } =
-    useCustomerStore();
+import { head } from "lodash";
+
+export default function ProductCard({
+  product,
+  itemsType,
+}: {
+  product: Product;
+  itemsType: string;
+}) {
+  const {
+    customer,
+    setCustomer,
+    modifyCustomerCartId,
+    bookmarkProduct,
+    removeBookmark,
+  } = useCustomerStore();
 
   const { resetSearch } = useSearchStore();
   const router = useRouter();
 
-  const { storeProduct, addProductToCart, getCart } =
-    useDexieDB();
+  const { storeProduct, addProductToCart, getCart } = useDexieDB();
 
   useEffect(() => {
     setCustomer();
@@ -94,14 +106,6 @@ export default function ProductCard({ product, showPrice, itemsType }: any) {
       className="border-black h-full max-w-64 lg:w-64"
     >
       <div className="w-full relative h-[312px] lg:h-[390px]">
-        {/* <Image
-          alt={product?.title || "alasooke"}
-          fill
-          loader={MedusaImageLoader}
-          className="absolute object-cover"
-          src={product?.thumbnail}
-        /> */}
-
         <img
           alt={product?.title || "alasooke"}
           className="absolute object-cover w-full h-full"
@@ -121,15 +125,22 @@ export default function ProductCard({ product, showPrice, itemsType }: any) {
       </div>
 
       <div className="pt-4 lg:pt-6 pl-1 lg:pl-7 pr-2 pb-12 flex flex-row justify-between ">
-        <Link onClick={resetSearch} href={`/shop/${product?.handle}`}>
+        <Link
+          onClick={resetSearch}
+          href={
+            (product?.metadata?.PRODUCT_TYPE as unknown as string) === "NATIVE"
+              ? `/natives/${product?.handle}`
+              : `/shop/${product?.handle}`
+          }
+        >
           <div>
             <p className="text-sm uppercase">
               {truncateText(product.title, 3)}
             </p>
 
-            {showPrice && itemsType === "PRODUCTS" && product?.prices && (
+            {product?.variants && (
               <p className="text-base">
-                {formatCurrency(product?.prices[0]?.amount)}
+                {formatCurrency(head(product?.variants)?.prices[0]?.amount)}
               </p>
             )}
           </div>

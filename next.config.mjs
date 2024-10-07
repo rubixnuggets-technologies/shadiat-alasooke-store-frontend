@@ -3,9 +3,9 @@ const nextConfig = {
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
-      use: ["@svgr/webpack"]
+      use: ["@svgr/webpack"],
     });
-  
+
     return config;
   },
   images: {
@@ -17,7 +17,10 @@ const nextConfig = {
   },
   typescript: {
     ignoreBuildErrors: true,
-  }
+  },
+  experimental: {
+    serverComponentsExternalPackages: ["@medusajs/product"],
+  },
 };
 
 export default nextConfig;

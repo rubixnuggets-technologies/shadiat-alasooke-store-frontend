@@ -1,6 +1,5 @@
 "use client";
 import CartCost from "@/src/components/Cart/CartCost";
-import CartSummary from "@/src/components/Cart/CartSummary";
 import CartTable from "@/src/components/Cart/CartTable";
 import CheckoutForm from "@/src/components/Cart/CheckoutForm";
 import PaymentForm from "@/src/components/Cart/PaymentForm";
@@ -29,20 +28,10 @@ const CheckoutStage = ({
       );
 
     case "CHECKOUT_VIEW":
-      return (
-        <div className="flex flex-col gap-14 mt-6 lg:mt-1 lg:grid lg:grid-cols-2 lg:gap-32">
-          <CheckoutForm />
-          <CartSummary />
-        </div>
-      );
+      return <CheckoutForm />;
 
     case "PAYMENT_VIEW":
-      return (
-        <div className="flex flex-col lg:grid mt-6 lg:mt-1 lg:grid-cols-2 gap-14 lg:gap-32">
-          <PaymentForm />
-          <CartSummary />
-        </div>
-      );
+      return <PaymentForm />;
 
     case "PAYMENT_SUCCESS":
       return (
@@ -53,6 +42,22 @@ const CheckoutStage = ({
 
     default:
       return <></>;
+  }
+};
+
+const checkoutStageNames = (checkoutStage: ICheckoutState) => {
+  switch (checkoutStage) {
+    case "CART_VIEW":
+      return "My Cart";
+
+    case "CHECKOUT_VIEW":
+      return "Checkout";
+
+    case "PAYMENT_VIEW":
+      return "Payment";
+
+    default:
+      return "";
   }
 };
 
@@ -82,7 +87,9 @@ export default function CartWrapper() {
               />
             </div>
 
-            <h1 className="text-[30px] lg:text-[40px] text-center">My Cart</h1>
+            <h1 className="text-[30px] lg:text-[40px] text-center">
+              {checkoutStageNames(checkoutStage)}{" "}
+            </h1>
           </div>
 
           <hr className="text-brown-1000" />
@@ -93,8 +100,8 @@ export default function CartWrapper() {
                 className={cn(
                   "text-sm lg:text-xl",
                   checkoutStage === "CART_VIEW"
-                    ? "text-[red]"
-                    : "text-brown-1500"
+                    ? "text-brown-1500"
+                    : "text-brown-500"
                 )}
               >
                 Cart
@@ -106,8 +113,8 @@ export default function CartWrapper() {
                 className={cn(
                   "text-sm lg:text-xl",
                   checkoutStage === "CHECKOUT_VIEW"
-                    ? "text-[red]"
-                    : "text-brown-1500"
+                    ? "text-brown-1500"
+                    : "text-brown-500"
                 )}
               >
                 Check out
@@ -119,8 +126,8 @@ export default function CartWrapper() {
                 className={cn(
                   "text-sm lg:text-xl",
                   checkoutStage === "PAYMENT_VIEW"
-                    ? "text-[red]"
-                    : "text-brown-1500"
+                    ? "text-brown-1500"
+                    : "text-brown-500"
                 )}
               >
                 Payment
@@ -129,26 +136,6 @@ export default function CartWrapper() {
           </div>
         </div>
       )}
-
-      {/* {checkoutStage === CART_VIEW ? (
-        <div className="flex flex-col lg:grid lg:grid-cols-[732px_auto]">
-          <CartTable />
-
-          <div className="flex mt-12 lg:mt-1 justify-center lg:justify-end">
-            <CartCost />
-          </div>
-        </div>
-      ) : checkoutStage === CHECKOUT_VIEW ? (
-        <div className="flex flex-col gap-14 mt-6 lg:mt-1 lg:grid lg:grid-cols-2 lg:gap-32">
-          <CheckoutForm />
-          <CartSummary />
-        </div>
-      ) : (
-        <div className="flex flex-col lg:grid mt-6 lg:mt-1 lg:grid-cols-2 gap-14 lg:gap-32">
-          <PaymentForm />
-          <CartSummary />
-        </div>
-      )} */}
 
       <CheckoutStage checkoutStage={checkoutStage} />
     </div>

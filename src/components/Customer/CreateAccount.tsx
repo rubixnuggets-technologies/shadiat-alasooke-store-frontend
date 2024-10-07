@@ -10,8 +10,6 @@ import Icon from "../ui/icons";
 import Header from "../Header";
 import MedusaClient from "@/utils/Medusa/MedusaClient";
 
-type UserDetailsEnum = "name" | "password" | "confirmPassword" | "email";
-
 interface UserDetails {
   name: string;
   email: string;
@@ -20,17 +18,7 @@ interface UserDetails {
 }
 
 export default function CreateAccount() {
-  const [userDetails, setUserDetails] = useState<
-    Record<UserDetailsEnum, string>
-  >({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-
   const [isTOCAccepted, acceptTOC] = useState(false);
-
   const router = useRouter();
 
   const {

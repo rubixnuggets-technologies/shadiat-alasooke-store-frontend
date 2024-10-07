@@ -22,14 +22,6 @@ type IPaymentDetail =
   | "cardCVC"
   | "cardRegion";
 
-// type IDeliveryDetail =
-//   | "postalCode"
-//   | "cardName"
-//   | "cardPhoneNumber"
-//   | "cardNumber"
-//   | "cardCVC"
-//   | "cardRegion";
-
 export interface ICheckoutState {
   checkoutStage:
     | "CART_VIEW"
@@ -77,7 +69,7 @@ const initialState: Pick<
   ICheckoutState,
   "cart" | "checkoutStage" | "deliveryDetails" | "paymentDetails"
 > = {
-  checkoutStage: CART_VIEW,
+  checkoutStage: PAYMENT_VIEW,
   cart: null,
 
   deliveryDetails: {
