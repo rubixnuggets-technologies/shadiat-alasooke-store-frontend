@@ -1,7 +1,7 @@
 import Dollar from "../../src/assets/custom-icons/dollar.svg";
 import Note from "../../src/assets/custom-icons/note.svg";
 
-import ConsultationForm from "./ConsultationForm";
+import ConsultationForm from "../../src/components/forms/ConsultationForm";
 import CTA from "@/src/components/ui/CTA";
 
 const CONULTATION_IMAGE = `
@@ -40,7 +40,7 @@ export default function BookAConsultationPage() {
           <ConsultationForm />
 
           <div className="flex justify-center lg:ml-40">
-            <div className="bg-brown-100 mt-14 lg:mt-1 p-8 max-w-full lg:max-w-[265px]">
+            <div className="bg-brown-100 mt-14 lg:mt-1 py-8 px-12 max-w-full lg:max-w-[265px]">
               <div className="flex flex-col">
                 <div className="flex flex-row mb-3.5">
                   <Note />
@@ -50,7 +50,7 @@ export default function BookAConsultationPage() {
                   </div>
                 </div>
 
-                <ul className="list flex flex-col gap-2">
+                <ul className="list list-disc	 flex flex-col gap-2">
                   <li>
                     <p>
                       A consultation session with the Creative Director requires

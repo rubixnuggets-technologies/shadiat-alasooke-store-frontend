@@ -110,6 +110,11 @@ label {
   font-size: 14px;
 }
 
+::placeholder {
+  color: red;
+  opacity: 1; /* Firefox */
+}
+
 .auth__input {
   border-bottom: 1px solid #0c0b0a;
   padding: 14px 0;

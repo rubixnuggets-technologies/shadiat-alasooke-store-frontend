@@ -27,7 +27,7 @@ export default function Layout({ children }) {
 
       <div className="mb-2">
         <div className="my-16">
-          <div className="flex justify-center w-full ">
+          <div className="flex mb-4 justify-center w-full ">
             <Breadcrumb
               items={[
                 { route: "/", text: "Home" },

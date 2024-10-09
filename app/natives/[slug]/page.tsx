@@ -2,7 +2,6 @@ import PreOrderForm from "@/src/components/forms/Preorder";
 import ProductGallery from "@/src/components/Product/ProductGallery";
 import RecentlyViewed from "@/src/components/Product/RecentlyViewed";
 import MedusaClient from "@/utils/Medusa/MedusaClient";
-import Markdown from "react-markdown";
 
 import { initialize as initializeProductModule } from "@medusajs/product";
 import { notFound } from "next/navigation";

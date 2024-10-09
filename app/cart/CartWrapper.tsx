@@ -78,7 +78,7 @@ export default function CartWrapper() {
       {checkoutStage !== "PAYMENT_SUCCESS" && (
         <div className="mb-2 lg:mb-16">
           <div className="mb-12">
-            <div className="flex justify-center">
+            <div className="flex mb-4 justify-center">
               <Breadcrumb
                 items={[
                   { route: "/", text: "Home" },

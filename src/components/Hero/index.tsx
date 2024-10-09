@@ -5,6 +5,7 @@ import { Hero as IHero } from "@/utils/types/schema";
 import cn from "classnames";
 import Image from "next/image";
 import Slider, { Settings } from "react-slick";
+import Link from "next/link";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -51,7 +52,7 @@ const Hero = ({ data }: { data: IHero[] }) => {
                 >
                   <div className="max-w-[330px] m-auto py-9 lg:py-0">
                     <div>
-                      <div  className="flex justify-center lg:justify-start" >
+                      <div className="flex justify-center lg:justify-start">
                         <div className="mb-4 h-8 lg:h-[54px] bg-brown-500 w-fit px-5 lg:px-6 flex items-center justify-center rounded-full">
                           <p className="text-xs lg:text-sm">{cta_text} </p>
                         </div>
@@ -65,7 +66,9 @@ const Hero = ({ data }: { data: IHero[] }) => {
                       </div>
 
                       <div className="flex justify-center lg:justify-start">
-                        <Button title="Shop Now" />
+                        <Link href="/explore/shop-aso-oke" >
+                          <Button title="Shop Now" />
+                        </Link>
                       </div>
                     </div>
                   </div>

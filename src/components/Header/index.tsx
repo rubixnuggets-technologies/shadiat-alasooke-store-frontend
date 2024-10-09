@@ -9,6 +9,8 @@ import { useSearchStore } from "@/src/state/store";
 import Breadcrumb from "./BreacrumbSm/Breadcrumb";
 import AccountMenu from "./AccountSm/AccountMenu";
 import SearchLg from "./SearchLg";
+import { AnimatePresence, LazyMotion, m } from "framer-motion";
+import loadFeatures from "@/src/framer/load-features";
 
 const LIST_ITEMS = [
   {
@@ -94,14 +96,22 @@ const Header = () => {
                   <Icon type="user" />
                 </div>
 
-                {isMenuOpen && (
-                  <div
-                    className="absolute top-10 right-0"
-                    style={{ zIndex: 9999 }}
-                  >
-                    <LgBreadcrumb />
-                  </div>
-                )}
+                <LazyMotion strict features={loadFeatures}>
+                  <AnimatePresence>
+                    {isMenuOpen && (
+                      <m.div
+                        initial={{ opacity: 0, display: "none" }}
+                        animate={{ opacity: 1, display: "flex" }}
+                        transition={{ duration: 0.1 }}
+                        exit={{ opacity: 0, display: "none" }}
+                        className="absolute top-10 right-0"
+                        style={{ zIndex: 9999 }}
+                      >
+                        <LgBreadcrumb />
+                      </m.div>
+                    )}
+                  </AnimatePresence>
+                </LazyMotion>
               </div>
             </div>
 
@@ -130,7 +140,19 @@ const Header = () => {
         </div>
       </div>
 
-      {searchStore.isOpen && <SearchLg />}
+      <LazyMotion strict features={loadFeatures}>
+        <AnimatePresence>
+          {searchStore?.isOpen && (
+            <m.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+            >
+              <SearchLg />
+            </m.div>
+          )}
+        </AnimatePresence>
+      </LazyMotion>
     </div>
   );
 };

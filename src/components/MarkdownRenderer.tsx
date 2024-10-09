@@ -16,8 +16,6 @@ export default function MarkdownRenderer({ content }: { content: string }) {
             return <p className="text-sm" {...props} />;
           },
           strong: ({ node, ...props }) => {
-            console.log("strong", props);
-
             return (
               <div className="mt-10 mb-3" >
                 <strong className="font-bold text-base"  {...props} />

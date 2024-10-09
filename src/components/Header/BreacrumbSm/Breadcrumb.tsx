@@ -21,7 +21,7 @@ const Breadcrumb = () => {
 
   return (
     <div className="">
-      <div onClick={() => toggleMenu()} className="hover:cursor-pointer">
+      <div onClick={() => toggleMenu()} className="hover:cursor-pointer mb-2">
         <BreadcrumbLogo />
       </div>
 

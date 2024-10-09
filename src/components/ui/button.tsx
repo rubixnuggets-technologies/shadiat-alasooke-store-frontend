@@ -34,6 +34,7 @@ const Button = ({
       onClick={clickAction}
       disabled={disabled}
       className={classNames(
+        "transition ease-in-out delay-150",
         textClassname ? `text-xs lg:text-base font-semibold` : textClassname,
         `bg-transparent hover:bg-[#857B74] flex flex-row hover:cursor-pointer items-center justify-center text-[#857B74] hover:text-white border-[1px] border-[#857B74] hover:border-[#857B74] h-9 lg:h-[48px] px-8 border-1 w-${width}`
       )}

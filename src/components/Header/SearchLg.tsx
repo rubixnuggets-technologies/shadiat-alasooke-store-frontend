@@ -13,6 +13,7 @@ const SearchLg = () => {
           <input
             onChange={(e) => searchStore?.setSearchText(e.target.value)}
             placeholder="Search"
+            style={{ fontFamily: "Playfair Display" }}
             className="border-b-[1px] w-full lg:w-[70%] h-10 lg:h-14 text-xl lg:text-2xl text-brown-1500 focus:outline-none"
           />
 

@@ -18,7 +18,7 @@ export default async function Page() {
     <div>
       <div className="mb-1 lg:mb-12">
         <div className="my-8 lg:my-16">
-          <div className="flex justify-center w-full ">
+          <div className="flex mb-3 justify-center w-full ">
             <Breadcrumb
               items={[
                 { route: "/", text: "Home" },

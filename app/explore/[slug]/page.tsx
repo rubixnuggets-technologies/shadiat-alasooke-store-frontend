@@ -25,12 +25,14 @@ export default async function ExplorePage({ params }) {
   return (
     <div>
       <div className="flex flex-col items-center mb-14 lg:mb-28">
-        <Breadcrumb
-          items={[
-            { text: "Home", route: "/" },
-            { text: "Shop RTW", route: "/explore/shop-rtw" },
-          ]}
-        />
+        <div className="mb-3" >
+          <Breadcrumb
+            items={[
+              { text: "Home", route: "/" },
+              { text: "Shop RTW", route: "/explore/shop-rtw" },
+            ]}
+          />
+        </div>
 
         <h1 className="text-xl lg:text-[40px] mb-3.5"> {data?.title} </h1>
 
