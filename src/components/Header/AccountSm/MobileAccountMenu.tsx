@@ -6,10 +6,13 @@ import Image from "next/image";
 import { ImageLoader } from "@/utils/helpers/Cloudinary";
 import Button from "../../ui/button";
 import Icon from "../../ui/icons";
+import { useCustomerStore } from "@/src/state/customer";
 
 const HERO_URL = "/alasooke-project/mzdijupfwpi4tscjk5ya";
 
 const MobileAccountMenu = ({ state = "open", closeMenu }) => {
+  const { customer } = useCustomerStore()
+
   const classes = useMemo(
     () => ({
       open: ["open -translate-y-0 out-expo"],
@@ -73,11 +76,16 @@ const MobileAccountMenu = ({ state = "open", closeMenu }) => {
               </div>
             </div>
 
+             {/* Catch and trap the focus auto applied when model element is opened  */}
+             <Link className="focus:outline-none" href="/">
+              <p className="text-[1px]">a</p>
+            </Link>
+
             <div className="mt-11">
               <ul className="flex flex-col gap-6">
                 <li>
                   <div className="border-b-2 border-brown-1000 pb-3.5 hover:cursor-pointer">
-                    <Link href={"/"}>
+                    <Link href={"/account"}>
                       <div className="flex flex-row">
                         <div className="mr-3">
                           <Icon type="user" />
@@ -91,7 +99,7 @@ const MobileAccountMenu = ({ state = "open", closeMenu }) => {
 
                 <li>
                   <div className="border-b-2 border-brown-1000 pb-3.5 hover:cursor-pointer">
-                    <Link href={"/"}>
+                    <Link href={"/account/order-history"}>
                       <div className="flex flex-row">
                         <div className="mr-3">
                           <Icon type="orders" />
@@ -105,7 +113,7 @@ const MobileAccountMenu = ({ state = "open", closeMenu }) => {
 
                 <li>
                   <div className="border-b-2 border-brown-1000 pb-3.5 hover:cursor-pointer">
-                    <Link href={"/"}>
+                    <Link href={"/account/saved-items"}>
                       <div className="flex flex-row">
                         <div className="mr-3">
                           <Icon type="heart" />

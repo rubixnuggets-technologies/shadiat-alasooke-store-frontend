@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "../ui/button";
+import Link from "next/link";
 import Icon from "../ui/icons";
 
 const Journey = () => {
@@ -36,7 +37,7 @@ const Journey = () => {
                   height="47"
                   viewBox="0 0 57 47"
                   fill="none"
-                   className="w-[28px] lg:w-[57px]"
+                  className="w-[28px] lg:w-[57px]"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
@@ -74,7 +75,9 @@ const Journey = () => {
       </div>
 
       <div className="flex justify-center">
-        <Button title="About Us" />
+        <Link href="/about">
+          <Button title="About Us" />
+        </Link>
       </div>
     </div>
   );

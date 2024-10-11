@@ -27,20 +27,24 @@ export default async function Page() {
             />
           </div>
 
-          <h1 className="text-[30px] lg:text-[40px] text-center font-normal">Testimonials</h1>
+          <h1 className="text-[30px] lg:text-[40px] text-center font-normal">
+            Testimonials
+          </h1>
         </div>
 
         <hr className="text-[#E8D4C1] hidden lg:flex" />
       </div>
 
-      <div className="flex justify-center mb-16">
-        <ul className="flex flex-col gap-4 lg:gap-2">
-          {testimonials.map((item, idx) => (
-            <li key={idx}>
-              <TestimonialCard fullContent testimonial={item} />
-            </li>
-          ))}
-        </ul>
+      <div className="layout" >
+        <div className="flex justify-center mb-16">
+          <ul className="flex flex-col gap-4 lg:gap-2">
+            {testimonials.map((item, idx) => (
+              <li key={idx}>
+                <TestimonialCard fullContent testimonial={item} />
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );

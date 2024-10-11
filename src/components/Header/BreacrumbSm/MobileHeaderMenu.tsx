@@ -77,24 +77,33 @@ const MobileHeaderMenu = ({ state = "open", closeMenu }) => {
 
       <dialog
         id="menu-header-modal"
-        className={`bg-[white] bottom-0 h-full left-0 right-0 top-0 m-0 min-h-full min-w-full p-0
+        className={`bg-[white] focus:outline-none outline-none bottom-0 h-full left-0 right-0 top-0 m-0 min-h-full min-w-full p-0
         pb-10
         transition-transform
         ${currentClasses}
         `}
         style={{ transitionDuration: `600ms` }}
       >
-        <div className="flex flex-col justify-between h-full px-5 pt-10 lg:px-0 lg:pt-16 h-full">
+        <div className="flex flex-col justify-between h-full px-5 pt-8 h-full">
           <div>
             <div className="flex w-full flex-row justify-between">
               <h1 className="text-xl">Menu</h1>
 
-              <div onClick={closeMenu} className="hover:cursor-pointer" id="close-header-menu">
+              <div
+                onClick={closeMenu}
+                className="hover:cursor-pointer"
+                id="close-header-menu"
+              >
                 <IoMdClose size={28} />
               </div>
             </div>
 
-            <div className="mt-11">
+            {/* Catch and trap the focus auto applied when model element is opened  */}
+            <Link className="focus:outline-none" href="/">
+              <p className="text-[1px]">a</p>
+            </Link>
+
+            <div className="mt-8">
               <ul className="flex flex-col gap-6">
                 {LIST_ITEMS.map((item, idx) => (
                   <li key={idx}>
@@ -110,42 +119,40 @@ const MobileHeaderMenu = ({ state = "open", closeMenu }) => {
           </div>
 
           <div>
-            <div>
-              <Link href="/">
-                <div className="relative w-16 h-8 lg:w-[100px] lg:h-[100px]">
-                  <Image
-                    src={HERO_URL}
-                    alt="Shadiat Alasooke"
-                    loader={ImageLoader}
-                    fill
-                    className="absolute object-cover"
-                  />
+            <Link href="/">
+              <div className="relative w-16 h-8 lg:w-[100px] lg:h-[100px]">
+                <Image
+                  src={HERO_URL}
+                  alt="Shadiat Alasooke"
+                  loader={ImageLoader}
+                  fill
+                  className="absolute object-cover"
+                />
+              </div>
+            </Link>
+
+            <p className="text-brown-2100 text-xs lg:text-base mt-2.5 lg:mt-8">
+              Crafting Tradition with <br /> Modern Elegance.
+            </p>
+
+            <ul className="mt-8">
+              <li>
+                <div className="flex flex-col gap-4 lg:gap-8">
+                  <p className="uppercase text-xs lg:text-base ">
+                    get in touch
+                  </p>
+                  <p className="text-[10px] lg:text-base">
+                    Lagos: +234 803 462 6067
+                  </p>
+                  <p className="text-[10px] lg:text-base">
+                    Abuja: +234 911 401 9172
+                  </p>
+                  <p className="text-[10px] lg:text-base">
+                    info@shadiatalasooke.com
+                  </p>
                 </div>
-              </Link>
-
-              <p className="text-brown-2100 text-xs lg:text-base mt-2.5 lg:mt-8">
-                Crafting Tradition with <br /> Modern Elegance.
-              </p>
-
-              <ul className="mt-8">
-                <li>
-                  <div className="flex flex-col gap-4 lg:gap-8">
-                    <p className="uppercase text-xs lg:text-base ">
-                      get in touch
-                    </p>
-                    <p className="text-[10px] lg:text-base">
-                      Lagos: +234 803 462 6067
-                    </p>
-                    <p className="text-[10px] lg:text-base">
-                      Abuja: +234 911 401 9172
-                    </p>
-                    <p className="text-[10px] lg:text-base">
-                      info@shadiatalasooke.com
-                    </p>
-                  </div>
-                </li>
-              </ul>
-            </div>
+              </li>
+            </ul>
           </div>
         </div>
       </dialog>

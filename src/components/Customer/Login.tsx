@@ -105,7 +105,7 @@ export default function Login() {
                       <div className="form-group flex flex-col mt-6">
                         <input
                           type="email"
-                          className="form-control auth__input focus:outline-none"
+                          className="auth__input rounded-0 text-sm focus:outline-none"
                           defaultValue={""}
                           {...register("email", {
                             required: true,
@@ -125,7 +125,7 @@ export default function Login() {
                       <div className="form-group flex flex-col mt-8">
                         <input
                           type="password"
-                          className="form-control auth__input focus:outline-none"
+                          className="auth__input text-sm focus:outline-none"
                           defaultValue={""}
                           {...register("password", {
                             required: true,
@@ -152,14 +152,6 @@ export default function Login() {
                       <div className="captcha-container form-group"></div>
 
                       <div className="flex flex-col mt-8">
-                        {/* <button
-                          type="submit"
-                          id="btn-login"
-                          className="auth__button"
-                        >
-                          Log In
-                        </button> */}
-
                         <Button
                           disabled={!email && !password}
                           type="submit"
@@ -180,7 +172,7 @@ export default function Login() {
                           </p>
                         </div>
 
-                        <button
+                        {/* <button
                           type="button"
                           id="btn-google"
                           className="btn flex flex-row items-center justify-center btn-default hover:cursor-pointer auth__button mt-6"
@@ -189,7 +181,7 @@ export default function Login() {
                             <Icon type="google" />
                           </div>
                           Log In with Google
-                        </button>
+                        </button> */}
                       </div>
                     </form>
                   </div>

@@ -28,7 +28,7 @@ interface ProductsHighlightProps {
 }
 
 // Similar to the ProductsHighlight component, but uses Medusa's useProduct hook to query products
-// the medusa products module has a broken collection interface 
+// the medusa products module has a broken collection interface
 export default function ProductsPreviewHighlight({
   itemsPerPage,
   title,
@@ -73,7 +73,7 @@ export default function ProductsPreviewHighlight({
           </AnimatePresence>
 
           <div className={cn("mt-9 lg:mt-14", filters ? "ml-0 lg:ml-12" : "")}>
-            <ul className="grid grid-cols-10">
+            <ul className="grid grid-cols-9 lg:grid-cols-10">
               {products?.map((product) => (
                 <li className="" key={product.id}>
                   <ProductCard {...{ product, showPrice, itemsType }} />

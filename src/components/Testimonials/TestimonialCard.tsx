@@ -22,7 +22,7 @@ const StarRating = ({ rating }: { rating: number }) => (
 
 const TestimonialCard = ({ testimonial, fullContent }) => {
   return (
-    <div className={cn("border-[0.5px] lg:border-[1px] w-full lg:w-[503px] mx-8 border-black p-7 lg:p-14", fullContent ? "h-auto w-[85%] lg:w-[503px]" : "h-56 lg:h-80 ")}>
+    <div className={cn("border-[0.5px] lg:border-[1px] w-full lg:w-[503px] border-black p-7 lg:p-14", fullContent ? "h-auto w-full lg:w-[503px]" : "h-56 lg:h-80 ")}>
       <p className="mb-2 text-sm lg:text-xl font-bold">{testimonial.title}</p>
 
       <div className="mb-3">

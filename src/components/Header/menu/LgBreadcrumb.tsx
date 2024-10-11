@@ -17,10 +17,6 @@ const LgBreadcrumb = () => {
     router.push("/");
   };
 
-  // useEffect(() => {
-  //   setCustomer();
-  // }, []);
-
   return (
     <div className="bg-brown-100 px-8 py-8 rounded-xl w-60">
       <ul className="flex flex-col gap-6">

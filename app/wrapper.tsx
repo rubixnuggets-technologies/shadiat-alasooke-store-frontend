@@ -12,9 +12,13 @@ import SearchResultsView from "@/src/components/Search/SearchResults";
 import Testimonials from "@/src/components/Testimonials";
 import { useSearchStore } from "@/src/state/store";
 import ProductsPreviewHighlight from "@/src/components/Products/ProductsPreviewHighlight";
+import { MOBILE_BREAKPOINT, useMediaQuery } from "@/utils/hooks/useStyleWidthQuery";
+
+
 
 export default function Wrapper({ hero, shopCTAs, testimonials }) {
   const store = useSearchStore();
+  const isSmall = useMediaQuery(MOBILE_BREAKPOINT)
 
   return (
     <div>
@@ -36,7 +40,7 @@ export default function Wrapper({ hero, shopCTAs, testimonials }) {
             <ProductsPreviewHighlight
               collectionKey="pcol_01J77YW8NCQZTYCTHXWM7GPJRY"
               title="Aso Oke Collections"
-              itemsPerPage={6}
+              itemsPerPage={isSmall ? 2 : 6}
               itemsType="COLLECTIONS"
               slug="/explore/shop-aso-oke"
             />
@@ -48,7 +52,7 @@ export default function Wrapper({ hero, shopCTAs, testimonials }) {
               title="Ready To Wear Collections"
               showPrice
               itemsType="PRODUCTS"
-              itemsPerPage={12}
+              itemsPerPage={isSmall ? 4 : 12}
               collectionKey="pcol_01J77Z78T528S0FFDJCREQ6ZBA"
             />
           </section>

@@ -27,10 +27,13 @@ const Hero = ({ data }: { data: IHero[] }) => {
     draggable: true,
     rtl: true,
     afterChange: (slideNumber: number) => setActiveItem(slideNumber),
+    arrows: false
   };
 
   return (
-    <div className="h-full w-full">
+    <div
+      className="h-full w-full"
+    >
       <Slider
         ref={(slider) => {
           sliderRef = slider;
@@ -43,7 +46,9 @@ const Hero = ({ data }: { data: IHero[] }) => {
               { title, background_color, button_link, cover, cta_text },
               idx
             ) => (
-              <div key={idx}>
+              <div
+                key={idx}
+              >
                 <div
                   className={cn(
                     `bg-brown-200`,
@@ -66,7 +71,7 @@ const Hero = ({ data }: { data: IHero[] }) => {
                       </div>
 
                       <div className="flex justify-center lg:justify-start">
-                        <Link href="/explore/shop-aso-oke" >
+                        <Link href="/explore/shop-aso-oke">
                           <Button title="Shop Now" />
                         </Link>
                       </div>
