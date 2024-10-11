@@ -110,16 +110,17 @@ label {
   font-size: 14px;
 }
 
-::placeholder {
-  color: red;
-  opacity: 1; /* Firefox */
-}
 
 .auth__input {
   border-bottom: 1px solid #0c0b0a;
   padding: 14px 0;
   color: #181615;
   border-radius: 0;
+}
+
+input::placeholder {
+  color: #0C0B0A;
+  opacity: 1; /* Firefox */
 }
 
 .cover__image {

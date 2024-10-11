@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import { useCustomerStore } from "@/src/state/customer";
 import Button from "../ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface UserInfo {
   email: "";
@@ -44,6 +44,14 @@ export default function EditInformation() {
     }, 3000);
   };
 
+  useEffect(() => {
+    if (customer) {
+      setValue("email", customer?.email);
+      setValue("phone", customer?.phone);
+      setValue("fullname", `${customer?.first_name} ${customer?.last_name}`);
+    } 
+  }, [customer])
+
   const submitInfoUpdate: SubmitHandler<UserInfo> = async (data) => {
     try {
       setOperationStatus({
@@ -69,25 +77,25 @@ export default function EditInformation() {
   };
 
   return (
-    <div>
-      <form action="" onSubmit={handleSubmit(submitInfoUpdate)}>
-        <div className="form-group flex flex-col mt-6">
+    <div className="mt-4" >
+      <form className="flex flex-col gap-6" action="" onSubmit={handleSubmit(submitInfoUpdate)}>
+        <div className="form-group flex flex-col">
           <input
             type="text"
-            className="form-control auth__input focus:outline-none"
+            className="form-control auth__input text-xs  focus:outline-none"
             placeholder="FULL NAME*"
             {...register("fullname", {})}
           />
         </div>
 
-        <div className="form-group flex flex-col mt-8">
+        <div className="form-group flex flex-col">
           <input
             type="email"
             {...register("email", {
               required: true,
               pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
             })}
-            className="form-control auth__input focus:outline-none"
+            className="form-control auth__input text-xs  focus:outline-none"
             placeholder="EMAIL ADDRESS*"
           />
 
@@ -96,16 +104,16 @@ export default function EditInformation() {
           )}
         </div>
 
-        <div className="form-group flex flex-col mt-8">
+        <div className="form-group flex flex-col">
           <input
             type="text"
             {...register("phone", {})}
-            className="form-control auth__input focus:outline-none"
+            className="form-control auth__input text-xs focus:outline-none"
             placeholder="PHONE NUMBER*"
           />
         </div>
 
-        <div className="mt-9">
+        <div className="mt-6 ml:mt-9">
           <Button
             type="submit"
             disabled={operationStatus.status === "PENDING"} 

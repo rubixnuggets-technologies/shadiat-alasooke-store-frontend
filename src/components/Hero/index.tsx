@@ -51,15 +51,15 @@ const Hero = ({ data }: { data: IHero[] }) => {
               >
                 <div
                   className={cn(
-                    `bg-brown-200`,
+                    `bg-brown-light-100`,
                     "h-full lg:h-[1084px] flex flex-col-reverse md:grid md:grid-cols-[684px_auto]"
                   )}
                 >
                   <div className="max-w-[330px] m-auto py-9 lg:py-0">
                     <div>
                       <div className="flex justify-center lg:justify-start">
-                        <div className="mb-4 h-8 lg:h-[54px] bg-brown-500 w-fit px-5 lg:px-6 flex items-center justify-center rounded-full">
-                          <p className="text-xs lg:text-sm">{cta_text} </p>
+                        <div className="mb-4 h-8 lg:h-[54px] bg-brown-light-500 w-fit px-5 lg:px-6 flex items-center justify-center rounded-full">
+                          <p className="text-xs text-brown-light-2100 lg:text-sm">{cta_text} </p>
                         </div>
                       </div>
 

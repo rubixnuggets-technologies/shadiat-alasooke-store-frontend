@@ -21,7 +21,7 @@ const Breadcrumb = () => {
 
   return (
     <div className="">
-      <div onClick={() => toggleMenu()} className="hover:cursor-pointer mb-2">
+      <div onClick={() => toggleMenu()} className="flex items-center hover:cursor-pointer">
         <BreadcrumbLogo />
       </div>
 

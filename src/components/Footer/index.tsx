@@ -7,7 +7,7 @@ const HERO_URL = "/alasooke-project/mzdijupfwpi4tscjk5ya";
 
 const Footer = () => {
   return (
-    <footer className="bg-brown-100 mt-8 py-8 lg:py-24">
+    <footer className="bg-brown-dark-100 mt-8 py-8 lg:py-24">
       <div className="layout-container">
         <div className="layout">
           <div>
@@ -25,11 +25,11 @@ const Footer = () => {
             <div className="mt-6 lg:mt-10 flex justify-center">
               <div className="border-[1px] w-full w-full mx-9 lg:w-[600px] h-9 lg:h-12 flex flex-row border-brown-2100">
                 <input
-                  className="w-full bg-brown-100 text-xs lg:text-base text-2100 px-4"
+                  className="w-full bg-brown-dark-100 text-xs placeholder-brown-dark-2000 lg:text-base text-2100 px-4"
                   placeholder="Enter your email address"
                 />
 
-                <button className="bg-brown-2100 text-xs lg:text-base text-brown-100 w-44">
+                <button className="bg-brown-dark-2100 text-white text-xs lg:text-base font-bold w-44">
                   Susbscribe
                 </button>
               </div>

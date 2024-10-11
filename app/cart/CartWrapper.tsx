@@ -9,6 +9,8 @@ import { useEffect } from "react";
 import cn from "classnames";
 import PaymentSuccess from "@/src/components/Payment/PaymentSuccess";
 import { useCustomerStore } from "@/src/state/customer";
+import PagesHeroSection from "@/src/components/ui/PagesHeroSection";
+import { usePathname } from "next/navigation";
 
 const CheckoutStage = ({
   checkoutStage,
@@ -61,73 +63,94 @@ const checkoutStageNames = (checkoutStage: ICheckoutState) => {
   }
 };
 
+const Arrow = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="15"
+    height="15"
+    viewBox="0 0 15 15"
+    fill="none"
+  >
+    <g clip-path="url(#clip0_208_8561)">
+      <path
+        d="M8.036 7.32256L5.01539 4.30195L5.87825 3.43909L9.76172 7.32256L5.87825 11.206L5.01539 10.3432L8.036 7.32256Z"
+        fill="#0C0B0A"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_208_8561">
+        <rect
+          width="14.6454"
+          height="14.6454"
+          fill="white"
+          transform="matrix(0 1 -1 0 14.6445 0)"
+        />
+      </clipPath>
+    </defs>
+  </svg>
+);
+
+const pathnames = {
+  CART_VIEW: "My Cart",
+  CHECKOUT_VIEW: "Checkout",
+  PAYMENT_VIEW: "Payment",
+};
+
 export default function CartWrapper() {
   const { checkoutStage, setCart, cart } = useCartStore();
+  const pathname = usePathname();
   const { customer } = useCustomerStore();
-
-  // useEffect(() => {
-  //   if (!customer) return;
-
-  //   (async () => {
-  //     await setCart({ cart_id: customer?.metadata?.cartId });
-  //   })();
-  // }, [customer]);
 
   return (
     <div>
       {checkoutStage !== "PAYMENT_SUCCESS" && (
         <div className="mb-2 lg:mb-16">
-          <div className="mb-12">
-            <div className="flex mb-4 justify-center">
-              <Breadcrumb
-                items={[
-                  { route: "/", text: "Home" },
-                  { route: "/cart", text: "Cart" },
-                ]}
-              />
-            </div>
-
-            <h1 className="text-[30px] lg:text-[40px] text-center">
-              {checkoutStageNames(checkoutStage)}{" "}
-            </h1>
-          </div>
-
-          <hr className="text-brown-1000" />
+          <PagesHeroSection
+            breadcrumbItems={[
+              { route: "/", text: "Home" },
+              { route: pathname, text: pathnames[checkoutStage || ""] },
+            ]}
+            title={pathnames[checkoutStage || ""]}
+          />
 
           <div>
-            <div className="flex flex-row gap-4 mt-7 lg:mt-9">
+            <div className="flex flex-row gap-2 lg:gap-3 mt-7 lg:mt-9">
               <h3
                 className={cn(
                   "text-sm lg:text-xl",
                   checkoutStage === "CART_VIEW"
-                    ? "text-brown-1500"
-                    : "text-brown-500"
+                    ? "text-brown-dark-2100"
+                    : "text-brown-light-1500"
                 )}
               >
                 Cart
               </h3>
 
-              <span>{">"}</span>
+              <div className="flex items-center">
+                <Arrow />
+              </div>
 
               <h3
                 className={cn(
                   "text-sm lg:text-xl",
                   checkoutStage === "CHECKOUT_VIEW"
-                    ? "text-brown-1500"
-                    : "text-brown-500"
+                    ? "text-brown-dark-2100"
+                    : "text-brown-light-1500"
                 )}
               >
                 Check out
               </h3>
 
-              <span>{">"}</span>
+              <div className="flex items-center">
+                <Arrow />
+              </div>
 
               <h3
                 className={cn(
                   "text-sm lg:text-xl",
                   checkoutStage === "PAYMENT_VIEW"
-                    ? "text-brown-1500"
-                    : "text-brown-500"
+                    ? "text-brown-dark-2100"
+                    : "text-brown-light-1500"
                 )}
               >
                 Payment

@@ -141,15 +141,13 @@ export default function Login() {
                       </div>
 
                       <div className="mt-4">
-                        <p className="text-sm text-[#574F4B]">
+                        <p className="text-sm text-brown-dark-1500">
                           Forgot Password?
-                          <span className="underline ml-1 hover:cursor-pointer text-[#0C0B0A]">
+                          <span className="underline ml-1 hover:cursor-pointer text-brown-dark-2100">
                             Reset it
                           </span>
                         </p>
                       </div>
-
-                      <div className="captcha-container form-group"></div>
 
                       <div className="flex flex-col mt-8">
                         <Button
@@ -159,12 +157,12 @@ export default function Login() {
                         />
 
                         <div className="mt-4">
-                          <p className="text-sm text-[#574F4B]">
+                          <p className="text-sm text-brown-dark-1500">
                             Don't have an Account?
                             <Link href={"/customer/create-account"}>
                               <span
                                 id="show-create-account"
-                                className="underline hover:cursor-pointer ml-1 text-[#0C0B0A]"
+                                className="underline hover:cursor-pointer ml-1 text-brown-dark-2100"
                               >
                                 Create an Account
                               </span>

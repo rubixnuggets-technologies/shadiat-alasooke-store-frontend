@@ -23,8 +23,8 @@ const DotsIndicator = ({
               className={cn(
                 "h-1 lg:h-[13px] rounded-full hover:cursor-pointer",
                 activeItem === idx
-                  ? "w-3.5 lg:w-[43px] bg-brown-1900"
-                  : "w-1 lg:w-[14px] bg-brown-1200"
+                  ? "w-3.5 lg:w-[43px] bg-brown-light-1900"
+                  : "w-1 lg:w-[14px] bg-brown-light-1200"
               )}
             />
           </li>

@@ -3,18 +3,20 @@ import AccountManagementLg from "@/src/components/Customer/AccountManagementLg";
 import Footer from "@/src/components/Footer";
 import Header from "@/src/components/Header";
 import RecentlyViewed from "@/src/components/Product/RecentlyViewed";
-import Breadcrumb from "@/src/components/ui/Breadcrumb";
+import PagesHeroSection from "@/src/components/ui/PagesHeroSection";
 import { useCustomerStore } from "@/src/state/customer";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+
+const pathnames = {
+  "/account": "My Account",
+  "/account/order-history": "My Order History",
+  "/account/saved-items": "Saved Items",
+};
 
 export default function Layout({ children }) {
-  const { customer, setCustomer } = useCustomerStore();
+  const { customer } = useCustomerStore();
   const router = useRouter();
-
-  // useEffect(() => {
-  //   setCustomer();
-  // }, []);
+  const pathName = usePathname();
 
   if (!customer) {
     router.push("/customer/login");
@@ -25,25 +27,16 @@ export default function Layout({ children }) {
     <div>
       <Header />
 
-      <div className="mb-2">
-        <div className="my-16">
-          <div className="flex mb-4 justify-center w-full ">
-            <Breadcrumb
-              items={[
-                { route: "/", text: "Home" },
-                { route: "/account", text: "My Account" },
-              ]}
-            />
-          </div>
+      <PagesHeroSection
+        title={pathnames[pathName || ""]}
+        breadcrumbItems={[
+          { route: "/", text: "Home" },
+          { route: pathName, text: pathnames[pathName || ""] },
+        ]}
+      />
 
-          <h1 className="text-[40px] text-center font-normal">My Account</h1>
-        </div>
-
-        <hr className="text-[#E8D4C1]" />
-      </div>
-
-      <div className="grid grid-cols-[350px_auto]  layout">
-        <div className="border-r-2 pt-6 border-[#E8D4C1]">
+      <div className="flex flex-col lg:grid lg:grid-cols-[350px_auto]  layout">
+        <div className="hidden lg:flex border-r-2 pt-6 border-[#E8D4C1]">
           <AccountManagementLg />
         </div>
 

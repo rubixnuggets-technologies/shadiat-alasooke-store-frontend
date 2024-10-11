@@ -23,7 +23,7 @@ export default function CartSummary({
     <div className="max-w-96 w-96">
       <div>
         <div className="mb-4">
-          <p className="text-base">Your order</p>
+          <p className="text-base font-bold">Your order</p>
         </div>
 
         <ul className="flex flex-col gap-4" >
@@ -71,7 +71,7 @@ export default function CartSummary({
               placeholder="Add discount code"
             />
 
-            <button className="bg-brown-2100 text-brown-100 w-36">Apply</button>
+            <button className="bg-brown-dark-2100 text-brown-light-100 w-36">Apply</button>
           </div>
 
           <p className="text-xs lg:text-sm text-brown-1500">

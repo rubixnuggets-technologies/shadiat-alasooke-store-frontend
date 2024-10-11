@@ -15,12 +15,6 @@ export default function Page() {
   const { customer, setCustomer } = useCustomerStore();
   const [customerOrders, setCustomerOrders] = useState<Order[] | null>(null);
 
-  const [ currentView, setCurrentView ] = useState("VIEW_ORDERS") 
-
-  // useEffect(() => {
-  //   setCustomer();
-  // }, []);
-
   useEffect(() => {
     if (customer) {
       (async () => {
@@ -31,15 +25,13 @@ export default function Page() {
     }
   }, [customer]);
 
-  if (!customer) return null;
-
   return (
-    <div className="ml-14 mt-11">
+    <div className="ml-0 mt-7 lg:ml-14 lg:mt-11">
       <ul>
         {customerOrders?.map(({ items, created_at, status }) => (
           <li>
             <div>
-              <div>
+              <div className="hidden lg:flex">
                 <p className="text-base">
                   Order Placed: {new Date(created_at).toISOString()} |{" "}
                   <span className="capitalize text-green-700"> {status} </span>{" "}
@@ -64,19 +56,35 @@ export default function Page() {
                         )}
 
                         <div className="flex items-center">
-                          <div className="ml-3 flex flex-col gap-2">
+                          <div className="ml-3 flex flex-col gap-1 lg:gap-2">
                             <p className="text-lg">{title}</p>
-                            <p className="text-xs">
+                            <p className="text-brown-1700 text-xs">
                               Product Category: Collection
                             </p>
-                            <p className="text-xs">Quantity: {quantity}</p>
-                            <p className="text-xs">Color: Green</p>
-                            <p className="text-xs">Size: Large</p>
+                            <p className="text-brown-1700 text-xs">Quantity: {quantity}</p>
+                            <p className="text-brown-1700 text-xs">Color: Green</p>
+                            <p className="text-brown-1700 text-xs">Size: Large</p>
+
+                            <div className="flex mt-1 flex-row gap-3 lg:hidden ">
+                              <div className="flex items-center">
+                                <Link href={"/"}>
+                                  <button className="bg-brown-dark-2100 text-white text-[10px] px-2 py-[3px]">
+                                    Reorder
+                                  </button>
+                                </Link>
+                              </div>
+
+                              <div className="flex items-center">
+                                <p className="text-sm font-bold">
+                                  {formatCurrency(total)}{" "}
+                                </p>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
 
-                      <div className="flex justify-end flex-col">
+                      <div className="hidden lg:flex justify-end flex-col">
                         <div className="flex flex-col justify-between h-full">
                           <div>
                             <button className="border-[1px] border-brown-1000 rounded text-brown-1500 py-2 px-3">
@@ -101,7 +109,7 @@ export default function Page() {
                 ))}
               </ul>
 
-              <hr className="my-11 text-[#F5EDE6] " />
+              <hr className="my-7 lg:my-11 text-[#D0D8E1] lg:text-[#F5EDE6] " />
             </div>
           </li>
         ))}

@@ -16,7 +16,7 @@ import { isEmpty } from "lodash";
 const Circle = ({ active }: { active: boolean }) => (
   <div
     className={cn(
-      "h-4 w-4 border-[1px] rounded-full flex items-center justify-center"
+      "h-4 w-4 border-[0.70px] lg:border-[1px] rounded-full flex items-center justify-center"
     )}
   >
     {active && <div className="h-2 w-2 bg-[black] rounded-full" />}
@@ -40,7 +40,7 @@ export default function CheckoutForm() {
     useCartStore();
 
   const [shouldStoreCheckoutInfo, storeCheckoutInfo] = useState(
-    isEmpty(customer?.shipping_addresses)
+    !isEmpty(customer?.shipping_addresses)
   );
 
   const { shipping_options, isLoading: isLoadingShippingMethods } =
@@ -53,7 +53,6 @@ export default function CheckoutForm() {
   const {
     register,
     handleSubmit,
-    watch,
     setValue,
     formState: { errors },
   } = useForm<CheckoutDetails>();
@@ -108,7 +107,7 @@ export default function CheckoutForm() {
               type="text"
               name="floating_email"
               id="floating_email"
-              className="block rounded-none lg:rounded h-10 lg:h-11 px-3  mt-1 lg:mt-3 w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
+              className="block rounded-none lg:rounded h-10 lg:h-11 px-3  mt-1 lg:mt-3 w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
               placeholder="Select Date"
               required
               disabled
@@ -130,7 +129,7 @@ export default function CheckoutForm() {
             <input
               type="text"
               {...register("fullname", { required: true })}
-              className="block px-3 mt-1 lg:mt-3 w-full rounded-none lg:rounded h-10 lg:h-11 text-xs lg:text-sm text-gray-900 bg-transparent border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
+              className="block px-3 mt-1 lg:mt-3 w-full rounded-none lg:rounded h-10 lg:h-11 text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
               placeholder="Enter Full Name"
               required
             />
@@ -155,7 +154,7 @@ export default function CheckoutForm() {
                   required: true,
                   pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
                 })}
-                className="block  h-10 lg:h-11 px-3  mt-1 lg:mt-3 rounded-none lg:rounded w-full text-sm text-gray-900 bg-transparent border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
+                className="block  h-10 lg:h-11 px-3  mt-1 lg:mt-3 rounded-none lg:rounded w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
                 placeholder="Email Address"
                 required
               />
@@ -180,7 +179,7 @@ export default function CheckoutForm() {
                   pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
                 })}
                 id="email"
-                className="block  h-10 lg:h-11 px-3  mt-1 lg:mt-3 rounded-none lg:rounded w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
+                className="block  h-10 lg:h-11 px-3  mt-1 lg:mt-3 rounded-none lg:rounded w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
                 placeholder="Confirm Email Address"
                 required
               />
@@ -205,7 +204,7 @@ export default function CheckoutForm() {
                 required: true,
               })}
               id="phoneNumber"
-              className="block  h-10 lg:h-11 px-3  mt-1 lg:mt-3 rounded-none lg:rounded w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
+              className="block  h-10 lg:h-11 px-3  mt-1 lg:mt-3 rounded-none lg:rounded w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
               placeholder="Phone Number (Only Digit)"
               required
             />
@@ -229,7 +228,7 @@ export default function CheckoutForm() {
               {...register("address", {
                 required: true,
               })}
-              className="block  h-10 lg:h-11 px-3  mt-1 lg:mt-3 w-full rounded-none lg:rounded text-xs lg:text-sm text-gray-900 bg-transparent border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
+              className="block  h-10 lg:h-11 px-3  mt-1 lg:mt-3 w-full rounded-none lg:rounded text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
               placeholder="Enter Your Address"
               required
             />
@@ -253,7 +252,7 @@ export default function CheckoutForm() {
                 {...register("city", {
                   required: true,
                 })}
-                className="block  h-10 lg:h-11 px-3  mt-1 lg:mt-3 rounded-none lg:rounded w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
+                className="block  h-10 lg:h-11 px-3  mt-1 lg:mt-3 rounded-none lg:rounded w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
                 placeholder="City"
                 required
               />
@@ -277,7 +276,7 @@ export default function CheckoutForm() {
                   required: true,
                 })}
                 onChange={(e) => setDeliveryDetail("region", e.target.value)}
-                className="block  h-10 lg:h-11 px-3  mt-1 lg:mt-3 rounded-none lg:rounded w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
+                className="block  h-10 lg:h-11 px-3  mt-1 lg:mt-3 rounded-none lg:rounded w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
                 placeholder="Select Region"
                 required
               />
@@ -301,7 +300,7 @@ export default function CheckoutForm() {
               {...register("postalCode", {
                 required: true,
               })}
-              className="block  h-10 lg:h-11 px-3 w-full  mt-1 lg:mt-3  rounded-none lg:roundedw-full text-xs lg:text-sm text-gray-900 bg-transparent border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
+              className="block  h-10 lg:h-11 px-3 w-full  mt-1 lg:mt-3  rounded-none lg:roundedw-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600"
               placeholder="Enter Postal Code"
               required
             />
@@ -323,7 +322,7 @@ export default function CheckoutForm() {
                 <div
                   key={method?.id}
                   onClick={() => selectDeliveryMethod(method)}
-                  className="flex justify-between border-[1px] hover:cursor-pointer border-gray-300 p-3"
+                  className="flex justify-between border-[0.70px] lg:border-[1px] hover:cursor-pointer border-gray-300 p-3"
                 >
                   <div className="flex">
                     <div className="flex items-center">
@@ -350,7 +349,7 @@ export default function CheckoutForm() {
         <div>
           <div className="mt-7">
             <div className="mb-3">
-              <p className="text-xs lg:text-base"> Remember My Information </p>
+              <p className="text-sm lg:text-base"> Remember My Information </p>
             </div>
 
             <div className="flex flex-row gap-2  mt-1 lg:mt-3">
@@ -363,9 +362,8 @@ export default function CheckoutForm() {
                 />
               </div>
 
-              <div>
-                <p className="text-brown-1500 text-base">
-                  {" "}
+              <div className="flex items-center" >
+                <p className="text-brown-1500 text-xs lg:text-base">
                   Save my information for future check out
                 </p>
               </div>

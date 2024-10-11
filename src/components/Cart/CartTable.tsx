@@ -25,7 +25,7 @@ export default function CartTable() {
   return (
     <div className="relative overflow-x-auto">
       <table className="w-full text-sm text-center">
-        <thead className="text-xs text-gray-700 border-b border-brown-1000 capitalize bg-gray-50">
+        <thead className="text-xs text-gray-700 border-b-[0.80px] border-brown-light-1000 capitalize bg-gray-50">
           <tr>
             <th scope="col" className="py-6">
               <div className="flex flex-row">

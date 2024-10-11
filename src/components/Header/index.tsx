@@ -131,23 +131,31 @@ const Header = () => {
             </div>
 
             {/* MOBILE HEADER ITEMS */}
-            <div className="flex gap-6 lg:hidden items-center flex-row">
-              <div>
-                <div
-                  onClick={searchStore?.toggleSearch}
-                  className="cursor:pointer flex items-center mr-2"
-                >
-                  <Icon type="search" className="text-red" />
-                </div>
+            <div className="flex gap-6 lg:hidden  flex-row">
+              <div
+                onClick={searchStore?.toggleSearch}
+                className="cursor:pointer flex items-center"
+              >
+                <Icon type="search" className="text-red" />
               </div>
 
-              <div>
-                <Icon type="cart" />
-              </div>
+              <Link href={"/cart"} >
+                <div className="relative">
+                  <Icon type="cart" />
+
+                  {(cart || customer) && (
+                    <div className="absolute -top-2 -right-4 h-5 w-5 bg-[#3E3832] flex items-center justify-center rounded-full">
+                      <p className="text-xs text-white">
+                        {cart?.items?.length || 0}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </Link>
 
               <AccountMenu />
 
-              <div className="hover:cursor-pointer">
+              <div className="flex hover:cursor-pointer">
                 <Breadcrumb />
               </div>
             </div>

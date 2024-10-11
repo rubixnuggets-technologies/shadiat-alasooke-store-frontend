@@ -7,11 +7,14 @@ import { ImageLoader } from "@/utils/helpers/Cloudinary";
 import Button from "../../ui/button";
 import Icon from "../../ui/icons";
 import { useCustomerStore } from "@/src/state/customer";
+import { useRouter } from "next/navigation";
 
 const HERO_URL = "/alasooke-project/mzdijupfwpi4tscjk5ya";
 
 const MobileAccountMenu = ({ state = "open", closeMenu }) => {
-  const { customer } = useCustomerStore()
+  const { customer, logoutCustomer } = useCustomerStore();
+
+  const router = useRouter();
 
   const classes = useMemo(
     () => ({
@@ -22,6 +25,12 @@ const MobileAccountMenu = ({ state = "open", closeMenu }) => {
   );
 
   const [currentClasses, setCurrentClasses] = useState(classes[state]);
+
+  const handleLogout = async () => {
+    await logoutCustomer();
+
+    router.push("/");
+  };
 
   useEffect(() => {
     if (state == "open") {
@@ -76,18 +85,18 @@ const MobileAccountMenu = ({ state = "open", closeMenu }) => {
               </div>
             </div>
 
-             {/* Catch and trap the focus auto applied when model element is opened  */}
-             <Link className="focus:outline-none" href="/">
+            {/* Catch and trap the focus auto applied when model element is opened  */}
+            <Link className="focus:outline-none" href="/">
               <p className="text-[1px]">a</p>
             </Link>
 
             <div className="mt-11">
               <ul className="flex flex-col gap-6">
                 <li>
-                  <div className="border-b-2 border-brown-1000 pb-3.5 hover:cursor-pointer">
-                    <Link href={"/account"}>
+                  <div className="border-b-[1px] border-brown-light-1000 pb-3.5 hover:cursor-pointer">
+                    <Link onClick={closeMenu} href={"/account"}>
                       <div className="flex flex-row">
-                        <div className="mr-3">
+                        <div className="mr-2.5">
                           <Icon type="user" />
                         </div>
 
@@ -98,24 +107,28 @@ const MobileAccountMenu = ({ state = "open", closeMenu }) => {
                 </li>
 
                 <li>
-                  <div className="border-b-2 border-brown-1000 pb-3.5 hover:cursor-pointer">
-                    <Link href={"/account/order-history"}>
+                  <div className="border-b-[1px] border-brown-light-1000 pb-3.5 hover:cursor-pointer">
+                    <Link onClick={closeMenu} href={"/account/order-history"}>
                       <div className="flex flex-row">
-                        <div className="mr-3">
+                        <div className="mr-2.5">
                           <Icon type="orders" />
                         </div>
 
-                        <p className="capitalize text-base">My Order History</p>
+                        <div className="flex items-center">
+                          <p className="capitalize text-base">
+                            My Order History
+                          </p>
+                        </div>
                       </div>
                     </Link>
                   </div>
                 </li>
 
                 <li>
-                  <div className="border-b-2 border-brown-1000 pb-3.5 hover:cursor-pointer">
-                    <Link href={"/account/saved-items"}>
+                  <div className="border-b-[1px] border-brown-light-1000 pb-3.5 hover:cursor-pointer">
+                    <Link onClick={closeMenu} href={"/account/saved-items"}>
                       <div className="flex flex-row">
-                        <div className="mr-3">
+                        <div className="mr-2.5">
                           <Icon type="heart" />
                         </div>
 
@@ -126,19 +139,32 @@ const MobileAccountMenu = ({ state = "open", closeMenu }) => {
                 </li>
               </ul>
 
-              <div>
-                <div className="mt-11 w-full">
-                  <Link href={"/customer/login"}>
-                    <Button title="Log in" width="full" />
-                  </Link>
-                </div>
+              {customer ? (
+                <div
+                  onClick={handleLogout}
+                  className="hover:cursor-pointer flex flex-row mt-6"
+                >
+                  <div className="mr-4">
+                    <Icon type="logout" />
+                  </div>
 
-                <div className="mt-6 flex justify-center ">
-                  <Link href={"/customer/create-account"}>
-                    <p> Create an Account </p>
-                  </Link>
+                  <p className="text-base text-coral-700"> Log Out </p>
                 </div>
-              </div>
+              ) : (
+                <div>
+                  <div className="mt-11 w-full">
+                    <Link onClick={closeMenu}  href={"/customer/login"}>
+                      <Button title="Log in" width="full" />
+                    </Link>
+                  </div>
+
+                  <div className="mt-6 flex justify-center ">
+                    <Link onClick={closeMenu}  href={"/customer/create-account"}>
+                      <p> Create an Account </p>
+                    </Link>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 

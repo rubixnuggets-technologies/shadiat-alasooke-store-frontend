@@ -107,7 +107,7 @@ const MobileHeaderMenu = ({ state = "open", closeMenu }) => {
               <ul className="flex flex-col gap-6">
                 {LIST_ITEMS.map((item, idx) => (
                   <li key={idx}>
-                    <div className="border-b-2 border-brown-1000 pb-3.5 hover:cursor-pointer">
+                    <div className="border-b-[1px] border-brown-light-1000 pb-3.5 hover:cursor-pointer">
                       <Link href={item.url}>
                         <p className="uppercase text-base">{item.name}</p>
                       </Link>
@@ -135,7 +135,7 @@ const MobileHeaderMenu = ({ state = "open", closeMenu }) => {
               Crafting Tradition with <br /> Modern Elegance.
             </p>
 
-            <ul className="mt-8">
+            <ul className="mt-6">
               <li>
                 <div className="flex flex-col gap-4 lg:gap-8">
                   <p className="uppercase text-xs lg:text-base ">

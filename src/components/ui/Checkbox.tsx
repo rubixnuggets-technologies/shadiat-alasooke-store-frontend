@@ -13,7 +13,7 @@ export default function Checkbox({
       <label className="flex items-center cursor-pointer relative">
         <input
           type="checkbox"
-          className="peer h-3.5 w-3.5 lg:h-5 lg:w-5 cursor-pointer transition-all appearance-none  border border-brown-1500 checked:bg-slate-800 checked:border-slate-800"
+          className="peer h-3.5 w-3.5 lg:h-5 lg:w-5 cursor-pointer transition-all appearance-none  border border-brown-light-1500 checked:bg-slate-800 checked:border-slate-800"
           id="check"
           style={{ borderRadius: "2px" }}
           checked={isActive}

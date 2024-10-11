@@ -36,6 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       {/* <body className={classNames( playfair.className, roboto_mono.className )}> */}
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       <body className={font.className}>
         {/* <UserProvider> */}
         <MedusaApp>
