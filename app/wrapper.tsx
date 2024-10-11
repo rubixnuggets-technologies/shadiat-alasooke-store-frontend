@@ -11,6 +11,7 @@ import ReadyToWear from "@/src/components/Shop/ReadyToWear";
 import SearchResultsView from "@/src/components/Search/SearchResults";
 import Testimonials from "@/src/components/Testimonials";
 import { useSearchStore } from "@/src/state/store";
+import ProductsPreviewHighlight from "@/src/components/Products/ProductsPreviewHighlight";
 
 export default function Wrapper({ hero, shopCTAs, testimonials }) {
   const store = useSearchStore();
@@ -32,7 +33,7 @@ export default function Wrapper({ hero, shopCTAs, testimonials }) {
           </div>
 
           <section className="mt-14 lg:mt-36">
-            <ProductsHighlight
+            <ProductsPreviewHighlight
               collectionKey="pcol_01J77YW8NCQZTYCTHXWM7GPJRY"
               title="Aso Oke Collections"
               itemsPerPage={6}
@@ -42,7 +43,7 @@ export default function Wrapper({ hero, shopCTAs, testimonials }) {
           </section>
 
           <section className="mt-14 lg:mt-36">
-            <ProductsHighlight
+            <ProductsPreviewHighlight
               slug="/explore/shop-rtw"
               title="Ready To Wear Collections"
               showPrice

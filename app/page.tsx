@@ -3,6 +3,12 @@ import React from "react";
 import { SanityClient } from "@/utils/Sanity/client";
 import { HOME_PAGE_QUERY } from "@/utils/Sanity/gqols";
 import Wrapper from "./wrapper";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Alasooke",
+  description: "Store by Alasooke",
+};
 
 const getPageData = async () => {
   const data = await SanityClient().fetch(HOME_PAGE_QUERY);

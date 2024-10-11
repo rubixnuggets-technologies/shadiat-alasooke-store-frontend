@@ -44,7 +44,10 @@ export default async function ExplorePage({ params }) {
         </div>
       </div>
 
-      <ProductNavigation />
+      <ProductNavigation
+        itemsPerPage={18}
+        collectionKey={data?.collection_key}
+      />
 
       <hr className="hidden lg:flex text-brown-1200 mt-5" />
 
@@ -54,6 +57,8 @@ export default async function ExplorePage({ params }) {
           by_product_filters,
           by_new_arrivals_filters,
         }}
+        itemsType="PRODUCTS"
+        itemsPerPage={18}
         collectionKey={data?.collection_key}
       />
 

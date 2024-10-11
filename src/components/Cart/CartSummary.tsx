@@ -26,7 +26,7 @@ export default function CartSummary({
           <p className="text-base">Your order</p>
         </div>
 
-        <ul>
+        <ul className="flex flex-col gap-4" >
           {cart?.items.map(({ id, title, thumbnail, total, variant }) => (
             <li key={id}>
               <div className="flex flex-row justify-between">

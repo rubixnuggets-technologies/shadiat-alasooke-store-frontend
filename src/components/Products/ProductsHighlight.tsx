@@ -1,9 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useProducts } from "medusa-react";
 import cn from "classnames";
-import { AiFillCaretLeft } from "react-icons/ai";
-import { IoChevronDown } from "react-icons/io5";
 import ProductCard from "../ui/cards/ProductCard";
 import Button from "../ui/button";
 import Link from "next/link";
@@ -12,6 +9,8 @@ import ProductFilterPane from "../Product/ProductFilterPane";
 
 import { m, LazyMotion, AnimatePresence } from "framer-motion";
 import loadFeatures from "@/src/framer/load-features";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { usePathname } from "next/navigation";
 
 interface ProductsHighlightProps {
   itemsPerPage?: number;
@@ -36,23 +35,21 @@ export default function ProductsHighlight({
   slug,
   itemsType,
 }: ProductsHighlightProps) {
-  const { isFilterPaneVisible, products, queryProducts } = useProductStore();
+  const { isFilterPaneVisible, products, queryProducts, productsCount } =
+    useProductStore();
+  const [pageCount, setProductPage] = useState(0);
 
   useEffect(() => {
-    queryProducts([]);
-  }, []);
+    if (collectionKey) {
+      queryProducts({
+        collectionId: collectionKey,
+        limit: itemsPerPage,
+        page: pageCount,
+      });
+    }
+  }, [collectionKey, pageCount]);
 
-  // {isFilterPaneVisible && filters && (
-  //   <ProductFilterPane filters={filters} />
-  // )}
-
-  // <m.div
-  //             initial={{  opacity: 0, height: 0 }}
-  //             animate={{ opacity: 1, height: "auto" }}
-  //             exit={{ opacity: 0, height: 0 }}
-  //           >
-  //             <ProductFilterPane filters={filters} />
-  //           </m.div>
+  const pathName = usePathname();
 
   return (
     <div>
@@ -72,17 +69,26 @@ export default function ProductsHighlight({
           <AnimatePresence>
             {isFilterPaneVisible && filters && (
               <m.div
-                initial={{ width: "auto", opacity: 0 }}
-                animate={{ width: "auto", opacity: 1 }}
-                exit={{ width: 0, opacity: 0 }}
+              // initial={{ width: "auto", opacity: 0 }}
+              // animate={{ width: "auto", opacity: 1 }}
+              // exit={{ width: 0, opacity: 0 }}
+
+              // initial={{ opacity: 0, display: "none" }}
+              // animate={{ opacity: 1, display: "flex" }}
+              // transition={{ duration: 2 }}
+              // exit={{ opacity: 0, display: "none" }}
               >
-                <ProductFilterPane filters={filters} />
+                <ProductFilterPane
+                  collectionKey={collectionKey}
+                  itemsPerPage={itemsPerPage}
+                  filters={filters}
+                />
               </m.div>
             )}
           </AnimatePresence>
 
           <div className={cn("mt-9 lg:mt-14", filters ? "ml-0 lg:ml-12" : "")}>
-            <ul className="grid grid-cols-2 lg:flex flex-row flex-wrap">
+            <ul className="grid grid-cols-10">
               {products?.map((product) => (
                 <li className="" key={product.id}>
                   <ProductCard {...{ product, showPrice, itemsType }} />
@@ -93,11 +99,79 @@ export default function ProductsHighlight({
         </div>
       </LazyMotion>
 
-      <div className="flex w-full justify-center mt-9 lg:mt-20">
-        <Link href={slug || ""}>
-          <Button title="Browse All" />
-        </Link>
-      </div>
+      {pathName === "/" ? (
+        <div className="flex w-full justify-center mt-9 lg:mt-20">
+          <Link href={slug || ""}>
+            <Button title="Browse All" />
+          </Link>
+        </div>
+      ) : (
+        <div className="layout">
+          <div className="flex justify-end mt-9 lg:mt-20">
+            <div className="flex flex-row">
+              <div className="flex items-center mr-4">
+                <p className="text-sm text-brown-dark-1500">
+                  Showing {products?.length} of {productsCount} Items
+                </p>
+              </div>
+
+              <div className="flex flex-row">
+                <div
+                  onClick={() =>
+                    setProductPage((page) => (page - 1 < 0 ? page : page - 1))
+                  }
+                  className="mr-2 flex hover:cursor-pointer items-center"
+                >
+                  <FaChevronLeft size={19} />
+                </div>
+
+                <ul className="flex flex-row items-center gap-3">
+                  {productsCount &&
+                    itemsPerPage &&
+                    new Array(Math.round(productsCount / (itemsPerPage || 0)))
+                      .fill("")
+                      .map((_, index) => (
+                        <li key={index}>
+                          <div
+                            onClick={() => setProductPage(index)}
+                            className={cn(
+                              "h-6 w-6 rounded-xl flex items-center justify-center text-sm hover:cursor-pointer",
+                              pageCount === index
+                                ? "bg-[#181615]"
+                                : "bg-transparent"
+                            )}
+                          >
+                            <p
+                              className={cn(
+                                pageCount === index
+                                  ? "text-white"
+                                  : "text-brown-1500"
+                              )}
+                            >
+                              {index + 1}
+                            </p>
+                          </div>
+                        </li>
+                      ))}
+                </ul>
+
+                <div
+                  onClick={() =>
+                    setProductPage((page) =>
+                      page + 1 > Math.round(productsCount / (itemsPerPage || 0))
+                        ? page
+                        : page + 1
+                    )
+                  }
+                  className="ml-2 flex hover:cursor-pointer items-center"
+                >
+                  <FaChevronRight size={19} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

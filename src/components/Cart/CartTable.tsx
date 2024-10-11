@@ -55,11 +55,11 @@ export default function CartTable() {
           </tr>
         </thead>
         <tbody>
-          {cart?.items.map((product) => {
+          {cart?.items?.map((product) => {
             return (
               <CartTableItem
                 key={product?.id}
-                isMarked={markedProducts.includes(product?.id)}
+                isMarked={markedProducts?.includes(product?.id)}
                 product={product}
               />
             );

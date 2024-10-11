@@ -8,6 +8,7 @@ import { storeUserData } from "@/utils/actions/user";
 import Header from "../Header";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Icon from "../ui/icons";
+import Button from "../ui/button";
 
 interface AuthData {
   email: "";
@@ -46,7 +47,7 @@ export default function Login() {
 
       await storeUserData({ user: user?.customer });
 
-      router.refresh()
+      router.refresh();
       router.push("/");
     } catch (error) {
       setAuthStatus({
@@ -64,6 +65,8 @@ export default function Login() {
       console.log("auth err:", error);
     }
   };
+
+  const [email, password] = watch(["email", "password"]);
 
   return (
     <div>
@@ -138,7 +141,7 @@ export default function Login() {
                       </div>
 
                       <div className="mt-4">
-                        <p className="text-[12px] text-[#574F4B]">
+                        <p className="text-sm text-[#574F4B]">
                           Forgot Password?
                           <span className="underline ml-1 hover:cursor-pointer text-[#0C0B0A]">
                             Reset it
@@ -149,16 +152,22 @@ export default function Login() {
                       <div className="captcha-container form-group"></div>
 
                       <div className="flex flex-col mt-8">
-                        <button
+                        {/* <button
                           type="submit"
                           id="btn-login"
                           className="auth__button"
                         >
                           Log In
-                        </button>
+                        </button> */}
+
+                        <Button
+                          disabled={!email && !password}
+                          type="submit"
+                          title="Log In"
+                        />
 
                         <div className="mt-4">
-                          <p className="text-[12px] text-[#574F4B]">
+                          <p className="text-sm text-[#574F4B]">
                             Don't have an Account?
                             <Link href={"/customer/create-account"}>
                               <span

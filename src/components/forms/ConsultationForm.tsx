@@ -1,6 +1,7 @@
 "use client";
 import Button from "@/src/components/ui/button";
 import loadFeatures from "@/src/framer/load-features";
+import useOutsideClickDetector from "@/utils/hooks/useOutsideClickDetector";
 import { LazyMotion, AnimatePresence, m } from "framer-motion";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -90,6 +91,22 @@ export default function ConsultationForm() {
     }));
   };
 
+  const consultantDropdownRef = useOutsideClickDetector(() =>
+    setConsultant((state) => ({
+      ...state,
+
+      isVisible: false,
+    }))
+  );
+  
+  const consultationTypeDropdownRef = useOutsideClickDetector(() =>
+    setConsultationType((state) => ({
+      ...state,
+
+      isVisible: false
+    }))
+  );
+
   return (
     <div className="flex w-full flex-row mt-7">
       <form
@@ -143,7 +160,10 @@ export default function ConsultationForm() {
           )}
         </div>
 
-        <div className="relative form-group border-b-0 flex w-full flex-col">
+        <div
+          ref={consultantDropdownRef}
+          className="relative form-group border-b-0 flex w-full flex-col"
+        >
           <div
             onClick={toggleConsultant}
             className="flex flex-row justify-between text-xs border-0 w-full hover:cursor-pointer auth__input focus:outline-none"
@@ -188,7 +208,10 @@ export default function ConsultationForm() {
           </div>
         </div>
 
-        <div className="relative form-group border-b-0 flex w-full flex-col">
+        <div
+          // ref={consultationTypeDropdownRef}
+          className="relative form-group border-b-0 flex w-full flex-col"
+        >
           <div
             onClick={toggleConsulationType}
             className="flex flex-row justify-between text-xs border-0 hover:cursor-pointer w-full auth__input focus:outline-none"

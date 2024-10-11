@@ -2,7 +2,7 @@
 import { useCartStore } from "@/src/state/cart";
 import { formatCurrency } from "@/utils/helpers/formatter";
 import cn from "classnames";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../ui/button";
 import { useDexieDB } from "@/utils/hooks/useDexieDB";
 import { useCartShippingOptions } from "medusa-react";
@@ -10,6 +10,8 @@ import { useRegions } from "medusa-react";
 import { useCustomerStore } from "@/src/state/customer";
 import { useForm, SubmitHandler } from "react-hook-form";
 import CartSummary from "./CartSummary";
+import Checkbox from "../ui/Checkbox";
+import { isEmpty } from "lodash";
 
 const Circle = ({ active }: { active: boolean }) => (
   <div
@@ -32,10 +34,14 @@ interface CheckoutDetails {
 }
 
 export default function CheckoutForm() {
+  const { customer, updateBillingAddress } = useCustomerStore();
+
   const { setDeliveryDetail, deliveryDetails, addDeliveryAddress } =
     useCartStore();
 
-  const { customer } = useCustomerStore();
+  const [shouldStoreCheckoutInfo, storeCheckoutInfo] = useState(
+    isEmpty(customer?.shipping_addresses)
+  );
 
   const { shipping_options, isLoading: isLoadingShippingMethods } =
     useCartShippingOptions(customer?.metadata?.cartId || "");
@@ -48,12 +54,17 @@ export default function CheckoutForm() {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<CheckoutDetails>();
 
   const submitCheckoutDetails: SubmitHandler<CheckoutDetails> = async (
     data: CheckoutDetails
   ) => {
+    if (shouldStoreCheckoutInfo) {
+      await updateBillingAddress(data);
+    }
+
     await addDeliveryAddress({
       cartId: customer?.metadata?.cartId,
       deliveryDetails: {
@@ -62,6 +73,21 @@ export default function CheckoutForm() {
       deliveryMethod,
     });
   };
+
+  useEffect(() => {
+    if (customer && customer?.shipping_addresses?.length > 0) {
+      setValue(
+        "fullname",
+        `${customer?.shipping_addresses[0]?.first_name} ${customer?.shipping_addresses[0]?.last_name}`
+      );
+      setValue("city", customer?.shipping_addresses[0]?.city);
+      setValue("postalCode", customer?.shipping_addresses[0]?.postal_code);
+      setValue("region", customer?.shipping_addresses[0]?.region);
+      setValue("address", customer?.shipping_addresses[0]?.address_1);
+      setValue("phoneNumber", customer?.shipping_addresses[0]?.phone);
+      setValue("email", customer?.email);
+    }
+  }, [customer]);
 
   return (
     <div className="flex flex-col gap-14 mt-6 mb-12 lg:mt-1 lg:grid lg:grid-cols-2 lg:gap-32">
@@ -320,6 +346,32 @@ export default function CheckoutForm() {
             </div>
           </div>
         )}
+
+        <div>
+          <div className="mt-7">
+            <div className="mb-3">
+              <p className="text-xs lg:text-base"> Remember My Information </p>
+            </div>
+
+            <div className="flex flex-row gap-2  mt-1 lg:mt-3">
+              <div>
+                <Checkbox
+                  isActive={shouldStoreCheckoutInfo}
+                  selectCheckbox={() =>
+                    storeCheckoutInfo(!shouldStoreCheckoutInfo)
+                  }
+                />
+              </div>
+
+              <div>
+                <p className="text-brown-1500 text-base">
+                  {" "}
+                  Save my information for future check out
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <CartSummary nextClickAction={handleSubmit(submitCheckoutDetails)} />

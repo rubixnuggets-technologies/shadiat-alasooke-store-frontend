@@ -17,12 +17,14 @@ export interface ICustomerState {
 
   // removeCustomerCartId: () => void;
 
-  setCustomer: (customer?: Customer) => void;
+  setCustomer: (customer?: Customer) => Promise<void>;
   bookmarkProduct: (product?: Product, bookmarks?: any) => void;
   removeBookmark: (product?: Product, bookmarks?: any) => void;
   updateCustomerInfo: ({ email, fullname, phone }: UserInfo) => void;
   logoutCustomer: () => void;
   modifyCustomerCartId: (cart?: Cart) => Promise<void>;
+
+  updateBillingAddress: (address: any) => Promise<void>;
 }
 
 const initialState: Pick<ICustomerState, "customer"> = {
@@ -57,6 +59,46 @@ export const useCustomerStore = create<ICustomerState>((set) => ({
       return set({ customer });
     } catch (error) {
       console.error("Error removing bookmark", error);
+    }
+  },
+
+  updateBillingAddress: async (address) => {
+    console.log("BILLING ADDRESS =>", address);
+
+    console.log("CREATE BILLING ADDRESS =>", address);
+
+    try {
+      const stripFullname = address.fullName.split(" ");
+
+      const { customer } = await MedusaClient.customers.addresses.addAddress({
+        address: {
+          // first_name: stripFullname[0] || "",
+          // last_name: stripFullname[1] || "",
+          // address_1: address.address,
+          // city: address.city,
+          // country_code: "ng",
+          // postal_code: address.postalCode,
+          // phone: address.phoneNumber,
+
+          first_name: "Celia",
+          last_name: "Schumm",
+          address_1: "225 Bednar Curve",
+          address_2: "225 Bednar Curve",
+          city: "Danielville",
+          country_code: "US",
+          postal_code: "85137",
+          phone: "981-596-6748 x90188",
+          company: "Wyman LLC",
+          province: "Georgia",
+          metadata: { }
+        },
+      });
+
+      console.log("CUSTOMER =>", customer);
+
+      // return set({ customer });
+    } catch (error) {
+      console.error("Error updating billing address", error);
     }
   },
 

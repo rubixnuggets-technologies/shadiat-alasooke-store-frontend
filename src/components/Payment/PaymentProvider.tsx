@@ -15,7 +15,7 @@ interface PaymentProviderProps {
 
 export default function PaymentProvider() {
   const { cart } = useCartStore();
-  const { modifyCustomerCartId } = useCustomerStore()
+  const { modifyCustomerCartId, customer } = useCustomerStore()
 
   // console.log(
   //   "PaymentProvider CART ->",
@@ -28,14 +28,14 @@ export default function PaymentProvider() {
   // );
   
   if (!cart || !cart?.payment_session) return null;
-  const [ user, setUser ] = useState(null)
+  // const [ user, setUser ] = useState(null)
 
-  useEffect(() => { 
-    (async () => {
-      const user = await getUserData();
-      setUser(user)
-    })()
-  }, [])
+  // useEffect(() => { 
+  //   (async () => {
+  //     const user = await getUserData();
+  //     setUser(user)
+  //   })()
+  // }, [])
 
   const { completeCartOrder } = useCartStore();
   const PAYSTACK_PUBLIC_KEY = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
@@ -58,7 +58,7 @@ export default function PaymentProvider() {
         <div>
           <PaystackButton
             amount={cart?.total}
-            email={user?.email}
+            email={customer?.email || ""}
             currency={cart?.region?.currency_code.toUpperCase()}
             publicKey={PAYSTACK_PUBLIC_KEY}
             onSuccess={async () => {

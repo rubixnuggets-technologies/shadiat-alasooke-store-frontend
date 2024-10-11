@@ -17,9 +17,9 @@ export default function Page() {
 
   const [ currentView, setCurrentView ] = useState("VIEW_ORDERS") 
 
-  useEffect(() => {
-    setCustomer();
-  }, []);
+  // useEffect(() => {
+  //   setCustomer();
+  // }, []);
 
   useEffect(() => {
     if (customer) {

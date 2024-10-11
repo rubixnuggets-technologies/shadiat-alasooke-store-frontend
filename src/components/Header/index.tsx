@@ -11,6 +11,9 @@ import AccountMenu from "./AccountSm/AccountMenu";
 import SearchLg from "./SearchLg";
 import { AnimatePresence, LazyMotion, m } from "framer-motion";
 import loadFeatures from "@/src/framer/load-features";
+import { useCartStore } from "@/src/state/cart";
+import { useCustomerStore } from "@/src/state/customer";
+import useOutsideClickDetector from "@/utils/hooks/useOutsideClickDetector";
 
 const LIST_ITEMS = [
   {
@@ -36,6 +39,10 @@ const HERO_URL = "/alasooke-project/mzdijupfwpi4tscjk5ya";
 const Header = () => {
   const [isMenuOpen, openMenu] = useState(false);
   const searchStore = useSearchStore();
+  const { cart } = useCartStore();
+  const { customer } = useCustomerStore();
+
+  const dropdownRef = useOutsideClickDetector(() => openMenu(false));
 
   return (
     <div className="">
@@ -82,13 +89,21 @@ const Header = () => {
                 </div>
               </div>
 
-              <div className="mr-8">
+              <div className="relative mr-8">
                 <Link href="/cart">
                   <Icon type="cart" />
                 </Link>
+
+                {(cart || customer) && (
+                  <div className="absolute -top-2 -right-4 h-5 w-5 bg-[#3E3832] flex items-center justify-center rounded-full">
+                    <p className="text-xs text-white">
+                      {cart?.items?.length || 0}
+                    </p>
+                  </div>
+                )}
               </div>
 
-              <div className="relative">
+              <div ref={dropdownRef} className="relative">
                 <div
                   className="hover:cursor-pointer"
                   onClick={() => openMenu(!isMenuOpen)}

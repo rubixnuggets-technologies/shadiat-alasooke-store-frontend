@@ -1,6 +1,5 @@
-import Footer from "@/src/components/Footer";
-import Header from "@/src/components/Header";
 import RichTextComponent from "@/src/components/RichTextComponent";
+import Breadcrumb from "@/src/components/ui/Breadcrumb";
 import { SanityClient } from "@/utils/Sanity/client";
 import { ABOUT_PAGE_QUERY } from "@/utils/Sanity/gqols";
 import { notFound } from "next/navigation";
@@ -20,23 +19,26 @@ export default async function Page({ params }) {
 
   return (
     <div>
-      <Header />
-
-      <div>
-        <div className="mb-4">
-          <h1 className="text-center mb-6 text-2xl">{data?.title}</h1>
-          <p className="text-center mb-4"> Last updated on 16th July 2024 </p>
-          <hr className="text-[#A2B1C3]" />
+      <div className="mb-9">
+        <div className="flex justify-center mb-2">
+          <Breadcrumb
+            items={[
+              { route: "/", text: "Home" },
+              { route: "/explore/shop-aso-oke", text: "Shop Aso Oke" },
+            ]}
+          />
         </div>
 
-        <div className="layout">
-          <div className="layout-container">
-            <RichTextComponent richText={data?.body} />
-          </div>
-        </div>
+        <h1 className="text-center mb-6 text-xl lg:text-[40px]">
+          {data?.title}
+        </h1>
+        <p className="text-center mb-14"> Last updated on 16th July 2024 </p>
+        <hr className="text-[#A2B1C3]" />
       </div>
 
-      <Footer />
+      <div className="layout">
+        <RichTextComponent richText={data?.body} />
+      </div>
     </div>
   );
 }

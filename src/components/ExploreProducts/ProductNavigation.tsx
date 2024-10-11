@@ -1,11 +1,12 @@
 "use client";
 import Button from "@/src/components/ui/button";
 import FilterIcon from "@/src/assets/custom-icons/filters.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import cn from "classnames";
 import { useProductStore } from "@/src/state/product";
 import { RxCaretDown } from "react-icons/rx";
 import ProductsFilterSm from "../Drawers/ProductsFilterSm";
+import useOutsideClickDetector from "@/utils/hooks/useOutsideClickDetector";
 
 const tabs = [
   {
@@ -24,24 +25,51 @@ const tabs = [
 
 const SORT_OPTIONS = [
   {
-    key: "New Arrival",
+    key: "NEW_ARRIVAL",
+    value: "New Arrival",
   },
   {
-    key: "Price: Low to High",
+    key: "PRICE_LOW_TO_HIGH",
+    value: "Price: Low to High",
   },
   {
-    key: "Price: High to Low",
+    key: "PRICE_HIGH_TO_LOW",
+    value: "Price: High to Low",
   },
 ];
 
-export default function ProductNavigation() {
+export default function ProductNavigation({ itemsPerPage, collectionKey }) {
   const [currentTab, setCurrentTab] = useState(tabs[0].key);
   const [sortMenu, setMenu] = useState({
     isVisible: false,
     sortValue: "New Arrival",
+    sortKey: "NEW_ARRIVAL",
   });
 
-  const { isFilterPaneVisible, toggleFilterPane } = useProductStore();
+  const { isFilterPaneVisible, toggleFilterPane, queryProducts, sortProducts, products } =
+    useProductStore();
+
+  // const dropdownRef = useRef<HTMLDivElement>();
+  const dropdownRef = useOutsideClickDetector(() =>
+    setMenu({
+      sortValue: sortMenu.sortValue,
+      sortKey: sortMenu.sortKey,
+      isVisible: false,
+    })
+  );
+
+  // useEffect(() => {
+  //   if (collectionKey) {
+  //     // queryProducts({
+  //     //   collectionId: collectionKey,
+  //     //   limit: itemsPerPage,
+  //     //   sort: sortMenu.sortValue,
+  //     //   // page: itemsPerPage,
+  //     // });
+
+  //     sortProducts(sortMenu.sortValue, products);
+  //   }
+  // }, [sortMenu.sortValue, collectionKey]);
 
   return (
     <div className="layout">
@@ -101,6 +129,7 @@ export default function ProductNavigation() {
         <div className="hidden lg:flex flex-row items-center gap-4">
           <p className="text-lg text-brown-1500"> Sort by: </p>
 
+
           <div className="relative">
             <div
               onClick={() =>
@@ -121,21 +150,22 @@ export default function ProductNavigation() {
             {sortMenu.isVisible && (
               <div
                 style={{ zIndex: 999 }}
+                ref={dropdownRef}
                 className="absolute top-[37px] left-0 w-[173px] bg-brown-100 py-9 px-7 border-brown-500"
               >
                 <ul className="flex flex-col gap-6">
-                  {SORT_OPTIONS.map(({ key }) => (
+                  {SORT_OPTIONS.map(({ key, value }) => (
                     <li key={key}>
                       <p
                         onClick={() =>
                           setMenu((state) => ({
                             ...state,
-                            ...{ sortValue: key, isVisible: false },
+                            ...{ sortValue: value, isVisible: false, sortKey: key },
                           }))
                         }
                         className={`hover:cursor-pointer text-base ${sortMenu.sortValue === key ? "text-brown-[#574F4B]" : "text-brown-[#928477]"}`}
                       >
-                        {key}
+                        {value}
                       </p>
                     </li>
                   ))}
@@ -145,7 +175,7 @@ export default function ProductNavigation() {
           </div>
         </div>
 
-        <div className="flex lg:hidden" >
+        <div className="flex lg:hidden">
           <ProductsFilterSm />
         </div>
       </div>

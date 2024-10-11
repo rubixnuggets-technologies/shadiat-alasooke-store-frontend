@@ -39,7 +39,11 @@ const AnimatedChevron = ({
   </LazyMotion>
 );
 
-export default function ProductFilterPane({ filters }: ProductsHighlightProps) {
+export default function ProductFilterPane({
+  filters,
+  collectionKey,
+  itemsPerPage,
+}: ProductsHighlightProps) {
   const [productTags, setProductTags] = useState<Array<string>>([]);
 
   const [activeFilterTab, setActiveFilterTab] = useState<Array<string>>([
@@ -67,7 +71,11 @@ export default function ProductFilterPane({ filters }: ProductsHighlightProps) {
   };
 
   useEffect(() => {
-    queryProducts(productTags);
+    queryProducts({
+      filter: productTags,
+      limit: itemsPerPage,
+      collectionId: collectionKey,
+    });
   }, [productTags]);
 
   return (

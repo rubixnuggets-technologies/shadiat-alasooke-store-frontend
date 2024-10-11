@@ -10,8 +10,6 @@ import { useCartStore } from "@/src/state/cart";
 export default function PaymentSuccess() {
   const { cart, setCheckoutStage } = useCartStore();
 
-  // console.log("CART", cart);
-
   return (
     <div className="max-w-[815px] m-auto">
       <div className="border-[0.5px] lg:border-0 rounded pt-8 px-8 pb-4 border-[#D0D8E1]">

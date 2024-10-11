@@ -6,9 +6,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
 import Checkbox from "../ui/Checkbox";
-import Icon from "../ui/icons";
 import Header from "../Header";
 import MedusaClient from "@/utils/Medusa/MedusaClient";
+import Button from "../ui/button";
 
 interface UserDetails {
   name: string;
@@ -24,7 +24,6 @@ export default function CreateAccount() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<UserDetails>();
 
@@ -67,7 +66,7 @@ export default function CreateAccount() {
               password: data.password,
             });
 
-            router.refresh()
+            router.refresh();
             router.push("/");
           },
           onError: (error) => {
@@ -81,13 +80,6 @@ export default function CreateAccount() {
       handleCreateAccountError("An error occurred while creating account");
     }
   };
-
-  const [name, email, password, confirmPassword] = watch([
-    "name",
-    "email",
-    "password",
-    "confirmPassword",
-  ]);
 
   return (
     <div>
@@ -197,38 +189,37 @@ export default function CreateAccount() {
                         )}
                       </div>
 
-                      <div className="mt-4 flex flex-row gap-2">
+                      <div className="mt-5 flex flex-row gap-2 mb-8">
                         <Checkbox
                           selectCheckbox={() => acceptTOC(!isTOCAccepted)}
                           isActive={isTOCAccepted}
                         />
 
-                        <p className="text-[12px] text-[#574F4B]">
+                        <p className="text-sm text-[#574F4B]">
                           I have read and agree to the
-                          <span className="underline ml-1 mr-1 hover:cursor-pointer text-[#3EB489]">
-                            Terms of use
-                          </span>
+                          <Link href={"/about/terms-and-conditions"}>
+                            <span className="underline ml-1 mr-1 hover:cursor-pointer text-[#3EB489]">
+                              Terms of use
+                            </span>
+                          </Link>
                           and
-                          <span className="underline ml-1 hover:cursor-pointer text-[#3EB489]">
-                            Privacy Policy
-                          </span>
+                          <Link href={"/about/privacy-policy"}>
+                            <span className="underline ml-1 hover:cursor-pointer text-[#3EB489]">
+                              Privacy Policy
+                            </span>
+                          </Link>
                         </p>
                       </div>
 
-                      <div className="captcha-container form-group"></div>
-
                       <div className="flex flex-col mt-8">
-                        <button
-                          onClick={handleSubmit(submitUserDetails)}
-                          type="submit"
-                          id="btn-login"
-                          className="auth__button"
-                        >
-                          Create Account
-                        </button>
+                        <Button
+                          disabled={!isTOCAccepted}
+                          title="Create Account"
+                          clickAction={handleSubmit(submitUserDetails)}
+                        />
 
                         <div className="mt-4">
-                          <p className="text-[12px] text-[#574F4B]">
+                          <p className="text-sm text-[#574F4B]">
                             Have an Account already?
                             <Link href={"/customer/login"}>
                               <span
@@ -241,7 +232,7 @@ export default function CreateAccount() {
                           </p>
                         </div>
 
-                        <button
+                        {/* <button
                           type="button"
                           id="btn-google"
                           className="btn flex flex-row items-center justify-center  btn-default hover:cursor-pointer auth__button mt-6"
@@ -250,7 +241,7 @@ export default function CreateAccount() {
                             <Icon type="google" />
                           </div>
                           Sign up with Google
-                        </button>
+                        </button> */}
                       </div>
                     </form>
                   </div>

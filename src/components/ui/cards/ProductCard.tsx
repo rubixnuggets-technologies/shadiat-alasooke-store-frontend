@@ -36,9 +36,9 @@ export default function ProductCard({
 
   const { storeProduct, addProductToCart, getCart } = useDexieDB();
 
-  useEffect(() => {
-    setCustomer();
-  }, []);
+  // useEffect(() => {
+  //   setCustomer();
+  // }, []);
 
   const { regions, isLoading: isRegionLoading } = useRegions();
   const cartStore = useCartStore();
@@ -103,26 +103,35 @@ export default function ProductCard({
   return (
     <div
       style={{ border: "1px solid black" }}
-      className="border-black h-full max-w-64 lg:w-64"
+      className="border-black  h-full min-w-64"
     >
-      <div className="w-full relative h-[312px] lg:h-[390px]">
-        <img
-          alt={product?.title || "alasooke"}
-          className="absolute object-cover w-full h-full"
-          src={product?.thumbnail}
-        />
+      <Link
+        onClick={resetSearch}
+        href={
+          (product?.metadata?.PRODUCT_TYPE as unknown as string) === "NATIVE"
+            ? `/natives/${product?.handle}`
+            : `/shop/${product?.handle}`
+        }
+      >
+        <div className="w-full overflow-hidden relative h-[312px] lg:h-[390px]">
+          <img
+            alt={product?.title || "alasooke"}
+            className="absolute transition ease-in-out duration-500 hover:scale-110	object-cover w-full h-full"
+            src={product?.thumbnail}
+          />
 
-        {itemsType === "PRODUCTS" && (
-          <div
-            onClick={quickAddToCart}
-            className="flex justify-center hover:cursor-pointer"
-          >
-            <div className="h-6 w-6 absolute bottom-4 z-5 rounded-full bg-white flex items-center justify-center">
-              <TfiPlus size={16} />
+          {itemsType === "PRODUCTS" && (
+            <div
+              onClick={quickAddToCart}
+              className="flex justify-center hover:cursor-pointer"
+            >
+              <div className="h-6 w-6 absolute bottom-4 z-5 rounded-full bg-white flex items-center justify-center">
+                <TfiPlus size={16} />
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      </Link>
 
       <div className="pt-4 lg:pt-6 pl-1 lg:pl-7 pr-2 pb-12 flex flex-row justify-between ">
         <Link
@@ -138,9 +147,9 @@ export default function ProductCard({
               {truncateText(product.title, 3)}
             </p>
 
-            {product?.variants && (
+            {product?.variants?.length >= 1 && (
               <p className="text-base">
-                {formatCurrency(head(product?.variants)?.prices[0]?.amount)}
+                {formatCurrency(head(head(product?.variants)?.prices)?.amount)}
               </p>
             )}
           </div>

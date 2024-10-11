@@ -13,9 +13,9 @@ export default function Layout({ children }) {
   const { customer, setCustomer } = useCustomerStore();
   const router = useRouter();
 
-  useEffect(() => {
-    setCustomer();
-  }, []);
+  // useEffect(() => {
+  //   setCustomer();
+  // }, []);
 
   if (!customer) {
     router.push("/customer/login");

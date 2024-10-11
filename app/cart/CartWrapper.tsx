@@ -65,13 +65,13 @@ export default function CartWrapper() {
   const { checkoutStage, setCart, cart } = useCartStore();
   const { customer } = useCustomerStore();
 
-  useEffect(() => {
-    if (!customer) return;
+  // useEffect(() => {
+  //   if (!customer) return;
 
-    (async () => {
-      await setCart({ cart_id: customer?.metadata?.cartId });
-    })();
-  }, [customer]);
+  //   (async () => {
+  //     await setCart({ cart_id: customer?.metadata?.cartId });
+  //   })();
+  // }, [customer]);
 
   return (
     <div>

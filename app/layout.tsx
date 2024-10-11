@@ -1,16 +1,12 @@
-import type { Metadata } from "next";
-import { Inter, Playfair, Playfair_Display } from "next/font/google";
+"use client";
+import { Playfair_Display } from "next/font/google";
 import "./globals.css";
 import MedusaApp from "@/src/MedusaApp";
-import { UserProvider } from "@auth0/nextjs-auth0/client";
-import classNames from "classnames";
-import { playfair, roboto_mono } from "./font";
 import LazyLoader from "@/src/framer/LazyLoader";
-
-export const metadata: Metadata = {
-  title: "Alasooke",
-  description: "Store by Alasooke",
-};
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { useCustomerStore } from "@/src/state/customer";
+import { useCartStore } from "@/src/state/cart";
 
 const font = Playfair_Display({
   subsets: ["latin"],
@@ -22,15 +18,30 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const path = usePathname();
+
+  const { customer, setCustomer } = useCustomerStore();
+  const { setCart } = useCartStore();
+
+  useEffect(() => {
+    if (!customer) {
+      setCustomer();
+    }
+
+    if (customer?.metadata?.cartId) {
+      setCart({ cart_id: customer?.metadata?.cartId });
+    }
+  }, [path, customer]);
+
   return (
     <html lang="en">
       {/* <body className={classNames( playfair.className, roboto_mono.className )}> */}
       <body className={font.className}>
-        <UserProvider>
-          <MedusaApp>
-            <LazyLoader>{children}</LazyLoader>
-          </MedusaApp>
-        </UserProvider>
+        {/* <UserProvider> */}
+        <MedusaApp>
+          <LazyLoader>{children}</LazyLoader>
+        </MedusaApp>
+        {/* </UserProvider> */}
       </body>
     </html>
   );
