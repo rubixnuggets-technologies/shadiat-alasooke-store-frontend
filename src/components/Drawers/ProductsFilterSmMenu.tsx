@@ -1,9 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import Link from "next/link";
-import Image from "next/image";
-import { ImageLoader } from "@/utils/helpers/Cloudinary";
 import Button from "../ui/button";
 import { RxCaretDown } from "react-icons/rx";
 
@@ -18,8 +15,6 @@ const SORT_OPTIONS = [
     key: "Price: High to Low",
   },
 ];
-
-const HERO_URL = "/alasooke-project/mzdijupfwpi4tscjk5ya";
 
 const ProductsFilterSm = ({ state = "open", closeMenu }) => {
   const classes = useMemo(
@@ -115,7 +110,7 @@ const ProductsFilterSm = ({ state = "open", closeMenu }) => {
                 {sortMenu.isVisible && (
                   <div
                     style={{ zIndex: 999 }}
-                    className="absolute top-[37px] left-0 w-full bg-brown-100 py-9 px-7 border-brown-500"
+                    className="absolute top-[37px] left-0 w-full bg-brown-light-100 py-9 px-7 border-brown-light-500"
                   >
                     <ul className="flex flex-col gap-6">
                       {SORT_OPTIONS.map(({ key }) => (

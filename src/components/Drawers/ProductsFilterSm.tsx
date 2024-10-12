@@ -5,7 +5,7 @@ import MobileHeaderMenu from "./MobileHeaderMenu";
 import FilterIcon from "@/src/assets/custom-icons/filters.svg";
 import ProductsFilterSmMenu from "./ProductsFilterSmMenu";
 
-const ProductsFilterSm = () => {
+const ProductsFilterSm = ({ filters }) => {
   const [menuState, setMenuState] = useState("closed");
 
   /**

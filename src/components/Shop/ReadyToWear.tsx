@@ -6,7 +6,7 @@ import Button from "../ui/button";
 
 export default function ReadyToWear({}) {
   return (
-    <div className="w-full bg-brown-100 py-11 lg:py-36">
+    <div className="w-full bg-brown-light-100 py-11 lg:py-36">
       <div className="layout-container" >
         <div className="layout">
           <div className="mb-8">

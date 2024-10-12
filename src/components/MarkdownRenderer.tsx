@@ -13,12 +13,12 @@ export default function MarkdownRenderer({ content }: { content: string }) {
         children={content}
         components={{
           p: ({ node, ...props }) => {
-            return <p className="text-sm" {...props} />;
+            return <p className="text-[11px] lg:text-sm" {...props} />;
           },
           strong: ({ node, ...props }) => {
             return (
               <div className="mt-10 mb-3" >
-                <strong className="font-bold text-base"  {...props} />
+                <strong className="font-bold text-xs lg:text-base"  {...props} />
               </div>
             );
           },

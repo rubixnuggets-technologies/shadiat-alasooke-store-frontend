@@ -27,7 +27,7 @@ const Hero = ({ data }: { data: IHero[] }) => {
     draggable: true,
     rtl: true,
     afterChange: (slideNumber: number) => setActiveItem(slideNumber),
-    arrows: false
+    arrows: false,
   };
 
   return (
@@ -48,10 +48,11 @@ const Hero = ({ data }: { data: IHero[] }) => {
             ) => (
               <div
                 key={idx}
+                className="right-0"
               >
                 <div
                   className={cn(
-                    `bg-brown-light-100`,
+                    `bg-brown-light-100 right-0`,
                     "h-full lg:h-[1084px] flex flex-col-reverse md:grid md:grid-cols-[684px_auto]"
                   )}
                 >

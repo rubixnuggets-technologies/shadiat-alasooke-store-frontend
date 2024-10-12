@@ -14,7 +14,7 @@ const SearchLg = () => {
             onChange={(e) => searchStore?.setSearchText(e.target.value)}
             placeholder="Search"
             style={{ fontFamily: "Playfair Display" }}
-            className="auth__input border-b-[1px] w-full lg:w-[70%] h-10 lg:h-14 text-xl lg:text-2xl text-brown-1500 focus:outline-none"
+            className="auth__input placeholder-brown-light-1500 border-b-[1px] w-full lg:w-[70%] h-10 lg:h-14 text-xl lg:text-2xl text-brown-light-1500 focus:outline-none"
           />
 
           <div className="hidden lg:flex items-center">
@@ -31,7 +31,7 @@ const SearchLg = () => {
               className="ml-4 hover:cursor-pointer"
               onClick={searchStore?.toggleSearch}
             >
-              <IoMdClose size={26} />
+              <IoMdClose size={26} className="text-brown-dark-1500" />
             </div>
           </div>
         </div>

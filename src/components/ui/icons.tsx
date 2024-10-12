@@ -12,6 +12,15 @@ import Logout from "../../assets/svg/logout.svg";
 
 import Google from "../../assets/custom-icons/google.svg";
 
+import CustomizeDesign from "../../assets/custom-icons/customize-design.svg";
+import Collections from "../../assets/custom-icons/rtw-collections.svg";
+import CulturalHeritage from "../../assets/custom-icons/cultural-heritage.svg";
+import QualityCraftmanship from "../../assets/custom-icons/quality-craftmanship.svg";
+
+import Award1 from "../../assets/svg/award-1.svg";
+import Award2 from "../../assets/svg/award-2.svg";
+import Award3 from "../../assets/svg/award-3.svg";
+
 export type IconProps = {
   className?: string;
   type:
@@ -25,7 +34,15 @@ export type IconProps = {
     | "heart"
     | "orders"
     | "google"
-    | "logout";
+    | "logout"
+    | "cultural_heritage"
+    | "rtw_collections"
+    | "customize_design"
+    | "quality_craftmanship"
+
+    | "award1"
+    | "award2"
+    | "award3"
 };
 
 const components: Record<IconProps["type"], string> = {
@@ -40,6 +57,15 @@ const components: Record<IconProps["type"], string> = {
   orders: Orders,
   google: Google,
   logout: Logout,
+
+  cultural_heritage: CulturalHeritage,
+  rtw_collections: Collections,
+  customize_design: CustomizeDesign,
+  quality_craftmanship: QualityCraftmanship,
+
+  award1: Award1,
+  award2: Award2,
+  award3: Award3,
 };
 
 export default function Icon({ className = "inline-block", type }: IconProps) {

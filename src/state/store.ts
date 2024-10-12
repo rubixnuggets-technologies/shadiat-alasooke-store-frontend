@@ -3,7 +3,7 @@ import { create } from "zustand";
 
 interface initialSearchState {
   isOpen: boolean;
-  toggleSearch: () => void;
+  toggleSearch: ({ isVisible }: { isVisible?: boolean }) => void;
 }
 
 const initialState = {
@@ -14,7 +14,12 @@ const initialState = {
 
 export const useSearchStore = create((set) => ({
   ...initialState,
-  toggleSearch: () => set((state) => ({ isOpen: !state.isOpen })),
+  toggleSearch: ({ isVisible }) => {
+    set((state) => ({
+      isOpen: isVisible ? isVisible : !state.isOpen,
+      searchItems: null,
+    }));
+  },
   setSearchText: async (text: string) => {
     set({ searchText: text });
 

@@ -12,13 +12,13 @@ const Journey = () => {
 
       <div className="mb-9">
         <div className="flex justify-center flex-row">
-          <div className="bg-brown-200 h-12 lg:h-20  w-[220px] px-6 lg:w-[438px]  rotate-2 rounded-full text-center flex items-center justify-center">
+          <div className="bg-brown-light-100 h-12 lg:h-20  w-[200px] px-6 lg:w-[438px]  rotate-2 rounded-full text-center flex items-center justify-center">
             <div className="mr-2">
               <svg
                 height="53"
                 viewBox="0 0 57 53"
                 fill="none"
-                className="w-[28px] lg:w-[57px]"
+                className="w-[25px] lg:w-[57px]"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
@@ -30,14 +30,14 @@ const Journey = () => {
             <p className="text-sm lg:text-xl">Our Journey</p>
           </div>
 
-          <div className="relative w-[220px] px-6 lg:w-[438px]">
-            <div className="absolute -left-2 lg:-left-4 -rotate-2 bg-brown-200 h-12 lg:h-20 w-[220px] lg:w-[438px] rounded-full text-center flex items-center justify-center">
+          <div className="relative w-[200px] px-6 lg:w-[438px]">
+            <div className="absolute -left-2 lg:-left-4 -rotate-2 bg-brown-light-100 h-12 lg:h-20 w-[200px] lg:w-[438px] rounded-full text-center flex items-center justify-center">
               <div className="mr-2">
                 <svg
                   height="47"
                   viewBox="0 0 57 47"
                   fill="none"
-                  className="w-[28px] lg:w-[57px]"
+                  className="w-[25px] lg:w-[57px]"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
@@ -53,13 +53,13 @@ const Journey = () => {
 
         <div className="flex mt-5 lg:mt-6 justify-center">
           <div className="relative w-[250px] px-6 lg:w-[438px] h-12 lg:h-20 ">
-            <div className="bg-brown-200 h-12 lg:h-20 absolute left-4 lg:left-18 bottom-4 px-6 w-[250px] lg:w-[438px] rounded-full text-center flex items-center justify-center">
+            <div className="bg-brown-light-100 h-12 lg:h-20 absolute left-4 lg:left-18 bottom-4 px-6 w-[250px] lg:w-[438px] rounded-full text-center flex items-center justify-center">
               <div className="mr-2">
                 <svg
                   height="59"
                   viewBox="0 0 46 59"
                   fill="none"
-                  className="w-[24px] lg:w-[46px]"
+                  className="w-[23px] lg:w-[46px]"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path

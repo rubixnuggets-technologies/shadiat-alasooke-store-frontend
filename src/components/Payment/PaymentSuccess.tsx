@@ -8,7 +8,7 @@ import { formatCurrency } from "@/utils/helpers/formatter";
 import { useCartStore } from "@/src/state/cart";
 
 export default function PaymentSuccess() {
-  const { cart, setCheckoutStage } = useCartStore();
+  const { cart, setCheckoutStage, resetCartStore } = useCartStore();
 
   return (
     <div className="max-w-[815px] m-auto">
@@ -181,7 +181,10 @@ export default function PaymentSuccess() {
             <div className="w-full mt-6">
               <Link href={"/"}>
                 <Button
-                  clickAction={() => setCheckoutStage("CART_VIEW")}
+                  clickAction={() => {
+                    // setCheckoutStage("CART_VIEW")
+                    resetCartStore()
+                  }}
                   width="full"
                   title="Back to shopping"
                 />

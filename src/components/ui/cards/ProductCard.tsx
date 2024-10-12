@@ -13,6 +13,7 @@ import { Product } from "@medusajs/medusa";
 import { useCustomerStore } from "@/src/state/customer";
 import { useRouter } from "next/navigation";
 import { useDexieDB } from "@/utils/hooks/useDexieDB";
+import { PiBookmarkSimpleThin } from "react-icons/pi";
 
 import { head } from "lodash";
 
@@ -125,7 +126,7 @@ export default function ProductCard({
               className="flex justify-center hover:cursor-pointer"
             >
               <div className="h-6 w-6 absolute bottom-4 z-5 rounded-full bg-white flex items-center justify-center">
-                <TfiPlus size={16} />
+                <TfiPlus size={14} />
               </div>
             </div>
           )}
@@ -142,12 +143,12 @@ export default function ProductCard({
           }
         >
           <div>
-            <p className="text-sm uppercase">
+            <p className="text-xs lg:text-sm uppercase">
               {truncateText(product.title, 3)}
             </p>
 
             {product?.variants?.length >= 1 && (
-              <p className="text-base">
+              <p className="text-[11px] mt-2 lg:text-base">
                 {formatCurrency(head(head(product?.variants)?.prices)?.amount)}
               </p>
             )}
@@ -168,7 +169,7 @@ export default function ProductCard({
                 className="hover:cursor-pointer"
                 onClick={handleProductBookmark}
               >
-                <LiaBookmark size={22} />
+                <PiBookmarkSimpleThin size={22} />
               </div>
             )}
           </div>

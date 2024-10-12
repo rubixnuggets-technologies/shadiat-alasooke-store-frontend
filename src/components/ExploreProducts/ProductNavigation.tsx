@@ -176,7 +176,7 @@ export default function ProductNavigation({ itemsPerPage, collectionKey }) {
         </div>
 
         <div className="flex lg:hidden">
-          <ProductsFilterSm />
+          <ProductsFilterSm filters={''}  />
         </div>
       </div>
     </div>

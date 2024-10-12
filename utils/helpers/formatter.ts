@@ -1,10 +1,10 @@
 export const formatCurrency = (amount: number, currency?: string) => {
   if (!amount) return null;
 
-  return `${amount.toLocaleString("en-US", {
+  return `${(amount / 100).toLocaleString("en-US", {
     style: "currency",
     currency: "NGN",
-    currencyDisplay: "narrowSymbol",
+    currencyDisplay: "symbol",
     currencySign: "accounting",
   })}`;
 };

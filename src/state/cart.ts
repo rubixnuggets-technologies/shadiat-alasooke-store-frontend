@@ -56,6 +56,7 @@ export interface ICheckoutState {
     deliveryDetails: any;
     deliveryMethod: any;
   }) => void;
+  resetCartStore: () => void;
   setCheckoutStage: (stage: ICheckoutState["checkoutStage"]) => void;
   setCart: ({ cart_id, cart }: { cart_id?: string; cart?: Cart }) => void;
 }
@@ -95,6 +96,8 @@ const initialState: Pick<
 
 export const useCartStore = create<ICheckoutState>((set) => ({
   ...initialState,
+
+  resetCartStore: () => set(initialState),
 
   setCheckoutStage: (stage: ICheckoutState["checkoutStage"]) =>
     set({ checkoutStage: stage }),
@@ -194,8 +197,7 @@ export const useCartStore = create<ICheckoutState>((set) => ({
       set({ checkoutStage: "PAYMENT_SUCCESS" });
 
       await MedusaClient.carts.complete(cartId);
-
-      set({ cart: null });
+      // set({ cart: null });
     } catch (e) {
       console.log(e);
     }

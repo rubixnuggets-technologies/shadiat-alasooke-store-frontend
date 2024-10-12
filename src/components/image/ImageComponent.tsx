@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import Image from "next/image";
 import { ImageLoader } from "@/utils/helpers/Cloudinary";
@@ -16,11 +16,16 @@ import { ImageLoader } from "@/utils/helpers/Cloudinary";
 interface ImageComponentProps {
   title: string;
   public_id: string;
-  objectFit?: string
+  objectFit?: string;
+  className?: string;
 }
 
-const ImageComponent = ({ title, public_id, objectFit = "contain" }: ImageComponentProps) => {
-
+const ImageComponent = ({
+  className,
+  title,
+  public_id,
+  objectFit = "contain",
+}: ImageComponentProps) => {
   return (
     <div>
       <Image
@@ -28,6 +33,7 @@ const ImageComponent = ({ title, public_id, objectFit = "contain" }: ImageCompon
         style={{ position: "absolute", objectFit }}
         loader={ImageLoader}
         alt={title}
+        className={className}
         src={public_id}
       />
     </div>

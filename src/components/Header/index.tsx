@@ -4,7 +4,7 @@ import Icon from "../ui/icons";
 import Link from "next/link";
 import { ImageLoader } from "@/utils/helpers/Cloudinary";
 import LgBreadcrumb from "./menu/LgBreadcrumb";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchStore } from "@/src/state/store";
 import Breadcrumb from "./BreacrumbSm/Breadcrumb";
 import AccountMenu from "./AccountSm/AccountMenu";
@@ -14,6 +14,7 @@ import loadFeatures from "@/src/framer/load-features";
 import { useCartStore } from "@/src/state/cart";
 import { useCustomerStore } from "@/src/state/customer";
 import useOutsideClickDetector from "@/utils/hooks/useOutsideClickDetector";
+import { usePathname } from "next/navigation";
 
 const LIST_ITEMS = [
   {
@@ -38,11 +39,19 @@ const HERO_URL = "/alasooke-project/mzdijupfwpi4tscjk5ya";
 
 const Header = () => {
   const [isMenuOpen, openMenu] = useState(false);
-  const searchStore = useSearchStore();
+  const { isOpen, toggleSearch } = useSearchStore();
   const { cart } = useCartStore();
   const { customer } = useCustomerStore();
 
+  const pathName = usePathname();
+
   const dropdownRef = useOutsideClickDetector(() => openMenu(false));
+
+  useEffect(() => {
+    // if (searchStore?.isOpen) {
+      // toggleSearch({ isVisible: false });
+    // }
+  }, [pathName]);
 
   return (
     <div className="">
@@ -76,7 +85,7 @@ const Header = () => {
             <div className="hidden lg:flex items-center flex-row">
               <div className="mr-8">
                 <div
-                  onClick={searchStore?.toggleSearch}
+                  onClick={toggleSearch}
                   className="flex flex-row items-center border border-brown-1500 w-64 h-9 px-4"
                 >
                   <div className="flex items-center mr-2">
@@ -133,13 +142,13 @@ const Header = () => {
             {/* MOBILE HEADER ITEMS */}
             <div className="flex gap-6 lg:hidden  flex-row">
               <div
-                onClick={searchStore?.toggleSearch}
+                onClick={toggleSearch}
                 className="cursor:pointer flex items-center"
               >
                 <Icon type="search" className="text-red" />
               </div>
 
-              <Link href={"/cart"} >
+              <Link href={"/cart"}>
                 <div className="relative">
                   <Icon type="cart" />
 
@@ -165,7 +174,7 @@ const Header = () => {
 
       <LazyMotion strict features={loadFeatures}>
         <AnimatePresence>
-          {searchStore?.isOpen && (
+          {isOpen && (
             <m.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}

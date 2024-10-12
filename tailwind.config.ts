@@ -13,7 +13,7 @@ const config: Config = {
     extend: {
       gridTemplateColumns: {
         6: "repeat(auto-fit, minmax(90px, 1fr))",
-        9: "repeat(auto-fit, minmax(200px, 1fr))",
+        9: "repeat(auto-fit, minmax(180px, 1fr))",
         10: "repeat(auto-fit, minmax(256px, 1fr))",
       },
       backgroundImage: {

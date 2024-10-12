@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import Button from "../../ui/button";
 import Icon from "../../ui/icons";
 import Link from "next/link";
@@ -7,7 +7,7 @@ import { useCustomerStore } from "@/src/state/customer";
 import { useRouter } from "next/navigation";
 
 const LgBreadcrumb = () => {
-  const { customer, logoutCustomer, setCustomer } = useCustomerStore();
+  const { customer, logoutCustomer } = useCustomerStore();
 
   const router = useRouter();
 
@@ -18,16 +18,16 @@ const LgBreadcrumb = () => {
   };
 
   return (
-    <div className="bg-brown-100 px-8 py-8 rounded-xl w-60">
+    <div className="bg-brown-light-100 px-8 py-8 rounded-xl w-60">
       <ul className="flex flex-col gap-6">
         <li>
           <Link href={"/account"}>
             <div className="flex flex-row">
-              <div className="mr-4">
+              <div className="mr-4 text-brown-light-1500 hover:text-brown-dark-1500">
                 <Icon type="userNoUnderline" />
               </div>
 
-              <p className="text-base text-brown-1500"> My Account </p>
+              <p className="text-base text-brown-light-1500 hover:text-brown-dark-1500"> My Account </p>
             </div>
           </Link>
         </li>
@@ -35,11 +35,11 @@ const LgBreadcrumb = () => {
         <li>
           <Link href={"/account/order-history"}>
             <div className="flex flex-row">
-              <div className="mr-4">
+              <div className="mr-4 text-brown-light-1500 hover:text-brown-dark-1500">
                 <Icon type="orders" />
               </div>
 
-              <p className="text-base text-brown-1500"> My Order History </p>
+              <p className="text-base text-brown-light-1500 hover:text-brown-dark-1500"> My Order History </p>
             </div>
           </Link>
         </li>
@@ -47,11 +47,11 @@ const LgBreadcrumb = () => {
         <li>
           <Link href={"/account/saved-items"}>
             <div className="flex flex-row">
-              <div className="mr-4">
+              <div className="mr-4 text-brown-light-1500 hover:text-brown-dark-1500">
                 <Icon type="heart" />
               </div>
 
-              <p className="text-base text-brown-1500"> Saved Items </p>
+              <p className="text-base text-brown-light-1500 hover:text-brown-dark-1500"> Saved Items </p>
             </div>
           </Link>
         </li>
