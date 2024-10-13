@@ -32,7 +32,7 @@ export default function ShopNow({ data }) {
 
             <div className="flex lg:hidden">
               <Link href={"/explore/shop-rtw"}>
-                <p className="text-xs underline font-bold">Shop Now</p>
+                <p className={`text-xs underline font-bold text-${data?.text_color || "brown-2100" }`}>Shop Now</p>
               </Link>
             </div>
           </div>

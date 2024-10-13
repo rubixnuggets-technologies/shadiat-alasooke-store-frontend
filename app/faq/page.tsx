@@ -2,6 +2,7 @@ import { SanityClient } from "@/utils/Sanity/client";
 import { FAQ_PAGE_QUERY } from "@/utils/Sanity/gqols";
 import { notFound } from "next/navigation";
 import FAQCard from "@/src/components/ui/cards/FAQCard";
+import PagesHeroSection from "@/src/components/ui/PagesHeroSection";
 
 const getPageData = async (slug: string) => {
   const data = await SanityClient().fetch(FAQ_PAGE_QUERY);
@@ -18,12 +19,14 @@ export default async function Page({ params }) {
 
   return (
     <div>
-      <div className="mb-12">
-        <h1 className="text-center mb-6 text-2xl">
-          Frequently Asked Questions
-        </h1>
-        <p className="text-center mb-4"> Last updated on 16th July 2024 </p>
-        <hr className="text-[#A2B1C3]" />
+      <div className="mb-4">
+        <PagesHeroSection
+          title="Frequently Asked Questions"
+          breadcrumbItems={[
+            { text: "Home", route: "/" },
+            { text: "FAQ", route: "/faq" },
+          ]}
+        />
       </div>
 
       <div className="layout">

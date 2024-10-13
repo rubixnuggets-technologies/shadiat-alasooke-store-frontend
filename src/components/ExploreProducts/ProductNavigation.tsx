@@ -105,16 +105,16 @@ export default function ProductNavigation({ itemsPerPage, collectionKey }) {
                     className={cn(
                       "border-b-2 hover:cursor-pointer",
                       currentTab === tab.key
-                        ? "border-brown-2100"
-                        : "border-brown-1000 hover:border-brown-2100"
+                        ? "border-brown-dark-2100"
+                        : "border-brown-dark-1000 hover:border-brown-dark-2100"
                     )}
                   >
                     <h1
                       className={cn(
                         "text-xs lg:text-base",
                         currentTab === tab.key
-                          ? "text-brown-2100"
-                          : "text-brown-1000"
+                          ? "text-brown-dark-2100"
+                          : "text-brown-dark-1000"
                       )}
                     >
                       {tab.title}
@@ -127,7 +127,7 @@ export default function ProductNavigation({ itemsPerPage, collectionKey }) {
         </div>
 
         <div className="hidden lg:flex flex-row items-center gap-4">
-          <p className="text-lg text-brown-1500"> Sort by: </p>
+          <p className="text-lg text-brown-dark-1500"> Sort by: </p>
 
 
           <div className="relative">
@@ -138,10 +138,10 @@ export default function ProductNavigation({ itemsPerPage, collectionKey }) {
                   ...{ isVisible: !state.isVisible },
                 }))
               }
-              className="w-[173px] h-[36px] border-[1px] border-brown-500 rounded-full px-5 flex items-center cursor-pointer"
+              className="w-[173px] h-[36px] border-[1px] border-brown-light-500 rounded-full px-5 flex items-center cursor-pointer"
             >
               <div className="flex flex-row w-full justify-between">
-                <p className="text-brown-1500 text-sm">{sortMenu.sortValue}</p>
+                <p className="text-brown-light-1500 text-sm">{sortMenu.sortValue}</p>
 
                 <RxCaretDown size={22} />
               </div>
@@ -151,7 +151,7 @@ export default function ProductNavigation({ itemsPerPage, collectionKey }) {
               <div
                 style={{ zIndex: 999 }}
                 ref={dropdownRef}
-                className="absolute top-[37px] left-0 w-[173px] bg-brown-100 py-9 px-7 border-brown-500"
+                className="absolute top-[37px] left-0 w-[173px] bg-brown-light-100 py-9 px-7 border-brown-light-500"
               >
                 <ul className="flex flex-col gap-6">
                   {SORT_OPTIONS.map(({ key, value }) => (

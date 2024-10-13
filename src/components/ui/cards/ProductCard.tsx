@@ -103,7 +103,7 @@ export default function ProductCard({
 
   return (
     <div
-      className="border-black border-[0.50px]  h-full min-w-48 lg:min-w-64"
+      className="border-black border-[0.50px] h-full min-w-40 md:min-w-48 lg:min-w-64"
     >
       <Link
         onClick={resetSearch}

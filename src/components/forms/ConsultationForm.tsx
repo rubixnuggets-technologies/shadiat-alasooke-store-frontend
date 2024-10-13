@@ -117,7 +117,7 @@ export default function ConsultationForm() {
         <div className="form-group border-b-0 flex w-full flex-col">
           <input
             type="text"
-            className="text-xs border-0 w-full auth__input focus:outline-none"
+            className="text-xs lg:text-sm border-0 w-full auth__input focus:outline-none"
             {...register("name", {
               required: true,
             })}
@@ -132,7 +132,7 @@ export default function ConsultationForm() {
         <div className="form-group border-b-0 flex w-full flex-col">
           <input
             type="email"
-            className="text-xs border-0 w-full auth__input focus:outline-none"
+            className="text-xs lg:text-sm border-0 w-full auth__input focus:outline-none"
             {...register("email", {
               required: true,
             })}
@@ -150,7 +150,7 @@ export default function ConsultationForm() {
             {...register("phoneNumber", {
               required: true,
             })}
-            className="text-xs border-0 w-full auth__input focus:outline-none"
+            className="text-xs lg:text-sm border-0 w-full auth__input focus:outline-none"
             onChange={(e) => {}}
             placeholder="PHONE NUMBER*"
           />
@@ -191,8 +191,8 @@ export default function ConsultationForm() {
         <div className="grid grid-cols-2 gap-2 lg:gap-6">
           <div className="form-group border-b-0 flex w-full flex-col">
             <input
-              type="text"
-              className="text-xs border-0 w-full auth__input focus:outline-none"
+              type="date"
+              className="text-xs lg:text-sm border-0 w-full auth__input focus:outline-none"
               onChange={(e) => {}}
               placeholder="DATE FOR CONSULTATION*"
             />
@@ -200,8 +200,8 @@ export default function ConsultationForm() {
 
           <div className="form-group border-b-0 flex w-full flex-col">
             <input
-              type="text"
-              className="text-xs border-0 w-full auth__input focus:outline-none"
+              type="time"
+              className="text-xs lg:text-sm border-0 w-full auth__input focus:outline-none"
               onChange={(e) => {}}
               placeholder="TIME FOR CONSULTATION*"
             />
@@ -217,7 +217,7 @@ export default function ConsultationForm() {
             className="flex flex-row justify-between text-xs border-0 hover:cursor-pointer w-full auth__input focus:outline-none"
           >
             <div className="flex items-center">
-              <p>
+              <p className="text-xs lg:text-sm" >
                 {consultationType.value
                   ? consultationType.value
                   : "CONSULTATION TYPE*"}{" "}
@@ -245,7 +245,7 @@ export default function ConsultationForm() {
           <input
             type="text"
             {...register("additionalMessage", {})}
-            className="placeholder-[#181615] text-xs border-0 w-full auth__input focus:outline-none"
+            className="placeholder-[#181615] text-xs lg:text-sm border-0 w-full auth__input focus:outline-none"
             onChange={(e) => {}}
             placeholder="ADDITIONAL MESSAGE*"
           />

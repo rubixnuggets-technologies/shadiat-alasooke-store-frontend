@@ -40,19 +40,19 @@ export default function BookAConsultationPage() {
           <ConsultationForm />
 
           <div className="flex justify-center lg:ml-40">
-            <div className="bg-brown-100 mt-14 lg:mt-1 py-8 px-12 max-w-full lg:max-w-[265px]">
+            <div className="bg-brown-light-100 mt-14 lg:mt-1 py-8 px-12 max-w-full h-fit lg:max-w-[265px]">
               <div className="flex flex-col">
                 <div className="flex flex-row mb-3.5">
                   <Note />
 
                   <div className="flex items-center">
-                    <p className="ml-2.5 text-gold-1500 text-base">Note</p>
+                    <p className="ml-2.5 text-gold-1500 text-xs font-semibold">Note</p>
                   </div>
                 </div>
 
                 <ul className="list list-disc	 flex flex-col gap-2">
                   <li>
-                    <p>
+                    <p className="text-xs text-brown-dark-2100">
                       A consultation session with the Creative Director requires
                       a fee of ₦20,000 ($30). This fee will be deducted from the
                       overall cost if you choose to proceed after the
@@ -61,7 +61,9 @@ export default function BookAConsultationPage() {
                   </li>
 
                   <li>
-                    <p>All meeting times are in W.A.T.</p>
+                    <p className="text-xs text-brown-dark-2100">
+                      All meeting times are in W.A.T.
+                    </p>
                   </li>
                 </ul>
               </div>
@@ -71,21 +73,21 @@ export default function BookAConsultationPage() {
                   <Dollar />
 
                   <div className="flex items-center">
-                    <p className="ml-2.5 text-green-600 text-base">
+                    <p className="ml-2.5 text-green-600 text-xs font-semibold">
                       Kindly pay into:
                     </p>
                   </div>
                 </div>
 
-                <ul className="list flex flex-col gap-2">
+                <ul className="list list-disc	 flex flex-col gap-2">
                   <li>
-                    <p>
+                    <p className="text-xs text-brown-dark-2100" >
                       PayPal (use friends & family): Shadiatalasooke@gmail.com
                     </p>
                   </li>
 
                   <li>
-                    <p>
+                    <p className="text-xs text-brown-dark-2100" >
                       Click here to send proof of payment (if meeting with the
                       Creative Director).
                     </p>

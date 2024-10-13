@@ -19,8 +19,6 @@ export default function PreOrderForm() {
   const {
     register,
     handleSubmit,
-    watch,
-    setValue,
     formState: { errors },
   } = useForm<{
     email: "";
@@ -116,7 +114,7 @@ export default function PreOrderForm() {
           className="flex flex-row justify-between text-xs border-0 w-full hover:cursor-pointer auth__input focus:outline-none"
         >
           <div className="flex items-center">
-            <p>
+            <p className="text-xs lg:text-base" >
               {collection.value
                 ? collection.value
                 : "PREFERRED CONTACT METHOD*"}

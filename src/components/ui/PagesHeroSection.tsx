@@ -1,6 +1,11 @@
-import Breadcrumb from "./Breadcrumb";
+import { usePathname } from "next/navigation";
+import Breadcrumb, { BreadcrumbItemProps } from "./Breadcrumb";
+import cn from 'classnames'
 
-export default function PagesHeroSection({ breadcrumbItems, title }) {
+export default function PagesHeroSection({ breadcrumbItems, title } : {
+  breadcrumbItems: BreadcrumbItemProps["items"];
+  title: string;
+}) {
   return (
     <div >
       <div className="my-8 lg:mt-16">
@@ -10,7 +15,7 @@ export default function PagesHeroSection({ breadcrumbItems, title }) {
           />
         </div>
 
-        <h1 className="text-3xl lg:text-[40px] text-center font-normal">
+        <h1 className={cn("text-3xl lg:text-[40px] text-center font-normal")}>
           {title}
         </h1>
       </div>

@@ -28,7 +28,7 @@ const LIST_ITEMS = [
   },
   {
     name: "faqs",
-    url: "/book-a-consultation",
+    url: "/faq",
   },
 ];
 
