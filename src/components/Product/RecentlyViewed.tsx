@@ -25,7 +25,7 @@ export default function RecentlyViewed({
         <ul className="flex flex-row overflow-scroll">
           {products?.map((product) => (
             <li key={product?.id}>
-              <div>
+              <div className="h-full" >
                 <ProductCard product={product} />
               </div>
             </li>

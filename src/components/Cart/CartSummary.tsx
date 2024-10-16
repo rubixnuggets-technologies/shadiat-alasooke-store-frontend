@@ -14,6 +14,7 @@ const DynamicPayement = dynamic(() => import("../Payment/PaymentProvider"), {
 
 export default function CartSummary({
   nextClickAction,
+  deliveryOption,
 }: {
   nextClickAction?: () => void;
 }) {
@@ -26,7 +27,7 @@ export default function CartSummary({
           <p className="text-base font-bold">Your order</p>
         </div>
 
-        <ul className="flex flex-col gap-4" >
+        <ul className="flex flex-col gap-4">
           {cart?.items.map(({ id, title, thumbnail, total, variant }) => (
             <li key={id}>
               <div className="flex flex-row justify-between">
@@ -71,7 +72,9 @@ export default function CartSummary({
               placeholder="Add discount code"
             />
 
-            <button className="bg-brown-dark-2100 text-brown-light-100 w-36">Apply</button>
+            <button className="bg-brown-dark-2100 text-brown-light-100 w-36">
+              Apply
+            </button>
           </div>
 
           <p className="text-xs lg:text-sm text-brown-1500">
@@ -95,7 +98,11 @@ export default function CartSummary({
 
         <div className="flex mt-2 justify-between">
           <p className="text-lg">Shipping Cost</p>
-          <p className="text-lg">{formatCurrency(cart?.total)}</p>
+          <p className="text-lg">
+            {!deliveryOption?.amount
+              ? `NGN 0.00`
+              : formatCurrency(deliveryOption?.amount)}
+          </p>
         </div>
 
         <div className="my-6">
@@ -103,8 +110,8 @@ export default function CartSummary({
         </div>
 
         <div className="flex justify-between">
-          <p className="text-lg">Grand total</p>
-          <p>{formatCurrency(cart?.total)}</p>
+          <p className="text-lg">Grand Total</p>
+          <p>{formatCurrency(cart?.total + (deliveryOption?.amount || 0))}</p>
         </div>
       </div>
 

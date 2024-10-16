@@ -47,22 +47,6 @@ const CheckoutStage = ({
   }
 };
 
-const checkoutStageNames = (checkoutStage: ICheckoutState) => {
-  switch (checkoutStage) {
-    case "CART_VIEW":
-      return "My Cart";
-
-    case "CHECKOUT_VIEW":
-      return "Checkout";
-
-    case "PAYMENT_VIEW":
-      return "Payment";
-
-    default:
-      return "";
-  }
-};
-
 const Arrow = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -97,9 +81,15 @@ const pathnames = {
 };
 
 export default function CartWrapper() {
-  const { checkoutStage, setCart, cart } = useCartStore();
+  const { checkoutStage, setCheckoutStage } = useCartStore();
   const pathname = usePathname();
-  const { customer } = useCustomerStore();
+
+  useEffect(() => {
+    // reset checkout stage on page change
+    if (pathname !== "/cart" && checkoutStage !== "CART_VIEW") {
+      setCheckoutStage("CART_VIEW");
+    }
+  }, [pathname]);
 
   return (
     <div>
@@ -115,46 +105,62 @@ export default function CartWrapper() {
 
           <div>
             <div className="flex flex-row gap-2 lg:gap-3 mt-7 lg:mt-9">
-              <h3
-                className={cn(
-                  "text-sm lg:text-xl",
-                  checkoutStage === "CART_VIEW"
-                    ? "text-brown-dark-2100"
-                    : "text-brown-light-1500"
-                )}
+              <div
+                onClick={() => setCheckoutStage("CART_VIEW")}
+                className="hover:cursor-pointer"
               >
-                Cart
-              </h3>
+                <h3
+                  onClick={() => setCheckoutStage("CART_VIEW")}
+                  className={cn(
+                    "text-sm lg:text-xl",
+                    checkoutStage === "CART_VIEW"
+                      ? "text-brown-dark-2100"
+                      : "text-brown-light-1500"
+                  )}
+                >
+                  Cart
+                </h3>
+              </div>
 
               <div className="flex items-center">
                 <Arrow />
               </div>
 
-              <h3
-                className={cn(
-                  "text-sm lg:text-xl",
-                  checkoutStage === "CHECKOUT_VIEW"
-                    ? "text-brown-dark-2100"
-                    : "text-brown-light-1500"
-                )}
+              <div
+                onClick={() => setCheckoutStage("CHECKOUT_VIEW")}
+                className="hover:cursor-pointer"
               >
-                Check out
-              </h3>
+                <h3
+                  className={cn(
+                    "text-sm lg:text-xl",
+                    checkoutStage === "CHECKOUT_VIEW"
+                      ? "text-brown-dark-2100"
+                      : "text-brown-light-1500"
+                  )}
+                >
+                  Check out
+                </h3>
+              </div>
 
               <div className="flex items-center">
                 <Arrow />
               </div>
 
-              <h3
-                className={cn(
-                  "text-sm lg:text-xl",
-                  checkoutStage === "PAYMENT_VIEW"
-                    ? "text-brown-dark-2100"
-                    : "text-brown-light-1500"
-                )}
+              <div
+                onClick={() => setCheckoutStage("PAYMENT_VIEW")}
+                className="hover:cursor-pointer"
               >
-                Payment
-              </h3>
+                <h3
+                  className={cn(
+                    "text-sm lg:text-xl",
+                    checkoutStage === "PAYMENT_VIEW"
+                      ? "text-brown-dark-2100"
+                      : "text-brown-light-1500"
+                  )}
+                >
+                  Payment
+                </h3>
+              </div>
             </div>
           </div>
         </div>

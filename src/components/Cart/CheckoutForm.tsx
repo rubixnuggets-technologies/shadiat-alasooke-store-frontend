@@ -3,10 +3,7 @@ import { useCartStore } from "@/src/state/cart";
 import { formatCurrency } from "@/utils/helpers/formatter";
 import cn from "classnames";
 import { useEffect, useState } from "react";
-import Button from "../ui/button";
-import { useDexieDB } from "@/utils/hooks/useDexieDB";
 import { useCartShippingOptions } from "medusa-react";
-import { useRegions } from "medusa-react";
 import { useCustomerStore } from "@/src/state/customer";
 import { useForm, SubmitHandler } from "react-hook-form";
 import CartSummary from "./CartSummary";
@@ -47,7 +44,7 @@ export default function CheckoutForm() {
     useCartShippingOptions(customer?.metadata?.cartId || "");
 
   const [deliveryMethod, selectDeliveryMethod] = useState(
-    isLoadingShippingMethods ? null : shipping_options[0]
+    !isLoadingShippingMethods && shipping_options ? shipping_options[0] : null
   );
 
   const {
@@ -346,33 +343,34 @@ export default function CheckoutForm() {
           </div>
         )}
 
-        <div>
-          <div className="mt-7">
-            <div className="mb-3">
-              <p className="text-sm lg:text-base"> Remember My Information </p>
+        <div className="mt-7">
+          <div className="mb-3">
+            <p className="text-sm lg:text-base"> Remember My Information </p>
+          </div>
+
+          <div className="flex flex-row gap-2  mt-1 lg:mt-3">
+            <div>
+              <Checkbox
+                isActive={shouldStoreCheckoutInfo}
+                selectCheckbox={() =>
+                  storeCheckoutInfo(!shouldStoreCheckoutInfo)
+                }
+              />
             </div>
 
-            <div className="flex flex-row gap-2  mt-1 lg:mt-3">
-              <div>
-                <Checkbox
-                  isActive={shouldStoreCheckoutInfo}
-                  selectCheckbox={() =>
-                    storeCheckoutInfo(!shouldStoreCheckoutInfo)
-                  }
-                />
-              </div>
-
-              <div className="flex items-center" >
-                <p className="text-brown-1500 text-xs lg:text-base">
-                  Save my information for future check out
-                </p>
-              </div>
+            <div className="flex items-center">
+              <p className="text-brown-1500 text-xs lg:text-base">
+                Save my information for future check out
+              </p>
             </div>
           </div>
         </div>
       </div>
 
-      <CartSummary nextClickAction={handleSubmit(submitCheckoutDetails)} />
+      <CartSummary
+        deliveryOption={deliveryMethod}
+        nextClickAction={handleSubmit(submitCheckoutDetails)}
+      />
     </div>
   );
 }

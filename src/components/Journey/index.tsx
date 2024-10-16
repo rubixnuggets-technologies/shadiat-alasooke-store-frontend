@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "../ui/button";
 import Link from "next/link";
-import Icon from "../ui/icons";
 
 const Journey = () => {
   return (
@@ -12,7 +11,7 @@ const Journey = () => {
 
       <div className="mb-9">
         <div className="flex justify-center flex-row">
-          <div className="bg-brown-light-100 h-12 lg:h-20  w-[200px] px-6 lg:w-[438px]  rotate-2 rounded-full text-center flex items-center justify-center">
+          <div className="bg-brown-light-100 h-12 lg:h-20  w-[150px] px-2 lg:px-6 lg:w-[438px] rounded-full text-center flex items-center justify-center">
             <div className="mr-2">
               <svg
                 height="53"
@@ -27,11 +26,11 @@ const Journey = () => {
                 />
               </svg>
             </div>
-            <p className="text-sm lg:text-xl">Our Journey</p>
+            <p className="text-xs lg:text-xl">Our Journey</p>
           </div>
 
-          <div className="relative w-[200px] px-6 lg:w-[438px]">
-            <div className="absolute -left-2 lg:-left-4 -rotate-2 bg-brown-light-100 h-12 lg:h-20 w-[200px] lg:w-[438px] rounded-full text-center flex items-center justify-center">
+          <div className="relative w-[150px] px-4 lg:px-6 lg:w-[438px]">
+            <div className="absolute -left-0 lg:left-1 bg-brown-light-100 h-12 lg:h-20 w-[160px] lg:w-[438px] rounded-full text-center flex items-center justify-center">
               <div className="mr-2">
                 <svg
                   height="47"
@@ -46,14 +45,14 @@ const Journey = () => {
                   />
                 </svg>
               </div>
-              <p className="text-sm lg:text-xl">Quality & Craftmanship</p>
+              <p className="text-xs lg:text-xl">Quality & Craftmanship</p>
             </div>
           </div>
         </div>
 
-        <div className="flex mt-5 lg:mt-6 justify-center">
-          <div className="relative w-[250px] px-6 lg:w-[438px] h-12 lg:h-20 ">
-            <div className="bg-brown-light-100 h-12 lg:h-20 absolute left-4 lg:left-18 bottom-4 px-6 w-[250px] lg:w-[438px] rounded-full text-center flex items-center justify-center">
+        <div className="flex mt-5 lg:mt-5 justify-center">
+          <div className="relative w-[190px] px-6 lg:w-[438px] h-12 lg:h-20 ">
+            <div className="bg-brown-light-100 h-12 lg:h-20 absolute left-4 lg:left-18 bottom-4 px-6 w-[190px] lg:w-[438px] rounded-full text-center flex items-center justify-center">
               <div className="mr-2">
                 <svg
                   height="59"
@@ -68,7 +67,7 @@ const Journey = () => {
                   />
                 </svg>
               </div>
-              <p className="text-sm lg:text-xl">Awards & Recognitions</p>
+              <p className="text-xs lg:text-xl">Awards & Recognitions</p>
             </div>
           </div>
         </div>

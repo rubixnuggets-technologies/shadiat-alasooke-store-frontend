@@ -6,9 +6,10 @@ import { MedusaImageLoader } from "@/utils/helpers/Cloudinary";
 import Button from "../ui/button";
 import { formatCurrency } from "@/utils/helpers/formatter";
 import { useCartStore } from "@/src/state/cart";
+import { isEmpty } from "lodash";
 
 export default function PaymentSuccess() {
-  const { cart, setCheckoutStage, resetCartStore } = useCartStore();
+  const { cart, resetCartStore } = useCartStore();
 
   return (
     <div className="max-w-[815px] m-auto">
@@ -36,7 +37,7 @@ export default function PaymentSuccess() {
                 <div>
                   <p className="text-[10px] lg:text-xl ">Transaction date</p>
                   <p className="text-[8px] lg:text-lg text-brown-1700">
-                    Thursday, Nov 17, 2022
+                    {new Date().toDateString()}
                   </p>
                   <hr className="mt-4 mb-10 text-[#D0D8E1] lg:text-[#E8D4C1] h-[0.35]" />
                 </div>
@@ -45,8 +46,8 @@ export default function PaymentSuccess() {
               <li>
                 <div>
                   <p className="text-[10px] lg:text-xl ">Payment method</p>
-                  <p className="text-[8px] lg:text-lg  text-brown-1700">
-                    Mastercard ending with 1234
+                  <p className="text-[8px] capitalize lg:text-lg  text-brown-1700">
+                    {cart?.payment_session?.provider_id}
                   </p>
                   <hr className="mt-4 mb-10 text-[#D0D8E1] lg:text-[#E8D4C1] h-[0.35]" />
                 </div>
@@ -57,16 +58,17 @@ export default function PaymentSuccess() {
                   <div className="flex flex-row justify-between">
                     <div>
                       <p className="text-[10px] lg:text-xl ">Shipping method</p>
+
                       <p className="text-[8px] lg:text-lg  text-brown-1700">
-                        Express delivery (1-3 business days)
+                        {cart?.shipping_methods[0]?.shipping_option?.name}
                       </p>
                     </div>
 
-                    <div className="flex items-center">
+                    {/* <div className="flex items-center">
                       <a href="/" className="underline">
                         <p className="text-[10px] lg:text-lg">Track order</p>
                       </a>
-                    </div>
+                    </div> */}
                   </div>
 
                   <hr className="mt-4 mb-10 text-[#D0D8E1] lg:text-[#E8D4C1] h-[0.35]" />
@@ -114,21 +116,23 @@ export default function PaymentSuccess() {
 
               <li>
                 <div>
-                  <div className="flex mb-4 flex-row justify-between">
-                    <div>
-                      <p className="text-[10px] lg:text-xl">
-                        Applied discount code
-                      </p>
-                    </div>
-
-                    <div className="flex items-center justify-center ">
-                      <div className="bg-[#000] px-1.5 lg:px-5 lg:py-3.5 flex items-center justify-center">
-                        <p className="text-[#fff] text-[8px] lg:text-xl">
-                          10% off
+                  {!isEmpty(cart?.discounts) && (
+                    <div className="flex mb-4 flex-row justify-between">
+                      <div>
+                        <p className="text-[10px] lg:text-xl">
+                          Applied discount code
                         </p>
                       </div>
+
+                      <div className="flex items-center justify-center ">
+                        <div className="bg-[#000] px-1.5 lg:px-5 lg:py-3.5 flex items-center justify-center">
+                          <p className="text-[#fff] text-[8px] lg:text-xl">
+                            {formatCurrency(cart?.discount_total)} off
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   <div className="flex mb-3 flex-row justify-between">
                     <div>
@@ -137,7 +141,6 @@ export default function PaymentSuccess() {
 
                     <div className="flex items-center">
                       <p className="text-[10px] lg:text-lg">
-                        {" "}
                         {formatCurrency(cart?.discount_total)}{" "}
                       </p>
                     </div>
@@ -183,7 +186,7 @@ export default function PaymentSuccess() {
                 <Button
                   clickAction={() => {
                     // setCheckoutStage("CART_VIEW")
-                    resetCartStore()
+                    resetCartStore();
                   }}
                   width="full"
                   title="Back to shopping"

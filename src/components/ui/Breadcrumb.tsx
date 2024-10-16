@@ -17,8 +17,8 @@ export default function Breadcrumb({ items }: BreadcrumbItemProps) {
           <Link href={route}>
             <p
               className={cn(
-                "text-xs",
-                pathName === route ? "text-brown-dark-1500 font-bold" : "text-brown-light-1500"
+                "text-xs lg:text-sm",
+                pathName === route ? "text-brown-dark-1500 font-bold" : "text-brown-light-1300"
               )}
             >
               {text} {index + 1 !== items?.length && "/"}

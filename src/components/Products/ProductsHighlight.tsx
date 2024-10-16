@@ -54,7 +54,7 @@ export default function ProductsHighlight({
   return (
     <div>
       <div className="layout ">
-        <h1 className="text-[20px] text-brown-2100 lg:text-[40px]">{title}</h1>
+        <h1 className="text-[20px] text-brown-dark-2100 lg:text-[40px]">{title}</h1>
       </div>
 
       <LazyMotion strict features={loadFeatures}>

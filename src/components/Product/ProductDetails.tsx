@@ -9,6 +9,8 @@ import { useCartStore } from "@/src/state/cart";
 import { useRegions } from "medusa-react";
 import { getUserData } from "@/utils/actions/user";
 import { useCustomerStore } from "@/src/state/customer";
+import Breadcrumb from "../ui/Breadcrumb";
+import { usePathname } from "next/navigation";
 
 const ProductDetails = ({ product }: { product: Product }) => {
   const [itemVariant, setVariant] = useState(product?.variants[0]);
@@ -18,8 +20,8 @@ const ProductDetails = ({ product }: { product: Product }) => {
 
   const [productQuantity, setProductQuantity] = useState(1);
 
-  const { storeProduct, addProductToCart, getCart } =
-    useDexieDB();
+  const { storeProduct, addProductToCart } = useDexieDB();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (product) {
@@ -72,6 +74,15 @@ const ProductDetails = ({ product }: { product: Product }) => {
 
   return (
     <div className="layout">
+      <div className="flex mt-2 mb-12 justify-center">
+        <Breadcrumb
+          items={[
+            { route: "/", text: "Home" },
+            { route: pathname, text: product?.title },
+          ]}
+        />
+      </div>
+
       <div className="flex flex-col lg:grid lg:grid-cols-2">
         <ProductGallery product={product} />
 

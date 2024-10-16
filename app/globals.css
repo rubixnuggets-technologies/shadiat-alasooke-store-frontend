@@ -84,6 +84,10 @@ label {
   max-width: 1440px;
   margin: 0 auto;
 
+  @media (max-width: 1440px) {
+    margin: 0 30px;
+  }
+
   @media (max-width: 640px) {
     margin: 0 20px;
   }

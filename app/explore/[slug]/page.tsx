@@ -49,7 +49,7 @@ export default async function ExplorePage({ params }) {
         collectionKey={data?.collection_key}
       />
 
-      <hr className="hidden lg:flex text-brown-1200 mt-5" />
+      <hr className="hidden lg:flex text-brown-light-1200 mt-9" />
 
       <ProductsHighlight
         filters={{

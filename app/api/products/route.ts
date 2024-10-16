@@ -1,35 +1,13 @@
 import { initialize as initializeProductModule } from "@medusajs/product";
 import { NextRequest, NextResponse } from "next/server";
 
-// {
-//   key: "NEW_ARRIVAL",
-//   value: "New Arrival",
-// },
-// {
-//   key: "PRICE_LOW_TO_HIGH",
-//   value: "Price: Low to High",
-// },
-// {
-//   key: "PRICE_HIGH_TO_LOW",
-//   value: "Price: High to Low",
-// },
-
-const generateSortOptions = (sort: string): { [K: string]: "DESC" | "ASC" } => {
+const generateSortOptions = (sort: string): any => {
   switch (sort) {
-    // case "NEW_ARRIVAL":
-    //   return {
-    //     created_at: "DESC",
-    //   };
+    case "PRICE_LOW_TO_HIGH":
+      return "-variants.prices.amount";
 
-    // case "PRICE_LOW_TO_HIGH":
-    //   return {
-    //     ['metadata.BASE_PRICE']: "ASC",
-    //   };
-
-    // case "PRICE_HIGH_TO_LOW":
-    //   return {
-    //     price: "DESC",
-    //   };
+    case "PRICE_HIGH_TO_LOW":
+      return "variants.prices.amount";
 
     default:
       return {
@@ -55,6 +33,18 @@ export async function GET(request: NextRequest, res: NextResponse) {
 
     const queryArray: Array<string> = JSON.parse(query);
 
+    if (sort === "PRICE_LOW_TO_HIGH" || sort === "PRICE_HIGH_TO_LOW") {
+      const request = await fetch(
+        `${process.env.NEXT_PUBLIC_MEDUSA_ENDPOINT}/store/products?order=${generateSortOptions(sort!)}&limit=${limit}`
+      );
+
+      const data = await request.json();
+
+      return Response.json({
+        data: { products: data?.products, total: data?.count },
+      });
+    }
+
     const productService = await initializeProductModule();
 
     if (collectionId) {
@@ -72,17 +62,14 @@ export async function GET(request: NextRequest, res: NextResponse) {
         };
       }
 
-      const [products, count] = await productService.listAndCount(
-        {
-          ...filters,
+      const [products, count] = await productService.listAndCount(filters, {
+        order: {
+          created_at: "DESC",
         },
-        {
-          order: generateSortOptions(sort!),
-          relations: ["variants"],
-          skip: parseInt(limit!) * (parseInt(pagination!) || 0),
-          take: parseInt(limit!),
-        }
-      );
+        relations: ["variants"],
+        skip: parseInt(limit!) * (parseInt(pagination!) || 0),
+        take: parseInt(limit!),
+      });
 
       return Response.json({
         data: { products: products, total: count },
@@ -97,12 +84,6 @@ export async function GET(request: NextRequest, res: NextResponse) {
                 value: queryArray,
               }
             : undefined,
-      },
-      {
-        // order: "ASC"
-        // take: parseInt(limit!),
-        // take: limit ? parseInt(limit) : undefined,
-        // relations: ["products"],
       }
     );
 

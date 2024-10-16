@@ -79,7 +79,7 @@ export default function ProductFilterPane({
   }, [productTags]);
 
   return (
-    <div className="hidden lg:flex flex-col w-fill border-r-2 h-full border-brown-1200 pl-12 pr-6 pt-8 ">
+    <div className="hidden lg:flex flex-col w-fill border-r-2 h-full border-brown-light-1200 pl-12 pr-6 pt-8 ">
       <div className="flex flex-row items-center justify-between">
         <div className="flex items-center">
           <h1 className="text-[40px]"> Filters </h1>
@@ -100,7 +100,7 @@ export default function ProductFilterPane({
               onClick={() => toggleFilterTab("by_product_filters")}
               className="flex flex-row hover:cursor-pointer justify-between"
             >
-              <p className="text-base"> By Product </p>
+              <h3 className="text-base text-brown-light-2100"> By Product </h3>
 
               <AnimatedChevron
                 filterTabs={activeFilterTab}
@@ -123,13 +123,13 @@ export default function ProductFilterPane({
                             <div
                               onClick={() => applyProductTag(filter)}
                               className={cn(
-                                `h-9 px-4 hover:cursor-pointer border-[1px] rounded-full flex items-center justify-center`,
+                                `h-9 px-4 hover:cursor-pointer  rounded-full flex items-center justify-center`,
                                 productTags.includes(filter)
-                                  ? "border-brown-1500"
-                                  : "border-brown-1200"
+                                  ? "border-brown-dark-1500 border-[2.5px]"
+                                  : "border-brown-light-1500 border-[1px]"
                               )}
                             >
-                              <p className="text-brown-1500">{filter}</p>
+                              <p className="text-brown-dark-1500">{filter}</p>
                             </div>
                           </li>
                         ))}
@@ -148,7 +148,7 @@ export default function ProductFilterPane({
               onClick={() => toggleFilterTab("by_color_filters")}
               className="flex flex-row hover:cursor-pointer justify-between"
             >
-              <p className="text-base"> By Color </p>
+              <h3 className="text-base text-brown-light-2100"> By Color </h3>
 
               <AnimatedChevron
                 filterTabs={activeFilterTab}
@@ -173,8 +173,8 @@ export default function ProductFilterPane({
                               className={cn(
                                 `h-9 px-4 hover:cursor-pointer border-[1px] rounded-full flex items-center justify-center`,
                                 productTags.includes(filter)
-                                  ? "border-brown-1500"
-                                  : "border-brown-1200"
+                                  ? "border-brown-dark-1500 border-[2.5px]"
+                                  : "border-brown-light-1500 border-[1px]"
                               )}
                             >
                               <p className="text-brown-1500">{filter}</p>
@@ -196,7 +196,7 @@ export default function ProductFilterPane({
               onClick={() => toggleFilterTab("by_new_arrivals_filters")}
               className="flex flex-row hover:cursor-pointer justify-between"
             >
-              <p className="text-base"> By New Arrivals </p>
+              <h3 className="text-base text-brown-light-2100"> By New Arrivals </h3>
 
               <AnimatedChevron
                 filterTabs={activeFilterTab}
@@ -221,8 +221,8 @@ export default function ProductFilterPane({
                               className={cn(
                                 `h-9 px-4 hover:cursor-pointer border-[1px] rounded-full flex items-center justify-center`,
                                 productTags.includes(filter)
-                                  ? "border-brown-1500"
-                                  : "border-brown-1200"
+                                  ? "border-brown-dark-1500 border-[2.5px]"
+                                  : "border-brown-light-1500 border-[1px]"
                               )}
                             >
                               <p className="text-brown-1500">{filter}</p>
@@ -240,7 +240,7 @@ export default function ProductFilterPane({
 
         <div>
           <div className="flex flex-row hover:cursor-pointer justify-between">
-            <p className="text-base"> By Price </p>
+            <h3 className="text-base text-brown-light-2100"> By Price </h3>
 
             <AnimatedChevron
               filterTabs={activeFilterTab}

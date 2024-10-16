@@ -46,8 +46,13 @@ export default function ProductNavigation({ itemsPerPage, collectionKey }) {
     sortKey: "NEW_ARRIVAL",
   });
 
-  const { isFilterPaneVisible, toggleFilterPane, queryProducts, sortProducts, products } =
-    useProductStore();
+  const {
+    isFilterPaneVisible,
+    toggleFilterPane,
+    queryProducts,
+    sortProducts,
+    products,
+  } = useProductStore();
 
   // const dropdownRef = useRef<HTMLDivElement>();
   const dropdownRef = useOutsideClickDetector(() =>
@@ -58,18 +63,18 @@ export default function ProductNavigation({ itemsPerPage, collectionKey }) {
     })
   );
 
-  // useEffect(() => {
-  //   if (collectionKey) {
-  //     // queryProducts({
-  //     //   collectionId: collectionKey,
-  //     //   limit: itemsPerPage,
-  //     //   sort: sortMenu.sortValue,
-  //     //   // page: itemsPerPage,
-  //     // });
+  useEffect(() => {
+    if (collectionKey) {
+      queryProducts({
+        collectionId: collectionKey,
+        limit: itemsPerPage,
+        sort: sortMenu.sortKey,
+        // page: itemsPerPage,
+      });
 
-  //     sortProducts(sortMenu.sortValue, products);
-  //   }
-  // }, [sortMenu.sortValue, collectionKey]);
+      sortProducts(sortMenu.sortValue, products);
+    }
+  }, [sortMenu.sortValue, collectionKey]);
 
   return (
     <div className="layout">
@@ -129,7 +134,6 @@ export default function ProductNavigation({ itemsPerPage, collectionKey }) {
         <div className="hidden lg:flex flex-row items-center gap-4">
           <p className="text-lg text-brown-dark-1500"> Sort by: </p>
 
-
           <div className="relative">
             <div
               onClick={() =>
@@ -141,7 +145,9 @@ export default function ProductNavigation({ itemsPerPage, collectionKey }) {
               className="w-[173px] h-[36px] border-[1px] border-brown-light-500 rounded-full px-5 flex items-center cursor-pointer"
             >
               <div className="flex flex-row w-full justify-between">
-                <p className="text-brown-light-1500 text-sm">{sortMenu.sortValue}</p>
+                <p className="text-brown-light-1500 text-sm">
+                  {sortMenu.sortValue}
+                </p>
 
                 <RxCaretDown size={22} />
               </div>
@@ -160,10 +166,14 @@ export default function ProductNavigation({ itemsPerPage, collectionKey }) {
                         onClick={() =>
                           setMenu((state) => ({
                             ...state,
-                            ...{ sortValue: value, isVisible: false, sortKey: key },
+                            ...{
+                              sortValue: value,
+                              isVisible: false,
+                              sortKey: key,
+                            },
                           }))
                         }
-                        className={`hover:cursor-pointer text-base ${sortMenu.sortValue === key ? "text-brown-[#574F4B]" : "text-brown-[#928477]"}`}
+                        className={`hover:cursor-pointer text-base ${sortMenu.sortKey === key ? "font-bold text-brown-dark-1500" : "text-brown-light-1500"}`}
                       >
                         {value}
                       </p>
@@ -176,7 +186,7 @@ export default function ProductNavigation({ itemsPerPage, collectionKey }) {
         </div>
 
         <div className="flex lg:hidden">
-          <ProductsFilterSm filters={''}  />
+          <ProductsFilterSm filters={""} />
         </div>
       </div>
     </div>
