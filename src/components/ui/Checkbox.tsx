@@ -1,19 +1,25 @@
-import { useState } from "react";
+import classNames from "classnames";
+
+interface CheckboxProps {
+  isActive: boolean;
+  selectCheckbox: () => void;
+  borderColor?: string;
+}
 
 export default function Checkbox({
   isActive,
+  borderColor,
   selectCheckbox = () => {},
-}: {
-  selectCheckbox: () => void;
-  isActive?: boolean;
-}) {
- 
+}: CheckboxProps) {
   return (
     <div className="inline-flex items-center">
       <label className="flex items-center cursor-pointer relative">
         <input
           type="checkbox"
-          className="peer h-3.5 w-3.5 lg:h-5 lg:w-5 cursor-pointer transition-all appearance-none  border border-brown-light-1500 checked:bg-slate-800 checked:border-slate-800"
+          className={classNames(
+            "peer h-3.5 w-3.5 lg:h-5 lg:w-5 cursor-pointer transition-all appearance-none  border checked:bg-slate-800 checked:border-slate-800",
+            borderColor ? borderColor : "border-brown-light-1500"
+          )}
           id="check"
           style={{ borderRadius: "2px" }}
           checked={isActive}

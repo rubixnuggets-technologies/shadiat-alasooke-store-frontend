@@ -9,25 +9,33 @@ import Checkbox from "../ui/Checkbox";
 import Header from "../Header";
 import MedusaClient from "@/utils/Medusa/MedusaClient";
 import Button from "../ui/button";
+import { tempReorderRank } from "@medusajs/medusa/dist/types/product-category";
+import classNames from "classnames";
+import { useCustomerStore } from "@/src/state/customer";
 
 interface UserDetails {
   name: string;
   email: string;
   password: string;
-  confirmPassword: string;
 }
 
 export default function CreateAccount() {
-  const [isTOCAccepted, acceptTOC] = useState(false);
+  const [termsAndConditions, acceptTermsAndConditions] = useState({
+    accepted: false,
+    validationError: false,
+  });
   const router = useRouter();
 
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<UserDetails>();
 
   const createCustomer = useCreateCustomer();
+
+  const {} = useCustomerStore();
 
   const [authStatus, setAuthStatus] = useState({
     status: "",
@@ -48,7 +56,19 @@ export default function CreateAccount() {
     }, 3000);
   };
 
+  const [confirmPassword, setConfirmedPassword] = useState("");
+  const [password] = watch(["password"]);
+
   const submitUserDetails: SubmitHandler<UserDetails> = async (data) => {
+    if (!termsAndConditions.accepted) {
+      acceptTermsAndConditions({
+        validationError: true,
+        accepted: false,
+      });
+
+      return;
+    }
+
     try {
       const nameSplit = data?.name?.split(" ");
 
@@ -69,9 +89,18 @@ export default function CreateAccount() {
             router.refresh();
             router.push("/");
           },
-          onError: (error) => {
+          onError: ({ message, cause }) => {
+            // TODO: error cause value is not defined & not returning type
+            if (message === "Request failed with status code 422") {
+              handleCreateAccountError(
+                "An account with this email already exists. Please log in or reset your password."
+              );
+
+              return;
+            }
+
             handleCreateAccountError(
-              "An error occurred while creating account"
+              "An error occurred while creating your account"
             );
           },
         }
@@ -97,15 +126,15 @@ export default function CreateAccount() {
                   <div className="login-header">
                     <h1
                       id="auth__title"
-                      className="text-[20px] lg:text-[40px] text-brown-2100"
+                      className="text-[20px] lg:text-[40px] text-brown-light-2100"
                     >
                       Create your account
                     </h1>
                   </div>
 
                   {authStatus.status === "ERROR" && (
-                    <div className="bg-coral-700 h-12 my-4 flex items-center justify-center">
-                      <p className="text-white">{authStatus.message}</p>
+                    <div className="bg-coral-700 h-14 my-4 flex items-center justify-center">
+                      <p className="text-white text-center">{authStatus.message}</p>
                     </div>
                   )}
 
@@ -176,26 +205,41 @@ export default function CreateAccount() {
                           type="password"
                           className="form-control focus:outline-none text-xs lg:text-base auth__input"
                           defaultValue={""}
-                          {...register("confirmPassword", {
-                            required: true,
-                          })}
                           placeholder="CONFIRM PASSWORD*"
+                          onChange={(e) => setConfirmedPassword(e.target.value)}
                         />
 
-                        {errors.confirmPassword && (
+                        {confirmPassword && confirmPassword !== password && (
                           <p className="mt-1 text-coral-700 text-xs">
-                            *Required Field
+                            Passwords do not match
                           </p>
                         )}
                       </div>
 
                       <div className="mt-5 flex flex-row gap-2 mb-8">
                         <Checkbox
-                          selectCheckbox={() => acceptTOC(!isTOCAccepted)}
-                          isActive={isTOCAccepted}
+                          borderColor={
+                            termsAndConditions.validationError
+                              ? "border-coral-700"
+                              : "border-brown-light-1500"
+                          }
+                          selectCheckbox={() =>
+                            acceptTermsAndConditions({
+                              validationError: false,
+                              accepted: !termsAndConditions.accepted,
+                            })
+                          }
+                          isActive={termsAndConditions.accepted}
                         />
 
-                        <p className="text-sm text-[#574F4B]">
+                        <p
+                          className={classNames(
+                            "text-sm",
+                            termsAndConditions.validationError
+                              ? "text-coral-700"
+                              : "text-brown-dark-1500"
+                          )}
+                        >
                           I have read and agree to the
                           <Link href={"/about/terms-and-conditions"}>
                             <span className="underline ml-1 mr-1 hover:cursor-pointer text-[#3EB489]">
@@ -213,13 +257,15 @@ export default function CreateAccount() {
 
                       <div className="flex flex-col mt-8">
                         <Button
-                          disabled={!isTOCAccepted}
+                          disabled={
+                            confirmPassword !== password
+                          }
                           title="Create Account"
                           clickAction={handleSubmit(submitUserDetails)}
                         />
 
                         <div className="mt-4">
-                          <p className="text-sm text-[#574F4B]">
+                          <p className="text-sm text-brown-dark-1500">
                             Have an Account already?
                             <Link href={"/customer/login"}>
                               <span

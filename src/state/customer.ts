@@ -25,6 +25,7 @@ export interface ICustomerState {
   modifyCustomerCartId: (cart?: Cart) => Promise<void>;
 
   updateBillingAddress: (address: any) => Promise<void>;
+  // createCustomerAccount: ({ email, password, fullname }:  ) => Promise<void>;
 }
 
 const initialState: Pick<ICustomerState, "customer"> = {
@@ -33,6 +34,21 @@ const initialState: Pick<ICustomerState, "customer"> = {
 
 export const useCustomerStore = create<ICustomerState>((set) => ({
   ...initialState,
+
+  // createCustomerAccount: async ({ email, password, fullname }) => {
+  //   try {
+
+  //     const customer = await = medusa.customers.create({
+  //       first_name: "Alec",
+  //       last_name: "Reynolds",
+  //       email: "user@example.com",
+  //       password: "supersecret"
+  //     })
+
+  //   } catch (error) {
+  //     console.error("Error setting customer data");
+  //   }
+  // },
 
   setCustomer: async (customer) => {
     if (customer) {
@@ -94,9 +110,7 @@ export const useCustomerStore = create<ICustomerState>((set) => ({
         },
       });
 
-      console.log("CUSTOMER =>", customer);
-
-      // return set({ customer });
+      return set({ customer });
     } catch (error) {
       console.error("Error updating billing address", error);
     }
