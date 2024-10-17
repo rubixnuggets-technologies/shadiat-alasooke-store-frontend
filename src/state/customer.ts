@@ -15,17 +15,14 @@ interface UserInfo {
 export interface ICustomerState {
   customer: null | Customer;
 
-  // removeCustomerCartId: () => void;
-
   setCustomer: (customer?: Customer) => Promise<void>;
-  bookmarkProduct: (product?: Product, bookmarks?: any) => void;
-  removeBookmark: (product?: Product, bookmarks?: any) => void;
-  updateCustomerInfo: ({ email, fullname, phone }: UserInfo) => void;
-  logoutCustomer: () => void;
+  bookmarkProduct: (product?: Product, bookmarks?: any) => Promise<void>;
+  removeBookmark: (product?: Product, bookmarks?: any) => Promise<void>;
+  updateCustomerInfo: ({ email, fullname, phone }: UserInfo) => Promise<void>;
+  logoutCustomer: () => Promise<void>;
   modifyCustomerCartId: (cart?: Cart) => Promise<void>;
 
   updateBillingAddress: (address: any) => Promise<void>;
-  // createCustomerAccount: ({ email, password, fullname }:  ) => Promise<void>;
 }
 
 const initialState: Pick<ICustomerState, "customer"> = {
@@ -34,21 +31,6 @@ const initialState: Pick<ICustomerState, "customer"> = {
 
 export const useCustomerStore = create<ICustomerState>((set) => ({
   ...initialState,
-
-  // createCustomerAccount: async ({ email, password, fullname }) => {
-  //   try {
-
-  //     const customer = await = medusa.customers.create({
-  //       first_name: "Alec",
-  //       last_name: "Reynolds",
-  //       email: "user@example.com",
-  //       password: "supersecret"
-  //     })
-
-  //   } catch (error) {
-  //     console.error("Error setting customer data");
-  //   }
-  // },
 
   setCustomer: async (customer) => {
     if (customer) {
@@ -172,13 +154,17 @@ export const useCustomerStore = create<ICustomerState>((set) => ({
 
   logoutCustomer: async () => {
     try {
+
+      // TODO: MedusaClient is not deleting auth session. `setCustomer` still has customer obj.
       await MedusaClient.auth.deleteSession();
 
-      await removeUserData();
+      // await MedusaClient.auth.client.setHeaders({
+      //   numberOfRetries: 1,
+      // }, )
 
       return set(initialState);
     } catch (error) {
-      console.error("Error bookmarking product", error);
+      console.log("Error logging customer out", error);
     }
   },
 }));

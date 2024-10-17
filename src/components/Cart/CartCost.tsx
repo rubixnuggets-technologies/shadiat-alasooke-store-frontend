@@ -11,7 +11,7 @@ export default function CartCost() {
   }
 
   return (
-    <div className="border-[1px] border-black mx-6 lg:mx-2 lg:max-w-[328px] w-full px-6 lg:px-7 py-10 lg:py-12">
+    <div className="border-[1px] max-h-[310px] border-black mx-6 lg:mx-2 lg:max-w-[328px] w-full px-6 lg:px-7 py-10 lg:py-12">
       <div className="flex justify-between">
         <p className="text-xl">Subtotal</p>
         <p className="text-xl">{formatCurrency(cart?.total)}</p>

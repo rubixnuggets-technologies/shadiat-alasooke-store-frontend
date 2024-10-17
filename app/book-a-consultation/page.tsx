@@ -31,16 +31,16 @@ export default function BookAConsultationPage() {
         </div>
       </div>
 
-      <div className="mx-8 lg:max-w-[800px] lg:m-auto">
+      <div className="mx-8 lg:max-w-[850px] lg:m-auto">
         <h1 className="text-[20px] text-brown-2100 lg:text-[40px]">
           Consultation Booking Form{" "}
         </h1>
 
-        <div className="flex flex-col lg:grid lg:grid-cols-[431px_auto]">
+        <div className="flex flex-col lg:grid lg:grid-cols-[430px_auto]">
           <ConsultationForm />
 
-          <div className="flex justify-center lg:ml-40">
-            <div className="bg-brown-light-100 mt-14 lg:mt-1 py-8 px-12 max-w-full h-fit lg:max-w-[265px]">
+          <div className="flex justify-center lg:ml-24">
+            <div className="bg-brown-light-100 mt-14 lg:mt-1 py-8 px-12 max-w-full h-fit lg:max-w-[400px]">
               <div className="flex flex-col">
                 <div className="flex flex-row mb-3.5">
                   <Note />
@@ -52,7 +52,7 @@ export default function BookAConsultationPage() {
 
                 <ul className="list list-disc	 flex flex-col gap-2">
                   <li>
-                    <p className="text-xs text-brown-dark-2100">
+                    <p className="text-xs lg:text-sm text-brown-dark-2100">
                       A consultation session with the Creative Director requires
                       a fee of ₦20,000 ($30). This fee will be deducted from the
                       overall cost if you choose to proceed after the
@@ -61,7 +61,7 @@ export default function BookAConsultationPage() {
                   </li>
 
                   <li>
-                    <p className="text-xs text-brown-dark-2100">
+                    <p className="text-xs lg:text-sm text-brown-dark-2100">
                       All meeting times are in W.A.T.
                     </p>
                   </li>
@@ -73,7 +73,7 @@ export default function BookAConsultationPage() {
                   <Dollar />
 
                   <div className="flex items-center">
-                    <p className="ml-2.5 text-green-600 text-xs font-semibold">
+                    <p className="ml-2.5 text-green-600 text-xs lg:text-sm font-semibold">
                       Kindly pay into:
                     </p>
                   </div>
@@ -81,13 +81,13 @@ export default function BookAConsultationPage() {
 
                 <ul className="list list-disc	 flex flex-col gap-2">
                   <li>
-                    <p className="text-xs text-brown-dark-2100" >
+                    <p className="text-xs lg:text-sm text-brown-dark-2100" >
                       PayPal (use friends & family): Shadiatalasooke@gmail.com
                     </p>
                   </li>
 
                   <li>
-                    <p className="text-xs text-brown-dark-2100" >
+                    <p className="text-xs lg:text-sm text-brown-dark-2100" >
                       Click here to send proof of payment (if meeting with the
                       Creative Director).
                     </p>

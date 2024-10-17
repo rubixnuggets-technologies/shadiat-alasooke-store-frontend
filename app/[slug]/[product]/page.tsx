@@ -21,8 +21,8 @@ const getPage = async (slug: string): Promise<{ product: Product }> => {
   }
 };
 
-const Page = async ({ params }: { params: { slug: string } }) => {
-  const { product } = await getPage(params?.slug);
+const Page = async ({ params }: { params: { product: string } }) => {
+  const { product } = await getPage(params?.product);
 
   return (
     <div>

@@ -30,10 +30,20 @@ export interface ICheckoutState {
     | "PAYMENT_SUCCESS";
 
   cart: Cart | null;
-  // checkoutDetails: Record<ICheckoutDetail, string>;
+  checkoutHistory: string[];
 
   deliveryDetails: Record<IDeliveryDetail, string>;
   paymentDetails: Record<IPaymentDetail, string>;
+
+  addProductToCart: ({
+    variant_id,
+    quantity,
+    cart_id,
+  }: {
+    variant_id: string;
+    quantity: number;
+    cart_id: string;
+  }) => Promise<void>;
 
   setDeliveryDetail: (key: string, value: string) => void;
   setPaymentDetail: () => void;
@@ -57,6 +67,22 @@ export interface ICheckoutState {
     deliveryMethod: any;
   }) => void;
   resetCartStore: () => void;
+  removeProductFromCart: ({
+    item_id,
+    cart_id,
+  }: {
+    item_id: string;
+    cart_id: string;
+  }) => Promise<void>;
+  updateProductInCart: ({
+    item_id,
+    cart_id,
+    quantity,
+  }: {
+    item_id: string;
+    cart_id: string;
+    quantity: number;
+  }) => Promise<void>;
   setCheckoutStage: (stage: ICheckoutState["checkoutStage"]) => void;
   setCart: ({ cart_id, cart }: { cart_id?: string; cart?: Cart }) => void;
 }
@@ -68,9 +94,14 @@ export const PAYMENT_SUCCESS = "PAYMENT_SUCCESS";
 
 const initialState: Pick<
   ICheckoutState,
-  "cart" | "checkoutStage" | "deliveryDetails" | "paymentDetails"
+  | "cart"
+  | "checkoutStage"
+  | "deliveryDetails"
+  | "paymentDetails"
+  | "checkoutHistory"
 > = {
   checkoutStage: CART_VIEW,
+  checkoutHistory: [],
   cart: null,
 
   deliveryDetails: {
@@ -94,13 +125,66 @@ const initialState: Pick<
   },
 };
 
-export const useCartStore = create<ICheckoutState>((set) => ({
+export const useCartStore = create<ICheckoutState>((set, state) => ({
   ...initialState,
 
   resetCartStore: () => set(initialState),
 
   setCheckoutStage: (stage: ICheckoutState["checkoutStage"]) =>
-    set({ checkoutStage: stage }),
+    set((state) => ({
+      checkoutStage: stage,
+      checkoutHistory: [...state.checkoutHistory, stage],
+    })),
+
+  addProductToCart: async ({ variant_id, quantity, cart_id }) => {
+    try {
+      const { cart } = await MedusaClient.carts.lineItems.create(cart_id, {
+        variant_id,
+        quantity,
+      });
+
+      set({ cart });
+    } catch (error) {
+      console.log("ADD TO CART ERR:", error);
+    }
+  },
+
+  removeProductFromCart: async ({ item_id, cart_id }) => {
+    try {
+      const { cart } = await MedusaClient.carts.lineItems.delete(
+        cart_id,
+        item_id
+      );
+
+      return set({ cart });
+    } catch (error) {
+      console.log("REMOVE FROM CART ERR:", error);
+    }
+  },
+
+  updateProductInCart: async ({
+    item_id,
+    cart_id,
+    quantity,
+  }: {
+    item_id: string;
+    cart_id: string;
+    quantity: number;
+  }) => {
+    try {
+      const { cart } = await MedusaClient.carts.lineItems.update(
+        cart_id,
+        item_id,
+        {
+          quantity,
+        }
+      );
+
+      return set({ cart });
+    } catch (error) {
+      console.log("UPDATE CART ITEM ERR:", error);
+    }
+  },
 
   createCart: async (regionId, customerId) => {
     try {

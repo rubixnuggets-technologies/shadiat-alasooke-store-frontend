@@ -1,8 +1,8 @@
 "use client";
-import React, { use, useEffect, useMemo, useState } from "react";
-import { LiaBookmark } from "react-icons/lia";
+import React, { useMemo } from "react";
 import { TfiPlus } from "react-icons/tfi";
-import { IoIosBookmark } from "react-icons/io";
+import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
+
 import Link from "next/link";
 import { useCartStore } from "@/src/state/cart";
 import { useRegions } from "medusa-react";
@@ -12,8 +12,6 @@ import { useSearchStore } from "@/src/state/store";
 import { Product } from "@medusajs/medusa";
 import { useCustomerStore } from "@/src/state/customer";
 import { useRouter } from "next/navigation";
-import { useDexieDB } from "@/utils/hooks/useDexieDB";
-import { PiBookmarkSimpleThin } from "react-icons/pi";
 
 import { head } from "lodash";
 
@@ -24,24 +22,16 @@ export default function ProductCard({
   product: Product;
   itemsType: string;
 }) {
-  const {
-    customer,
-    setCustomer,
-    modifyCustomerCartId,
-    bookmarkProduct,
-    removeBookmark,
-  } = useCustomerStore();
+  const { customer, modifyCustomerCartId, bookmarkProduct, removeBookmark } =
+    useCustomerStore();
 
   const { resetSearch } = useSearchStore();
   const router = useRouter();
+  const { addProductToCart } = useCartStore()
 
-  const { storeProduct, addProductToCart, getCart } = useDexieDB();
+  // const { addProductToCart } = useDexieDB();
 
-  // useEffect(() => {
-  //   setCustomer();
-  // }, []);
-
-  const { regions, isLoading: isRegionLoading } = useRegions();
+  const { regions } = useRegions();
   const cartStore = useCartStore();
 
   const productBookmark = useMemo(() => {
@@ -57,11 +47,11 @@ export default function ProductCard({
       return router.push("/customer/login");
     }
 
-    const userLocalRegion = regions?.find(
-      (region) => region.name === "Nigeria"
-    );
-
     if (!customer?.metadata?.cartId) {
+      const userLocalRegion = regions?.find(
+        (region) => region.name === "Nigeria"
+      );
+
       const { cart: createdCart } = await cartStore?.createCart(
         userLocalRegion?.id,
         customer?.id
@@ -75,7 +65,7 @@ export default function ProductCard({
         cart_id: createdCart?.id,
       });
 
-      return;
+      return router.push("/cart");
     }
 
     await addProductToCart({
@@ -83,6 +73,8 @@ export default function ProductCard({
       quantity: 1,
       cart_id: customer?.metadata?.cartId,
     });
+
+    return router.push("/cart");
   };
 
   const handleProductBookmark = async () => {
@@ -102,36 +94,34 @@ export default function ProductCard({
   };
 
   return (
-    <div
-      className="border-black border-[0.50px] h-full min-w-40 md:min-w-48 lg:min-w-64"
-    >
-      <Link
-        onClick={resetSearch}
-        href={
-          (product?.metadata?.PRODUCT_TYPE as unknown as string) === "NATIVE"
-            ? `/natives/${product?.handle}`
-            : `/shop/${product?.handle}`
-        }
-      >
-        <div className="w-full overflow-hidden relative h-[312px] lg:h-[390px]">
+    <div className="border-black border-[0.50px] h-full min-w-40 md:min-w-48 lg:min-w-64">
+      <div className="w-full overflow-hidden relative h-[312px] lg:h-[390px]">
+        <Link
+          onClick={resetSearch}
+          href={
+            (product?.metadata?.PRODUCT_TYPE as unknown as string) === "NATIVE"
+              ? `/natives/${product?.handle}`
+              : `/ready-to-wear/${product?.handle}`
+          }
+        >
           <img
             alt={product?.title || "alasooke"}
             className="absolute transition ease-in-out duration-500 hover:scale-110	object-cover w-full h-full"
             src={product?.thumbnail}
           />
+        </Link>
 
-          {itemsType === "PRODUCTS" && (
-            <div
-              onClick={quickAddToCart}
-              className="flex justify-center hover:cursor-pointer"
-            >
-              <div className="h-6 w-6 absolute bottom-4 z-5 rounded-full bg-white flex items-center justify-center">
-                <TfiPlus size={14} />
-              </div>
+        {itemsType === "PRODUCTS" && (
+          <div
+            onClick={quickAddToCart}
+            className="flex justify-center hover:cursor-pointer"
+          >
+            <div className="h-6 w-6 absolute bottom-4 z-5 rounded-full bg-white flex items-center justify-center">
+              <TfiPlus size={14} />
             </div>
-          )}
-        </div>
-      </Link>
+          </div>
+        )}
+      </div>
 
       <div className="pt-4 lg:pt-6 pl-1 lg:pl-7 pr-2 pb-12 flex flex-row justify-between ">
         <Link
@@ -162,14 +152,14 @@ export default function ProductCard({
                 className="hover:cursor-pointer"
                 onClick={handleRemoveProductBookmark}
               >
-                <IoIosBookmark size={22} />
+                <IoIosHeart size={22} />
               </div>
             ) : (
               <div
                 className="hover:cursor-pointer"
                 onClick={handleProductBookmark}
               >
-                <PiBookmarkSimpleThin size={22} />
+                <IoIosHeartEmpty size={22} />
               </div>
             )}
           </div>

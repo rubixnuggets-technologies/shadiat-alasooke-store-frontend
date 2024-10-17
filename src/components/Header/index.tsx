@@ -19,11 +19,11 @@ import { usePathname } from "next/navigation";
 const LIST_ITEMS = [
   {
     name: "aso oke",
-    url: "/explore/shop-aso-oke",
+    url: "/shop-aso-oke",
   },
   {
     name: "ready to wear",
-    url: "/explore/shop-rtw",
+    url: "/ready-to-wear",
   },
   {
     name: "about",

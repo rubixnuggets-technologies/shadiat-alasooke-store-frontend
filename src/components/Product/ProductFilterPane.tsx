@@ -238,7 +238,7 @@ export default function ProductFilterPane({
           </div>
         )}
 
-        <div>
+        {/* <div>
           <div className="flex flex-row hover:cursor-pointer justify-between">
             <h3 className="text-base text-brown-light-2100"> By Price </h3>
 
@@ -247,7 +247,7 @@ export default function ProductFilterPane({
               activeFilter="by_price_filter"
             />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

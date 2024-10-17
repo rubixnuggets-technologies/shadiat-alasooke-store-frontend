@@ -14,8 +14,11 @@ const LgBreadcrumb = () => {
   const handleLogout = async () => {
     await logoutCustomer();
 
-    router.push("/");
+    router.refresh()
+    router.push("/login");
   };
+
+  console.log("CUSTOMER =>", customer);
 
   return (
     <div className="bg-brown-light-100 px-8 py-8 rounded-xl w-60">

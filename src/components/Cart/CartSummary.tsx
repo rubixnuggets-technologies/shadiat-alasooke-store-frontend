@@ -44,7 +44,6 @@ export default function CartSummary({
                     <p className="text-sm text-brown-1700 lg:text-lg mb-2 font-semibold">
                       {title}{" "}
                     </p>
-                    <p className="text-xs mb-2">COLOR</p>
                     <p className="text-[10px]">{variant?.title}</p>
                   </div>
                 </div>

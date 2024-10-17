@@ -3,14 +3,13 @@ import CartCost from "@/src/components/Cart/CartCost";
 import CartTable from "@/src/components/Cart/CartTable";
 import CheckoutForm from "@/src/components/Cart/CheckoutForm";
 import PaymentForm from "@/src/components/Cart/PaymentForm";
-import Breadcrumb from "@/src/components/ui/Breadcrumb";
 import { ICheckoutState, useCartStore } from "@/src/state/cart";
 import { useEffect } from "react";
 import cn from "classnames";
 import PaymentSuccess from "@/src/components/Payment/PaymentSuccess";
-import { useCustomerStore } from "@/src/state/customer";
 import PagesHeroSection from "@/src/components/ui/PagesHeroSection";
 import { usePathname } from "next/navigation";
+import { isEmpty } from "lodash";
 
 const CheckoutStage = ({
   checkoutStage,
@@ -81,7 +80,8 @@ const pathnames = {
 };
 
 export default function CartWrapper() {
-  const { checkoutStage, setCheckoutStage } = useCartStore();
+  const { checkoutStage, setCheckoutStage, checkoutHistory, cart } =
+    useCartStore();
   const pathname = usePathname();
 
   useEffect(() => {
@@ -93,80 +93,111 @@ export default function CartWrapper() {
 
   return (
     <div>
-      {checkoutStage !== "PAYMENT_SUCCESS" && (
-        <div className="mb-2 lg:mb-16">
-          <PagesHeroSection
-            breadcrumbItems={[
-              { route: "/", text: "Home" },
-              { route: pathname, text: pathnames[checkoutStage || ""] },
-            ]}
-            title={pathnames[checkoutStage || ""]}
-          />
+      {isEmpty(cart?.items) ? (
+        <div className="flex items-center justify-center h-[30vh] lg:h-[70vh]">
+          <h1 className="text-center text-brown-dark-1500">
+            You do not have any items <br /> in your cart
+          </h1>
+        </div>
+      ) : (
+        <div>
+          {checkoutStage !== "PAYMENT_SUCCESS" && (
+            <div className="mb-2 lg:mb-16">
+              <PagesHeroSection
+                breadcrumbItems={[
+                  { route: "/", text: "Home" },
+                  { route: pathname, text: pathnames[checkoutStage || ""] },
+                ]}
+                title={pathnames[checkoutStage || ""]}
+              />
 
-          <div>
-            <div className="flex flex-row gap-2 lg:gap-3 mt-7 lg:mt-9">
-              <div
-                onClick={() => setCheckoutStage("CART_VIEW")}
-                className="hover:cursor-pointer"
-              >
-                <h3
-                  onClick={() => setCheckoutStage("CART_VIEW")}
-                  className={cn(
-                    "text-sm lg:text-xl",
-                    checkoutStage === "CART_VIEW"
-                      ? "text-brown-dark-2100"
-                      : "text-brown-light-1500"
-                  )}
-                >
-                  Cart
-                </h3>
-              </div>
+              <div>
+                <div className="flex flex-row gap-2 lg:gap-3 mt-7 lg:mt-9">
+                  <div
+                    onClick={() =>
+                      checkoutHistory.includes("CART_VIEW") &&
+                      setCheckoutStage("CART_VIEW")
+                    }
+                    className={
+                      checkoutHistory.includes("CART_VIEW")
+                        ? "hover:cursor-pointer"
+                        : ""
+                    }
+                  >
+                    <h3
+                      onClick={() => setCheckoutStage("CART_VIEW")}
+                      className={cn(
+                        "text-sm lg:text-xl",
+                        checkoutStage === "CART_VIEW"
+                          ? "text-brown-dark-2100"
+                          : "text-brown-light-1500"
+                      )}
+                    >
+                      Cart
+                    </h3>
+                  </div>
 
-              <div className="flex items-center">
-                <Arrow />
-              </div>
+                  <div className="flex items-center">
+                    <Arrow />
+                  </div>
 
-              <div
-                onClick={() => setCheckoutStage("CHECKOUT_VIEW")}
-                className="hover:cursor-pointer"
-              >
-                <h3
-                  className={cn(
-                    "text-sm lg:text-xl",
-                    checkoutStage === "CHECKOUT_VIEW"
-                      ? "text-brown-dark-2100"
-                      : "text-brown-light-1500"
-                  )}
-                >
-                  Check out
-                </h3>
-              </div>
+                  <div
+                    onClick={() =>
+                      checkoutHistory.includes("CHECKOUT_VIEW") &&
+                      setCheckoutStage("CHECKOUT_VIEW")
+                    }
+                    className={
+                      checkoutHistory.includes("CHECKOUT_VIEW")
+                        ? "hover:cursor-pointer"
+                        : ""
+                    }
+                  >
+                    <h3
+                      className={cn(
+                        "text-sm lg:text-xl",
+                        checkoutStage === "CHECKOUT_VIEW"
+                          ? "text-brown-dark-2100"
+                          : "text-brown-light-1500"
+                      )}
+                    >
+                      Check out
+                    </h3>
+                  </div>
 
-              <div className="flex items-center">
-                <Arrow />
-              </div>
+                  <div className="flex items-center">
+                    <Arrow />
+                  </div>
 
-              <div
-                onClick={() => setCheckoutStage("PAYMENT_VIEW")}
-                className="hover:cursor-pointer"
-              >
-                <h3
-                  className={cn(
-                    "text-sm lg:text-xl",
-                    checkoutStage === "PAYMENT_VIEW"
-                      ? "text-brown-dark-2100"
-                      : "text-brown-light-1500"
-                  )}
-                >
-                  Payment
-                </h3>
+                  <div
+                    onClick={() =>
+                      checkoutHistory.includes("PAYMENT_VIEW") &&
+                      setCheckoutStage("PAYMENT_VIEW")
+                    }
+                    className={
+                      checkoutHistory.includes("PAYMENT_VIEW")
+                        ? "hover:cursor-pointer"
+                        : ""
+                    }
+                  >
+                    <h3
+                      className={cn(
+                        "text-sm lg:text-xl",
+                        checkoutStage === "PAYMENT_VIEW"
+                          ? "text-brown-dark-2100"
+                          : "text-brown-light-1500"
+                      )}
+                    >
+                      Payment
+                    </h3>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          )}
+
+          <CheckoutStage checkoutStage={checkoutStage} />
         </div>
       )}
-
-      <CheckoutStage checkoutStage={checkoutStage} />
     </div>
   );
 }

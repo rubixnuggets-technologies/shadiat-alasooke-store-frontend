@@ -2,11 +2,11 @@
 import { use, useEffect, useState } from "react";
 import { MedusaImageLoader } from "@/utils/helpers/Cloudinary";
 import { formatCurrency } from "@/utils/helpers/formatter";
-import { useDexieDB } from "@/utils/hooks/useDexieDB";
-import { Cart } from "medusa-react";
+import { Cart, useProduct } from "medusa-react";
 import Image from "next/image";
 import Checkbox from "../ui/Checkbox";
 import { useCustomerStore } from "@/src/state/customer";
+import { useCartStore } from "@/src/state/cart";
 
 export default function CartTableItem({
   isMarked,
@@ -15,7 +15,7 @@ export default function CartTableItem({
   product: Cart["items"][0];
   isMarked: boolean;
 }) {
-  const { removeProductFromCart, updateProductInCart } = useDexieDB();
+  const { removeProductFromCart, updateProductInCart } = useCartStore()
   const { customer } = useCustomerStore()
   const [itemCount, setItemCount] = useState<number>(quantity);
 

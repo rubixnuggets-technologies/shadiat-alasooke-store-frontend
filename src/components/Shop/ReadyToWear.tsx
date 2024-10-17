@@ -3,11 +3,12 @@ import React from "react";
 import Image from "next/image";
 import { MedusaImageLoader } from "@/utils/helpers/Cloudinary";
 import Button from "../ui/button";
+import Link from "next/link";
 
 export default function ReadyToWear({}) {
   return (
     <div className="w-full bg-brown-light-100 py-11 lg:py-36">
-      <div className="layout-container" >
+      <div className="layout-container">
         <div className="layout">
           <div className="mb-8">
             <h1 className="text-[20px] text-brown-2100 lg:text-[40px]">
@@ -42,7 +43,9 @@ export default function ReadyToWear({}) {
                 </div>
 
                 <div className="mt-6 flex justify-center lg:justify-start">
-                  <Button title="Shop Now" />
+                  <Link href={"/ready-to-wear"}>
+                    <Button title="Shop Now" />
+                  </Link>
                 </div>
               </div>
             </div>

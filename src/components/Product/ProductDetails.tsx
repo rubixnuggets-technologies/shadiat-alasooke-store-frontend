@@ -4,28 +4,28 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import ProductGallery from "./ProductGallery";
 import { formatCurrency } from "@/utils/helpers/formatter";
 import { Product } from "@medusajs/medusa";
-import { useDexieDB } from "@/utils/hooks/useDexieDB";
 import { useCartStore } from "@/src/state/cart";
 import { useRegions } from "medusa-react";
 import { getUserData } from "@/utils/actions/user";
 import { useCustomerStore } from "@/src/state/customer";
 import Breadcrumb from "../ui/Breadcrumb";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const ProductDetails = ({ product }: { product: Product }) => {
   const [itemVariant, setVariant] = useState(product?.variants[0]);
+  const router = useRouter();
 
-  const { customer, bookmarkProduct, removeBookmark, modifyCustomerCartId } =
+  const { customer, bookmarkProduct, removeBookmark, modifyCustomerCartId, } =
     useCustomerStore();
 
   const [productQuantity, setProductQuantity] = useState(1);
+  const { addProductToCart } = useCartStore();
 
-  const { storeProduct, addProductToCart } = useDexieDB();
   const pathname = usePathname();
 
   useEffect(() => {
     if (product) {
-      storeProduct(product);
+      // storeProduct(product);
     }
   }, [product]);
 
@@ -54,6 +54,8 @@ const ProductDetails = ({ product }: { product: Product }) => {
         cart_id: createdCart?.id,
       });
 
+      router.push("/cart");
+
       return;
     }
 
@@ -78,6 +80,7 @@ const ProductDetails = ({ product }: { product: Product }) => {
         <Breadcrumb
           items={[
             { route: "/", text: "Home" },
+            { route: "/ready-to-wear", text: "Ready To Wear" },
             { route: pathname, text: product?.title },
           ]}
         />

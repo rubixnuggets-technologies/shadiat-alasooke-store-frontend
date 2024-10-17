@@ -1,10 +1,15 @@
 "use client";
 import { useCustomerStore } from "@/src/state/customer";
 import ProductCard from "@/src/components/ui/cards/ProductCard";
+import { isEmpty } from "lodash";
 
 export default function Page() {
   const { customer } = useCustomerStore();
-  if (!customer?.metadata) return null;
+  if (!customer?.metadata || isEmpty(customer?.metadata?.bookmarks)) return (
+    <div className="flex items-center justify-center h-[30vh] lg:h-[70vh]" >
+    <h1 className="text-center text-brown-dark-1500" > You do not have any saved items </h1>
+  </div>
+  );
 
   return (
     <div>
