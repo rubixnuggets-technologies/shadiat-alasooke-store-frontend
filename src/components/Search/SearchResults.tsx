@@ -1,5 +1,5 @@
 "use client";
-import { useSearchStore } from "@/src/state/store";
+import { useSearchStore } from "@/src/state/search";
 import ProductCard from "../ui/cards/ProductCard";
 import EmptySearchResults from "./EmptySearchResult";
 import classNames from "classnames";

@@ -1,11 +1,9 @@
 "use client";
 import { useCallback, useState } from "react";
-import BreadcrumbLogo from "../../../assets/custom-icons/breadcrumb.svg";
-import MobileHeaderMenu from "./MobileHeaderMenu";
 import FilterIcon from "@/src/assets/custom-icons/filters.svg";
 import ProductsFilterSmMenu from "./ProductsFilterSmMenu";
 
-const ProductsFilterSm = ({ filters }) => {
+const ProductsFilterSm = ({ filters, collectionKey, itemsPerPage }) => {
   const [menuState, setMenuState] = useState("closed");
 
   /**
@@ -34,7 +32,13 @@ const ProductsFilterSm = ({ filters }) => {
         <p className="text-xs">Filters</p>
       </div>
 
-      <ProductsFilterSmMenu closeMenu={() => toggleMenu()} state={menuState} />
+      <ProductsFilterSmMenu
+        filters={filters}
+        itemsPerPage={itemsPerPage}
+        collectionKey={collectionKey}
+        closeMenu={() => toggleMenu()}
+        state={menuState}
+      />
     </div>
   );
 };

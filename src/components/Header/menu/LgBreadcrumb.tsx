@@ -18,8 +18,6 @@ const LgBreadcrumb = () => {
     router.push("/login");
   };
 
-  console.log("CUSTOMER =>", customer);
-
   return (
     <div className="bg-brown-light-100 px-8 py-8 rounded-xl w-60">
       <ul className="flex flex-col gap-6">

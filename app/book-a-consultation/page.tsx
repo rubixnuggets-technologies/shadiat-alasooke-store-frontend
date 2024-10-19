@@ -12,7 +12,7 @@ export default function BookAConsultationPage() {
   return (
     <div>
       <div className="flex w-full mb-7 lg:grid lg:grid-cols-[720px_auto]">
-        <div className="hidden lg:flex items-center justify-center h-full w-full bg-brown-200">
+        <div className="hidden lg:flex items-center justify-center h-full w-full bg-brown-light-200">
           <div className="flex flex-col">
             <CTA text="Book a Consultation with Us" />
 

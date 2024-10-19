@@ -42,19 +42,6 @@ export const useProductStore = create<IProductState>((set) => ({
 
   sortProducts: async (sort, products) => {
     if (!products) return;
-
-    // const averageProductPrice = (product : Product) => {
-    //   const total = sumBy(product.variants, 'amount');
-
-    //   return total / product.reviews.length;
-    // };
-    
-
-    // const sortedProducts = sortBy(products, [
-    //   products => 
-    // ]);
-
-    // console.log("SORTED ITEMS", sortedProducts);
   },
 
   queryProducts: async ({ filter = [], limit, collectionId, page, sort }) => {

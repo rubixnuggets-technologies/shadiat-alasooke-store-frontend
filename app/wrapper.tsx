@@ -10,11 +10,9 @@ import ShopNow from "@/src/components/Shop/ShopNow";
 import ReadyToWear from "@/src/components/Shop/ReadyToWear";
 import SearchResultsView from "@/src/components/Search/SearchResults";
 import Testimonials from "@/src/components/Testimonials";
-import { useSearchStore } from "@/src/state/store";
+import { useSearchStore } from "@/src/state/search";
 import ProductsPreviewHighlight from "@/src/components/Products/ProductsPreviewHighlight";
 import { MOBILE_BREAKPOINT, useMediaQuery } from "@/utils/hooks/useStyleWidthQuery";
-
-
 
 export default function Wrapper({ hero, shopCTAs, testimonials }) {
   const store = useSearchStore();
@@ -42,13 +40,13 @@ export default function Wrapper({ hero, shopCTAs, testimonials }) {
               title="Aso Oke Collections"
               itemsPerPage={isSmall ? 2 : 6}
               itemsType="COLLECTIONS"
-              slug="/explore/shop-aso-oke"
+              slug="/shop-aso-oke"
             />
           </section>
 
           <section className="mt-14 lg:mt-36">
             <ProductsPreviewHighlight
-              slug="/explore/shop-rtw"
+              slug="/ready-to-wear"
               title="Ready To Wear Collections"
               showPrice
               itemsType="PRODUCTS"

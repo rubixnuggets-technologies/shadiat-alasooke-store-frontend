@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchStore } from "@/src/state/store";
+import { useSearchStore } from "@/src/state/search";
 import SearchResultsView from "@/src/components/Search/SearchResults";
 import Header from "@/src/components/Header";
 import Footer from "@/src/components/Footer";

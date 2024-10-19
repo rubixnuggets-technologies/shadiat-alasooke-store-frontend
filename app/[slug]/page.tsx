@@ -23,9 +23,14 @@ export default async function Page({ params }) {
 
   return (
     <div>
-     <CollectionHero data={data} slug={slug} />
+      <CollectionHero data={data} slug={slug} />
 
       <ProductNavigation
+        filters={{
+          by_color_filters,
+          by_product_filters,
+          by_new_arrivals_filters,
+        }}
         itemsPerPage={18}
         collectionKey={data?.collection_key}
       />

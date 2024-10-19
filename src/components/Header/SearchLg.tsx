@@ -1,6 +1,6 @@
 "use client";
 import { IoCloseCircleOutline } from "react-icons/io5";
-import { useSearchStore } from "@/src/state/store";
+import { useSearchStore } from "@/src/state/search";
 import { IoMdClose } from "react-icons/io";
 
 const SearchLg = () => {

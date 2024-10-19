@@ -38,7 +38,7 @@ const SORT_OPTIONS = [
   },
 ];
 
-export default function ProductNavigation({ itemsPerPage, collectionKey }) {
+export default function ProductNavigation({ itemsPerPage, collectionKey, filters }) {
   const [currentTab, setCurrentTab] = useState(tabs[0].key);
   const [sortMenu, setMenu] = useState({
     isVisible: false,
@@ -184,9 +184,8 @@ export default function ProductNavigation({ itemsPerPage, collectionKey }) {
             )}
           </div>
         </div>
-
         <div className="flex lg:hidden">
-          <ProductsFilterSm filters={""} />
+          <ProductsFilterSm itemsPerPage={itemsPerPage} collectionKey={collectionKey} filters={filters} />
         </div>
       </div>
     </div>

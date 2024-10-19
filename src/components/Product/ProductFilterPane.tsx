@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { AiFillCaretLeft } from "react-icons/ai";
-import { IoChevronDown } from "react-icons/io5";
 import { useProductStore } from "@/src/state/product";
 import cn from "classnames";
 import { AnimatePresence, LazyMotion, m } from "framer-motion";
 import loadFeatures from "@/src/framer/load-features";
+import AnimatedChevron from "../ui/AnimatedChevron";
 
 interface ProductsHighlightProps {
   itemsPerPage?: number;
@@ -20,24 +20,6 @@ interface ProductsHighlightProps {
     by_new_arrivals_filters: string[];
   };
 }
-
-const AnimatedChevron = ({
-  filterTabs,
-  activeFilter,
-}: {
-  filterTabs: string[];
-  activeFilter: string;
-}) => (
-  <LazyMotion strict features={loadFeatures}>
-    <m.div
-      animate={{
-        rotate: filterTabs.includes(activeFilter) ? 0 : "90deg",
-      }}
-    >
-      <IoChevronDown size={22} />
-    </m.div>
-  </LazyMotion>
-);
 
 export default function ProductFilterPane({
   filters,

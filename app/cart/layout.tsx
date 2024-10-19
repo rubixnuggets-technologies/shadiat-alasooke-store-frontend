@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useCustomerStore } from "@/src/state/customer";
 
-import { useSearchStore } from "@/src/state/store";
+import { useSearchStore } from "@/src/state/search";
 import SearchResultsView from "@/src/components/Search/SearchResults";
 import Header from "@/src/components/Header";
 import Footer from "@/src/components/Footer";

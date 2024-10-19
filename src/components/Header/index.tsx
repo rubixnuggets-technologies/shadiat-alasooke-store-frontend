@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ImageLoader } from "@/utils/helpers/Cloudinary";
 import LgBreadcrumb from "./menu/LgBreadcrumb";
 import { useEffect, useState } from "react";
-import { useSearchStore } from "@/src/state/store";
+import { useSearchStore } from "@/src/state/search";
 import Breadcrumb from "./BreacrumbSm/Breadcrumb";
 import AccountMenu from "./AccountSm/AccountMenu";
 import SearchLg from "./SearchLg";

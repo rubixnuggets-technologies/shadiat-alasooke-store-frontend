@@ -3,20 +3,32 @@ import { useEffect, useMemo, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import Button from "../ui/button";
 import { RxCaretDown } from "react-icons/rx";
+import { useProductStore } from "@/src/state/product";
+import AnimatedChevron from "../ui/AnimatedChevron";
+import FilterAccordionItem from "../ui/FilterAccordionItem";
 
 const SORT_OPTIONS = [
   {
-    key: "New Arrival",
+    key: "NEW_ARRIVAL",
+    value: "New Arrival",
   },
   {
-    key: "Price: Low to High",
+    key: "PRICE_LOW_TO_HIGH",
+    value: "Price: Low to High",
   },
   {
-    key: "Price: High to Low",
+    key: "PRICE_HIGH_TO_LOW",
+    value: "Price: High to Low",
   },
 ];
 
-const ProductsFilterSm = ({ state = "open", closeMenu }) => {
+const ProductsFilterSm = ({
+  state = "open",
+  closeMenu,
+  filters,
+  itemsPerPage,
+  collectionKey,
+}) => {
   const classes = useMemo(
     () => ({
       open: ["open -translate-y-0 out-expo"],
@@ -25,9 +37,12 @@ const ProductsFilterSm = ({ state = "open", closeMenu }) => {
     []
   );
 
-  const [sortMenu, setMenu] = useState({
+  const [sortMenu, setMenu] = useState<
+    Record<"isVisible" | "sortValue" | "sortKey", string | boolean>
+  >({
     isVisible: false,
     sortValue: "New Arrival",
+    sortKey: "NEW_ARRIVAL",
   });
 
   const [currentClasses, setCurrentClasses] = useState(classes[state]);
@@ -49,6 +64,52 @@ const ProductsFilterSm = ({ state = "open", closeMenu }) => {
       }, 600);
     }
   }, [state, classes, 600]);
+
+  const [productTags, setProductTags] = useState<Array<string>>([]);
+
+  const [activeFilterTab, setActiveFilterTab] = useState<Array<string>>([
+    "by_product_filters",
+    "by_color_filters",
+    "by_new_arrivals_filters",
+  ]);
+
+  const { queryProducts } = useProductStore();
+
+  const applyProductTag = (tag: string) => {
+    setProductTags((allTags) =>
+      allTags.includes(tag)
+        ? allTags.filter((productTag) => productTag !== tag)
+        : [...allTags, tag]
+    );
+  };
+
+  const toggleFilterTab = (filterTab: string) => {
+    setActiveFilterTab((tab) =>
+      activeFilterTab.includes(filterTab)
+        ? tab.filter((tabItem) => filterTab !== tabItem)
+        : [...tab, filterTab]
+    );
+  };
+
+  useEffect(() => {
+    if (collectionKey) {
+      queryProducts({
+        sort: sortMenu.sortKey,
+        filter: productTags,
+        limit: itemsPerPage,
+        collectionId: collectionKey,
+      });
+    }
+  }, [productTags, sortMenu.sortValue, collectionKey]);
+
+  const resetFilters = () => {
+    setProductTags([]);
+    setMenu({
+      isVisible: false,
+      sortValue: "New Arrival",
+      sortKey: "NEW_ARRIVAL",
+    });
+  };
 
   return (
     <div>
@@ -113,18 +174,22 @@ const ProductsFilterSm = ({ state = "open", closeMenu }) => {
                     className="absolute top-[37px] left-0 w-full bg-brown-light-100 py-9 px-7 border-brown-light-500"
                   >
                     <ul className="flex flex-col gap-6">
-                      {SORT_OPTIONS.map(({ key }) => (
+                      {SORT_OPTIONS.map(({ key, value }) => (
                         <li key={key}>
                           <p
-                            onClick={() =>
+                            onClick={() => {
                               setMenu((state) => ({
                                 ...state,
-                                ...{ sortValue: key, isVisible: false },
-                              }))
-                            }
+                                ...{
+                                  sortValue: value,
+                                  sortKey: key,
+                                  isVisible: false,
+                                },
+                              }));
+                            }}
                             className={`hover:cursor-pointer text-base ${sortMenu.sortValue === key ? "text-brown-[#574F4B]" : "text-brown-[#928477]"}`}
                           >
-                            {key}
+                            {value}
                           </p>
                         </li>
                       ))}
@@ -135,22 +200,97 @@ const ProductsFilterSm = ({ state = "open", closeMenu }) => {
             </div>
 
             <div className="mt-6">
-              <h3 className="text-brown-2100 text-base"> By Color </h3>
+              <div
+                onClick={() => toggleFilterTab("by_product_filters")}
+                className="flex flex-row justify-between"
+              >
+                <div className="flex items-center">
+                  <h3 className="text-brown-2100 text-base hover:cursor-pointer">
+                    {" "}
+                    By Product{" "}
+                  </h3>
+                </div>
+
+                <AnimatedChevron
+                  filterTabs={activeFilterTab}
+                  activeFilter="by_product_filters"
+                />
+              </div>
+
+              <div>
+                <FilterAccordionItem
+                  accordionItemsType={"by_product_filters"}
+                  activeFilterTab={activeFilterTab}
+                  filters={filters}
+                  clickAction={applyProductTag}
+                  tags={productTags}
+                />
+              </div>
             </div>
 
             <div className="mt-6">
-              <h3 className="text-brown-2100 text-base"> By New Arrivals </h3>
+              <div
+                onClick={() => toggleFilterTab("by_color_filters")}
+                className="flex flex-row justify-between"
+              >
+                <div className="flex items-center">
+                  <h3 className="text-brown-2100 text-base hover:cursor-pointer">
+                    {" "}
+                    By Color{" "}
+                  </h3>
+                </div>
+
+                <AnimatedChevron
+                  filterTabs={activeFilterTab}
+                  activeFilter="by_color_filters"
+                />
+              </div>
+
+              <div>
+                <FilterAccordionItem
+                  accordionItemsType={"by_color_filters"}
+                  activeFilterTab={activeFilterTab}
+                  filters={filters}
+                  clickAction={applyProductTag}
+                  tags={productTags}
+                />
+              </div>
             </div>
 
             <div className="mt-6">
-              <h3 className="text-brown-2100 text-base"> By Price </h3>
+              <div
+                onClick={() => toggleFilterTab("by_new_arrivals_filters")}
+                className="flex flex-row justify-between"
+              >
+                <div className="flex items-center">
+                  <h3 className="text-brown-2100 text-base hover:cursor-pointer">
+                    {" "}
+                    By Color{" "}
+                  </h3>
+                </div>
+
+                <AnimatedChevron
+                  filterTabs={activeFilterTab}
+                  activeFilter="by_new_arrivals_filters"
+                />
+              </div>
+
+              <div>
+                <FilterAccordionItem
+                  accordionItemsType={"by_new_arrivals_filters"}
+                  activeFilterTab={activeFilterTab}
+                  filters={filters}
+                  clickAction={applyProductTag}
+                  tags={productTags}
+                />
+              </div>
             </div>
           </div>
 
           <div className="layout flex flex-row justify-between">
-            <Button title="Reset Filter" />
+            <Button clickAction={resetFilters} title="Reset Filter" />
 
-            <Button title="View Results" />
+            <Button clickAction={closeMenu} title="View Results" />
           </div>
         </div>
       </dialog>

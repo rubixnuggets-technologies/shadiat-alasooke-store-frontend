@@ -72,7 +72,7 @@ const Hero = ({ data }: { data: IHero[] }) => {
                       </div>
 
                       <div className="flex justify-center lg:justify-start">
-                        <Link href="/explore/shop-aso-oke">
+                        <Link href={button_link || "#"}>
                           <Button title="Shop Now" />
                         </Link>
                       </div>

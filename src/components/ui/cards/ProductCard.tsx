@@ -8,7 +8,7 @@ import { useCartStore } from "@/src/state/cart";
 import { useRegions } from "medusa-react";
 import { truncateText } from "@/utils/helpers/text";
 import { formatCurrency } from "@/utils/helpers/formatter";
-import { useSearchStore } from "@/src/state/store";
+import { useSearchStore } from "@/src/state/search";
 import { Product } from "@medusajs/medusa";
 import { useCustomerStore } from "@/src/state/customer";
 import { useRouter } from "next/navigation";
@@ -129,7 +129,7 @@ export default function ProductCard({
           href={
             (product?.metadata?.PRODUCT_TYPE as unknown as string) === "NATIVE"
               ? `/natives/${product?.handle}`
-              : `/shop/${product?.handle}`
+              : `/ready-to-wear/${product?.handle}`
           }
         >
           <div>

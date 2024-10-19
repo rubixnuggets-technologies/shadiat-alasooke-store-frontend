@@ -8,11 +8,11 @@ import { ImageLoader } from "@/utils/helpers/Cloudinary";
 const LIST_ITEMS = [
   {
     name: "aso oke",
-    url: "/explore/shop-aso-oke",
+    url: "/shop-aso-oke",
   },
   {
     name: "ready to wear",
-    url: "/explore/shop-rtw",
+    url: "/ready-to-wear",
   },
   {
     name: "about",
@@ -108,7 +108,7 @@ const MobileHeaderMenu = ({ state = "open", closeMenu }) => {
                 {LIST_ITEMS.map((item, idx) => (
                   <li key={idx}>
                     <div className="border-b-[1px] border-brown-light-1000 pb-3.5 hover:cursor-pointer">
-                      <Link href={item.url}>
+                      <Link onClick={closeMenu} href={item.url}>
                         <p className="uppercase text-base">{item.name}</p>
                       </Link>
                     </div>

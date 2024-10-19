@@ -19,13 +19,11 @@ const Button = ({
   title,
   clickAction,
   disabled = false,
-  // override_classname,
-  // color,
+  color,
   icon,
 
   width,
   textClassname,
-  // height,
   type,
 }: Props) => {
   return (
@@ -35,8 +33,11 @@ const Button = ({
       disabled={disabled}
       className={classNames(
         "transition ease-in-out delay-150",
-        `bg-transparent flex flex-row items-center justify-center border-brown-dark-2100 border-[1px] border-brown-dark-2100 hover:border-[#857B74] h-9 lg:h-[48px] px-8 border-1 w-${width}`,
+        `bg-transparent flex flex-row items-center justify-center border-[1px]   h-9 lg:h-[48px] px-8 border-1 w-${width}`,
         textClassname ? textClassname : `text-xs lg:text-base font-semibold`,
+        color
+          ? `border-${color} hover:border-${color} text-${color}`
+          : `border-brown-dark-2100 hover:border-[#857B74] text-brown-dark-2100`,
         disabled
           ? ""
           : "hover:bg-[#857B74] hover:cursor-pointer hover:text-white"
