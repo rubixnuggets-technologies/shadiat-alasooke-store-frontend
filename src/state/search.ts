@@ -6,12 +6,15 @@ interface ISearchState {
   searchText: string;
   searchItems: Array<any> | null;
 
-  toggleSearch: ({ isVisible }: { isVisible?: boolean }) => void;
+  toggleSearch: ({ isVisible }: { isVisible: boolean }) => void;
   setSearchText: (text: string) => Promise<void>;
   resetSearch: () => void;
 }
 
-const initialState = {
+const initialState: Pick<
+  ISearchState,
+  "isOpen" | "searchItems" | "searchText"
+> = {
   isOpen: false,
   searchText: "",
   searchItems: null,
@@ -19,12 +22,12 @@ const initialState = {
 
 export const useSearchStore = create<ISearchState>((set) => ({
   ...initialState,
-  
+
   toggleSearch: ({ isVisible }) => {
-    set((state) => ({
-      isOpen: isVisible ? isVisible : !state.isOpen,
+    return set({
+      isOpen: isVisible,
       searchItems: null,
-    }));
+    });
   },
   setSearchText: async (text) => {
     set({ searchText: text });

@@ -48,9 +48,9 @@ const Header = () => {
   const dropdownRef = useOutsideClickDetector(() => openMenu(false));
 
   useEffect(() => {
-    // if (searchStore?.isOpen) {
-      // toggleSearch({ isVisible: false });
-    // }
+    if (isOpen) {
+      toggleSearch({ isVisible: false });
+    }
   }, [pathName]);
 
   return (
@@ -85,7 +85,7 @@ const Header = () => {
             <div className="hidden lg:flex items-center flex-row">
               <div className="mr-8">
                 <div
-                  onClick={toggleSearch}
+                  onClick={() => toggleSearch({ isVisible: true })}
                   className="flex flex-row items-center border border-brown-1500 w-64 h-9 px-4"
                 >
                   <div className="flex items-center mr-2">
@@ -142,7 +142,7 @@ const Header = () => {
             {/* MOBILE HEADER ITEMS */}
             <div className="flex gap-6 lg:hidden  flex-row">
               <div
-                onClick={toggleSearch}
+                onClick={() => toggleSearch({ isVisible: true })}
                 className="cursor:pointer flex items-center"
               >
                 <Icon type="search" className="text-red" />

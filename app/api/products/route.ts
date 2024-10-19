@@ -35,7 +35,7 @@ export async function GET(request: NextRequest, res: NextResponse) {
 
     if (sort === "PRICE_LOW_TO_HIGH" || sort === "PRICE_HIGH_TO_LOW") {
       const request = await fetch(
-        `${process.env.NEXT_PUBLIC_MEDUSA_ENDPOINT}/store/products?order=${generateSortOptions(sort!)}&limit=${limit}`
+        `${process.env.NEXT_PUBLIC_MEDUSA_ENDPOINT}/store/products?order=${generateSortOptions(sort!)}&limit=${limit}&collection_id[]=${collectionId}`
       );
 
       const data = await request.json();
@@ -76,16 +76,14 @@ export async function GET(request: NextRequest, res: NextResponse) {
       });
     }
 
-    const products = await productService.list(
-      {
-        tags:
-          queryArray?.length >= 1
-            ? {
-                value: queryArray,
-              }
-            : undefined,
-      }
-    );
+    const products = await productService.list({
+      tags:
+        queryArray?.length >= 1
+          ? {
+              value: queryArray,
+            }
+          : undefined,
+    });
 
     return Response.json({
       data: products,

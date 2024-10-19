@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { useCustomerStore } from "@/src/state/customer";
 
@@ -8,14 +8,10 @@ import SearchResultsView from "@/src/components/Search/SearchResults";
 import Header from "@/src/components/Header";
 import Footer from "@/src/components/Footer";
 
-export default function Layout({ children }) {
-  const store = useSearchStore();
-  const { customer, setCustomer } = useCustomerStore();
+export default function Layout({ children } : { children: ReactNode }) {
+  const { isOpen, searchItems } = useSearchStore();
+  const { customer } = useCustomerStore();
   const router = useRouter();
-
-  // useEffect(() => {
-  //   setCustomer();
-  // }, []);
 
   if (!customer) {
     router.push("/customer/login");
@@ -26,11 +22,7 @@ export default function Layout({ children }) {
     <div>
       <Header />
 
-      {store?.searchItems && store?.isOpen ? (
-        <SearchResultsView />
-      ) : (
-        <div>{children}</div>
-      )}
+      {searchItems && isOpen ? <SearchResultsView /> : <div>{children}</div>}
 
       <Footer />
     </div>

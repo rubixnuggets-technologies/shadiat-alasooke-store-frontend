@@ -9,7 +9,7 @@ export default function EmptySearchResults() {
         <p className="text-sm lg:text-base text-center">No results could be found.</p>
 
         <div className="flex justify-center mt-4 lg:mt-12 mb-8 lg:mb-24">
-          <Link href="/explore/shop-rtw">
+          <Link href="/ready-to-wear">
             <Button title="Shop Now" />
           </Link>
         </div>
