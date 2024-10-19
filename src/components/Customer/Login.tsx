@@ -7,8 +7,8 @@ import { useRouter } from "next/navigation";
 import { storeUserData } from "@/utils/actions/user";
 import Header from "../Header";
 import { SubmitHandler, useForm } from "react-hook-form";
-import Icon from "../ui/icons";
 import Button from "../ui/button";
+import { IoEyeOff, IoEye } from "react-icons/io5";
 
 interface AuthData {
   email: "";
@@ -68,6 +68,11 @@ export default function Login() {
 
   const [email, password] = watch(["email", "password"]);
 
+  const [isPasswordVisible, setPasswordVisiblity] = useState(false);
+
+  const togglePasswordVisibility = () =>
+    setPasswordVisiblity(!isPasswordVisible);
+
   return (
     <div>
       <Header />
@@ -123,15 +128,28 @@ export default function Login() {
                       </div>
 
                       <div className="form-group flex flex-col mt-8">
-                        <input
-                          type="password"
-                          className="auth__input text-sm focus:outline-none"
-                          defaultValue={""}
-                          {...register("password", {
-                            required: true,
-                          })}
-                          placeholder="PASSWORD*"
-                        />
+                        <div className="flex relative flex-row">
+                          <input
+                            type={!isPasswordVisible ? "password" : "text"}
+                            className="auth__input tracking-wider w-full text-base focus:outline-none"
+                            defaultValue={""}
+                            {...register("password", {
+                              required: true,
+                            })}
+                            placeholder="PASSWORD*"
+                          />
+
+                          <div
+                            onClick={togglePasswordVisibility}
+                            className="flex items-center absolute right-0 h-full hover:cursor-pointer"
+                          >
+                            {isPasswordVisible ? (
+                              <IoEye size={22} />
+                            ) : (
+                              <IoEyeOff size={22} />
+                            )}
+                          </div>
+                        </div>
 
                         {errors.password && (
                           <p className="mt-1 text-coral-700 text-xs">

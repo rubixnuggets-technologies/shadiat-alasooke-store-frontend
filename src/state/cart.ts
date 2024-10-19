@@ -3,6 +3,8 @@ import { create } from "zustand";
 import { AddressPayload } from "@medusajs/medusa";
 import { Cart } from "medusa-react";
 import zukeeper from "zukeeper";
+import { db } from "@/utils/Storage/db";
+import { Product } from "@medusajs/product";
 
 type IDeliveryDetail =
   | "fullName"
@@ -85,6 +87,8 @@ export interface ICheckoutState {
   }) => Promise<void>;
   setCheckoutStage: (stage: ICheckoutState["checkoutStage"]) => void;
   setCart: ({ cart_id, cart }: { cart_id?: string; cart?: Cart }) => void;
+
+  storeRecentlyViewedProduct: (product: Product) => Promise<void> | void
 }
 
 export const CART_VIEW = "CART_VIEW";
@@ -135,6 +139,24 @@ export const useCartStore = create<ICheckoutState>((set, state) => ({
       checkoutStage: stage,
       checkoutHistory: [...state.checkoutHistory, stage],
     })),
+
+  storeRecentlyViewedProduct: async (product) => {
+    if (!product) return;
+
+    try {
+      const doesProductExist = await db.recently_viewed_products.get({
+        id: product.id,
+      });
+
+      if (!doesProductExist) {
+        await db.recently_viewed_products.add(product);
+      }
+
+      return
+    } catch (error) {
+      console.log(error);
+    }
+  },
 
   addProductToCart: async ({ variant_id, quantity, cart_id }) => {
     try {

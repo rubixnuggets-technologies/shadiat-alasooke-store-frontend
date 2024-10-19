@@ -3,29 +3,42 @@ import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import ProductCard from "../ui/cards/ProductCard";
 import { useDexieDB } from "@/utils/hooks/useDexieDB";
 import { Product } from "@medusajs/medusa";
+import { db } from "@/utils/Storage/db";
+import { useLiveQuery } from "dexie-react-hooks";
+import { usePathname } from "next/navigation";
 
 export default function RecentlyViewed({
   currentProduct,
 }: {
-  currentProduct?: Product['handle'];
+  currentProduct?: Product["handle"];
 }) {
-  const { products } = useDexieDB(currentProduct);
 
-  if (products?.length <= 0) {
+  const products = useLiveQuery(
+    async () =>
+      await db.recently_viewed_products
+        .where("handle")
+        .notEqual(`${currentProduct}`)
+        .toArray()
+  );
+
+  if (products && products?.length <= 0) {
     return null;
   }
 
   return (
     <div className="my-20 lg:my-24">
       <div>
-        <h1 className="text-[20px] lg:text-[40px] text-center"> Recently Viewed </h1>
+        <h1 className="text-[20px] lg:text-[40px] text-center">
+          {" "}
+          Recently Viewed{" "}
+        </h1>
       </div>
 
       <div className="my-8 lg:my-12">
         <ul className="flex flex-row overflow-scroll">
           {products?.map((product) => (
             <li key={product?.id}>
-              <div className="h-full" >
+              <div className="h-full">
                 <ProductCard product={product} />
               </div>
             </li>

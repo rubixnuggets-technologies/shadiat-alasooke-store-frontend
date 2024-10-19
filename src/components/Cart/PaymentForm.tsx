@@ -1,8 +1,7 @@
 "use client";
 import { useCartStore } from "@/src/state/cart";
 import cn from "classnames";
-import { useMemo, useState } from "react";
-import { useDexieDB } from "@/utils/hooks/useDexieDB";
+import { useState } from "react";
 import CartSummary from "./CartSummary";
 
 const Circle = ({ active }: { active: boolean }) => (
@@ -16,19 +15,9 @@ const Circle = ({ active }: { active: boolean }) => (
 );
 
 export default function PaymentForm() {
-  const { setPaymentDetail, paymentDetails, setCheckoutStage, startPayment } =
-    useCartStore();
+  const { setPaymentDetail, paymentDetails } = useCartStore();
 
-  // const { getCart } = useDexieDB();
-
-  const [paymentMode, setPaymentMode] = useState("CREDIT_CARD");
-
-  // const handlePayment = async ({ cartId }) => {
-  //   const payment = await startPayment({ cartId: cart?.id });
-  //   // console.log("payment =>", payment);
-  // };
-
-  // const paystackSession = useMemo(() => cart?.payment_sessions.find((session) => session?.provider_id === "paystack"), [cart])
+  const [paymentMode] = useState("CREDIT_CARD");
 
   return (
     <div className="flex flex-col lg:grid mt-6 lg:mt-1 lg:grid-cols-2 gap-14 lg:gap-32">

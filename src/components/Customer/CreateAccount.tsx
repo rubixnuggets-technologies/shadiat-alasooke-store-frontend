@@ -12,6 +12,7 @@ import Button from "../ui/button";
 import { tempReorderRank } from "@medusajs/medusa/dist/types/product-category";
 import classNames from "classnames";
 import { useCustomerStore } from "@/src/state/customer";
+import { IoEye, IoEyeOff } from "react-icons/io5";
 
 interface UserDetails {
   name: string;
@@ -110,6 +111,11 @@ export default function CreateAccount() {
     }
   };
 
+  const [isPasswordVisible, setPasswordVisiblity] = useState(false);
+
+  const togglePasswordVisibility = () =>
+    setPasswordVisiblity(!isPasswordVisible);
+
   return (
     <div>
       <Header />
@@ -134,7 +140,9 @@ export default function CreateAccount() {
 
                   {authStatus.status === "ERROR" && (
                     <div className="bg-coral-700 h-14 my-4 flex items-center justify-center">
-                      <p className="text-white text-center">{authStatus.message}</p>
+                      <p className="text-white text-center">
+                        {authStatus.message}
+                      </p>
                     </div>
                   )}
 
@@ -183,15 +191,28 @@ export default function CreateAccount() {
                       </div>
 
                       <div className="form-group flex flex-col mt-8">
-                        <input
-                          type="password"
-                          defaultValue={""}
-                          className="form-control focus:outline-none text-xs lg:text-base auth__input"
-                          {...register("password", {
-                            required: true,
-                          })}
-                          placeholder="PASSWORD*"
-                        />
+                        <div className="flex relative flex-row">
+                          <input
+                            type={!isPasswordVisible ? "password" : "text"}
+                            defaultValue={""}
+                            className="form-control w-full focus:outline-none text-xs lg:text-base auth__input"
+                            {...register("password", {
+                              required: true,
+                            })}
+                            placeholder="PASSWORD*"
+                          />
+
+                          <div
+                            onClick={togglePasswordVisibility}
+                            className="flex items-center absolute right-0 h-full hover:cursor-pointer"
+                          >
+                            {isPasswordVisible ? (
+                              <IoEye size={22} />
+                            ) : (
+                              <IoEyeOff size={22} />
+                            )}
+                          </div>
+                        </div>
 
                         {errors.password && (
                           <p className="mt-1 text-coral-700 text-xs">
@@ -201,13 +222,28 @@ export default function CreateAccount() {
                       </div>
 
                       <div className="form-group flex flex-col mt-8">
-                        <input
-                          type="password"
-                          className="form-control focus:outline-none text-xs lg:text-base auth__input"
-                          defaultValue={""}
-                          placeholder="CONFIRM PASSWORD*"
-                          onChange={(e) => setConfirmedPassword(e.target.value)}
-                        />
+                        <div className="flex relative flex-row">
+                          <input
+                            type={!isPasswordVisible ? "password" : "text"}
+                            className="form-control w-full focus:outline-none text-xs lg:text-base auth__input"
+                            defaultValue={""}
+                            placeholder="CONFIRM PASSWORD*"
+                            onChange={(e) =>
+                              setConfirmedPassword(e.target.value)
+                            }
+                          />
+
+                          <div
+                            onClick={togglePasswordVisibility}
+                            className="flex items-center absolute right-0 h-full hover:cursor-pointer"
+                          >
+                            {isPasswordVisible ? (
+                              <IoEye size={22} />
+                            ) : (
+                              <IoEyeOff size={22} />
+                            )}
+                          </div>
+                        </div>
 
                         {confirmPassword && confirmPassword !== password && (
                           <p className="mt-1 text-coral-700 text-xs">
@@ -257,9 +293,7 @@ export default function CreateAccount() {
 
                       <div className="flex flex-col mt-8">
                         <Button
-                          disabled={
-                            confirmPassword !== password
-                          }
+                          disabled={confirmPassword !== password}
                           title="Create Account"
                           clickAction={handleSubmit(submitUserDetails)}
                         />

@@ -15,17 +15,17 @@ const ProductDetails = ({ product }: { product: Product }) => {
   const [itemVariant, setVariant] = useState(product?.variants[0]);
   const router = useRouter();
 
-  const { customer, bookmarkProduct, removeBookmark, modifyCustomerCartId, } =
+  const { customer, bookmarkProduct, removeBookmark, modifyCustomerCartId } =
     useCustomerStore();
 
   const [productQuantity, setProductQuantity] = useState(1);
-  const { addProductToCart } = useCartStore();
+  const { addProductToCart, storeRecentlyViewedProduct } = useCartStore();
 
   const pathname = usePathname();
 
   useEffect(() => {
     if (product) {
-      // storeProduct(product);
+      storeRecentlyViewedProduct(product);
     }
   }, [product]);
 

@@ -7,6 +7,7 @@ import Image from "next/image";
 import Button from "../ui/button";
 import Link from "next/link";
 import { useCartStore } from "@/src/state/cart";
+import { head } from "lodash";
 
 const DynamicPayement = dynamic(() => import("../Payment/PaymentProvider"), {
   loading: () => <p>Loading Payment Provider</p>,
@@ -17,6 +18,7 @@ export default function CartSummary({
   deliveryOption,
 }: {
   nextClickAction?: () => void;
+  deliveryOption?: any;
 }) {
   const { cart, checkoutStage } = useCartStore();
 
@@ -44,7 +46,7 @@ export default function CartSummary({
                     <p className="text-sm text-brown-1700 lg:text-lg mb-2 font-semibold">
                       {title}{" "}
                     </p>
-                    <p className="text-[10px]">{variant?.title}</p>
+                    <p className="text-sm">{variant?.title}</p>
                   </div>
                 </div>
 
@@ -99,7 +101,7 @@ export default function CartSummary({
           <p className="text-lg">Shipping Cost</p>
           <p className="text-lg">
             {!deliveryOption?.amount
-              ? `NGN 0.00`
+              ? formatCurrency(head(cart?.shipping_methods)?.total || 0)
               : formatCurrency(deliveryOption?.amount)}
           </p>
         </div>
