@@ -98,12 +98,12 @@ export default function ConsultationForm() {
       isVisible: false,
     }))
   );
-  
+
   const consultationTypeDropdownRef = useOutsideClickDetector(() =>
     setConsultationType((state) => ({
       ...state,
 
-      isVisible: false
+      isVisible: false,
     }))
   );
 
@@ -182,7 +182,7 @@ export default function ConsultationForm() {
           <Dropdown
             listItems={["Creative Assistance", "Creative Director"]}
             onSelect={(value: string) =>
-              setConsultant({ isVisible: consultant.isVisible, value })
+              setConsultant({ isVisible: false, value })
             }
             open={consultant.isVisible}
           />
@@ -217,7 +217,7 @@ export default function ConsultationForm() {
             className="flex flex-row justify-between text-xs border-0 hover:cursor-pointer w-full auth__input focus:outline-none"
           >
             <div className="flex items-center">
-              <p className="text-xs lg:text-sm" >
+              <p className="text-xs lg:text-sm">
                 {consultationType.value
                   ? consultationType.value
                   : "CONSULTATION TYPE*"}{" "}
@@ -233,7 +233,7 @@ export default function ConsultationForm() {
             listItems={["One-on One", "Virtual"]}
             onSelect={(value) =>
               setConsultationType({
-                isVisible: consultationType.isVisible,
+                isVisible: false,
                 value,
               })
             }

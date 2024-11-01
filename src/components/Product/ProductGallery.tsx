@@ -12,32 +12,27 @@ const ProductGallery = ({ product }: { product: Product }) => {
 
   return (
     <div>
-      <div className="relative h-[452px] lg:h-[586px] w-full lg:w-[586px]">
-        <Image
-          fill
-          loader={MedusaImageLoader}
+      <div className="relative ">
+        <img
           src={currentImage?.url || ""}
-          className="object-cover"
+          className="object-cover h-[452px] lg:h-[586px] w-full lg:w-[586px]"
           alt={product?.title}
         />
       </div>
 
       <div className="flex flex-row gap-2 lg:gap-6 mt-8">
-        {product?.images.map((image) => (
+        {[{ url: product?.thumbnail }, ...product?.images].map((image) => (
           <div
             key={image?.id}
             onClick={() => setCurrentImage(image)}
             className={cn(
-              "relative w-16 h-16 lg:h-28 lg:w-32 hover:cursor-pointer",
+              "",
               currentImage.url === image.url ? "border-[1px]" : ""
             )}
           >
-            <Image
-              key={image?.id}
-              loader={MedusaImageLoader}
+            <img
               src={image.url}
-              fill
-              className="absolute object-cover"
+              className="object-cover w-16 h-16 lg:h-28 lg:w-32 hover:cursor-pointer"
               alt={product?.title}
             />
           </div>

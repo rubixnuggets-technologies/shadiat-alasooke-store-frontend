@@ -80,13 +80,13 @@ export default function Page() {
                               </p>
 
                               <div className="flex mt-1 flex-row gap-3 lg:hidden ">
-                                <div className="flex items-center">
+                                {/* <div className="flex items-center">
                                   <Link href={"/"}>
                                     <button className="bg-brown-dark-2100 text-white text-[10px] px-2 py-[3px]">
                                       Reorder
                                     </button>
                                   </Link>
-                                </div>
+                                </div> */}
 
                                 <div className="flex items-center">
                                   <p className="text-sm font-bold">
@@ -113,9 +113,9 @@ export default function Page() {
                               </p>
                             </div>
 
-                            <Link href={`/shop`}>
+                            {/* <Link href={`/shop`}>
                               <Button title="Reorder" />
-                            </Link>
+                            </Link> */}
                           </div>
                         </div>
                       </div>

@@ -1,6 +1,5 @@
 import { Product } from "@medusajs/product";
 import { create } from "zustand";
-import { sortBy, sumBy } from "lodash";
 
 export interface IProductState {
   isFilterPaneVisible: boolean;
