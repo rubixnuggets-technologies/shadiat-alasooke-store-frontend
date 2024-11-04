@@ -2,8 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { useProducts } from "medusa-react";
 import cn from "classnames";
-import { AiFillCaretLeft } from "react-icons/ai";
-import { IoChevronDown } from "react-icons/io5";
 import ProductCard from "../ui/cards/ProductCard";
 import Button from "../ui/button";
 import Link from "next/link";

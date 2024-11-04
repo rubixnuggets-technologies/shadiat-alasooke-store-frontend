@@ -15,6 +15,10 @@ import Async, { useAsync } from "react-select/async";
 
 import CartSummary from "./CartSummary";
 import Checkbox from "../ui/Checkbox";
+import {
+  useMediaQuery,
+  MOBILE_BREAKPOINT,
+} from "@/utils/hooks/useStyleWidthQuery";
 
 const Circle = ({ active }: { active: boolean }) => (
   <div
@@ -39,11 +43,34 @@ interface CheckoutDetails {
     isoCode: string;
     label?: string;
   };
+  state: {
+    value: string;
+    isoCode: string;
+    label?: string;
+  }
 }
 
 const ZIP_COUNTRIES = [
-  { value: "United States", label: "United States" },
+  { value: "United States", code: "US" },
   { value: "Canada", code: "CA" },
+  { value: "Australia", code: "AU" },
+  { value: "Brazil", code: "BR" },
+  { value: "India", code: "IN" },
+  { value: "Mexico", code: "MX" },
+  { value: "Germany", code: "DE" },
+  { value: "Argentina", code: "AR" },
+  { value: "South Africa", code: "ZA" },
+  { value: "Nigeria", code: "NG" },
+  { value: "Russia", code: "RU" },
+  { value: "China", code: "CN" },
+  { value: "Switzerland", code: "CH" },
+  { value: "Malaysia", code: "MY" },
+  { value: "United Arab Emirates", code: "AE" },
+  { value: "Venezuela", code: "VE" },
+  { value: "Pakistan", code: "PK" },
+  { value: "Italy", code: "IT" },
+  { value: "Indonesia", code: "ID" },
+  { value: "Colombia", code: "CO" },
 ];
 
 const transformStatesOfCountry = (states: IState[]) => {
@@ -64,6 +91,8 @@ const getAllCountries = () => {
 };
 
 export default function CheckoutForm() {
+  const isSmall = useMediaQuery(MOBILE_BREAKPOINT);
+
   const { customer, updateBillingAddress } = useCustomerStore();
   const [isLocationVisible, setLocationVisibility] = useState(false);
 
@@ -166,7 +195,7 @@ export default function CheckoutForm() {
     }
   };
 
-  const [address, country] = watch(["address", "country"]);
+  const [address, country, state] = watch(["address", "country", "state"]);
 
   useEffect(() => {
     if (!selectedDestinationCityOption) return;
@@ -184,6 +213,10 @@ export default function CheckoutForm() {
         let address = "";
 
         data?.result?.address_components?.forEach((component) => {
+
+          console.log("COMPONENT", component);
+          
+
           if (component?.types?.includes("street_number")) {
             address = `${component?.long_name} `;
           }
@@ -214,6 +247,16 @@ export default function CheckoutForm() {
               isoCode: component.short_name,
             });
           }
+
+          if (
+            component?.types?.includes("administrative_area_level_1") 
+          ) {
+            setValue("state", {
+              value: component.long_name,
+              label: component.long_name,
+              isoCode: component.short_name,
+            });
+          }
         });
 
         setValue("address", address);
@@ -235,8 +278,6 @@ export default function CheckoutForm() {
     [country?.isoCode]
   );
 
-  console.log("COUNTRY", country);
-
   return (
     <div className="flex flex-col gap-14 mt-6 mb-12 lg:mt-1 lg:grid lg:grid-cols-2 lg:gap-32">
       <div>
@@ -244,7 +285,7 @@ export default function CheckoutForm() {
           className="flex flex-col gap-2"
           onSubmit={handleSubmit(submitCheckoutDetails)}
         >
-          <div className="relative z-0 w-full mb-4 lg:mb-8 group">
+          {/* <div className="relative z-0 w-full mb-4 lg:mb-8 group">
             <label
               id="floating_email"
               className="text-[10px] lg:text-base text-gray-500 "
@@ -261,7 +302,7 @@ export default function CheckoutForm() {
               required
               disabled
             />
-          </div>
+          </div> */}
 
           <div className="">
             <p className="text-[10px] lg:text-base">Delivery Details</p>
@@ -278,7 +319,7 @@ export default function CheckoutForm() {
             <input
               type="text"
               {...register("fullname", { required: true })}
-              className="block px-3 mt-1 lg:mt-3 w-full h-10 lg:h-11 text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0  "
+              className="block px-3 mt-1 rounded-none lg:mt-3 w-full h-10 lg:h-11 text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0  "
               placeholder="Enter Full Name"
               required
             />
@@ -303,7 +344,7 @@ export default function CheckoutForm() {
                   required: true,
                   pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
                 })}
-                className="block  h-10 lg:h-11 px-3  mt-1 lg:mt-3 w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0  "
+                className="block rounded-none h-10 lg:h-11 px-3  mt-1 lg:mt-3 w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0  "
                 placeholder="Email Address"
                 required
               />
@@ -328,7 +369,7 @@ export default function CheckoutForm() {
                   pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
                 })}
                 id="email"
-                className="block  h-10 lg:h-11 px-3  mt-1 lg:mt-3 w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0  "
+                className="block  h-10 rounded-none lg:h-11 px-3  mt-1 lg:mt-3 w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0  "
                 placeholder="Confirm Email Address"
                 required
               />
@@ -348,12 +389,12 @@ export default function CheckoutForm() {
             </label>
 
             <input
-              type="text"
+              type="number"
               {...register("phoneNumber", {
                 required: true,
               })}
               id="phoneNumber"
-              className="block  h-10 lg:h-11 px-3 placeholder-brown-dark-1500 mt-1 lg:mt-3 w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0  "
+              className="block rounded-none h-10 lg:h-11 px-3 placeholder-brown-dark-1500 mt-1 lg:mt-3 w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0  "
               placeholder="Phone Number (Only Digit)"
               required
             />
@@ -373,7 +414,7 @@ export default function CheckoutForm() {
 
             <AsyncSelect
               cacheOptions
-              className="text-xs text-trim lg:text-sm mt-2 rounded-none text-gray-900 bg-[white]"
+              className="text-xs text-trim lg:text-sm mt-2 text-gray-900 bg-[white]"
               defaultValue={selectedDestinationCityOption}
               onChange={setDestinationCityOption}
               loadOptions={loadDestinationCityOptions}
@@ -382,10 +423,54 @@ export default function CheckoutForm() {
               defaultOptions={[]}
               backspaceRemovesValue
               isClearable
+              styles={{
+                control: () => ({
+                  height: isSmall ? "40px" : "45px",
+                  border: isSmall ? "0.70px solid black" : "1px solid black",
+                  fontFamily: "Neue Montreal",
+                  fontSize: isSmall ? "12px" : "14px",
+                  padding: "0 10px",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }),
+                valueContainer: () => ({
+                  borderRadius: 0,
+                  display: "flex",
+                  placeItems: "center",
+                }),
+                dropdownIndicator: (styles) => ({
+                  ...styles,
+                  ...{
+                    color: "black",
+                  },
+                }),
+                indicatorSeparator: (styles) => ({
+                  ...styles,
+                  ...{
+                    display: "none",
+                  },
+                }),
+                option: (styles) => ({
+                  ...styles,
+                  ...{
+                    fontFamily: "Neue Montreal",
+                    fontSize: isSmall ? "10px" : "12px",
+                  },
+                }),
+                menuList: () => ({
+                  background: "white",
+                  maxHeight: "300px",
+                  overflowY: "auto",
+                  width: "100%",
+                  zIndex: 99999,
+                  position: "absolute",
+                  border: isSmall ? "0.70px solid black" : "1px solid black",
+                }),
+              }}
             />
 
             <div className="mt-2">
-              <p className="text-sm">
+              <p className="text-xs lg:text-sm">
                 Can't find your location?{" "}
                 <span
                   onClick={toggleLocationVisibility}
@@ -413,7 +498,7 @@ export default function CheckoutForm() {
                   {...register("address", {
                     required: true,
                   })}
-                  className="block  h-10 lg:h-11 px-3  mt-1 lg:mt-3 w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0  "
+                  className="block rounded-none h-10 lg:h-11 px-3  mt-1 lg:mt-3 w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0  "
                   placeholder="Enter Your Address"
                   required
                 />
@@ -437,7 +522,7 @@ export default function CheckoutForm() {
                     {...register("city", {
                       required: true,
                     })}
-                    className="block  h-10 lg:h-11 px-3 lg:mt-3 w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0  "
+                    className="block rounded-none h-10 lg:h-11 px-3 mt-1 lg:mt-3 w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0  "
                     placeholder="City"
                     required
                   />
@@ -459,58 +544,67 @@ export default function CheckoutForm() {
                   </label>
 
                   {isZipCode ? (
-                    <div className="z-10">
-                      <Select
-                        onChange={(value) => {}}
-                        options={transformStatesOfCountry(allStates)}
-                        isClearable
-                        styles={{
-                          control: () => ({
-                            height: "44px",
-                            border: "1px solid black",
+                    <Select
+                      onChange={(result) => {
+                        result &&
+                          setValue("state", {
+                            value: result?.value,
+                            label: result?.label,
+                            isoCode: result?.isoCode,
+                          });
+                      }}
+                      options={transformStatesOfCountry(allStates)}
+                      isClearable
+                      value={state}
+                      styles={{
+                        control: () => ({
+                          height: isSmall ? "40px" : "45px",
+                          border: isSmall
+                            ? "0.70px solid black"
+                            : "1px solid black",
+                          fontFamily: "Neue Montreal",
+                          fontSize: isSmall ? "12px" : "14px",
+                          padding: "0 10px",
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }),
+                        valueContainer: () => ({
+                          borderRadius: 0,
+                          display: "flex",
+                          placeItems: "center",
+                        }),
+                        dropdownIndicator: (styles) => ({
+                          ...styles,
+                          ...{
+                            color: "black",
+                          },
+                        }),
+                        indicatorSeparator: () => ({
+                          display: "none",
+                        }),
+                        option: (styles) => ({
+                          ...styles,
+                          ...{
                             fontFamily: "Neue Montreal",
-                            padding: "0 10px",
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }),
-                          valueContainer: () => ({
-                            borderRadius: 0,
-                            display: "flex",
-                            placeItems: "center",
-                          }),
-                          dropdownIndicator: (styles) => ({
-                            ...styles,
-                            ...{
-                              color: "black",
-                            },
-                          }),
-                          indicatorSeparator: (styles) => ({
-                            ...styles,
-                            ...{
-                              background: "black",
-                            },
-                          }),
-                          option: (styles) => ({
-                            ...styles,
-                            ...{
-                              fontFamily: "Neue Montreal",
-                            },
-                          }),
-                          menuList: () => ({
-                            background: "white",
-                            maxHeight: "300px",
-                            overflowY: "auto",
-                            width: "100%",
-                            zIndex: 99999,
-                            position: "absolute",
-                            border: "1px solid black",
-                          }),
-                        }}
-                        className="mt-2.5"
-                        placeholder="Select State"
-                        required
-                      />
-                    </div>
+                            fontSize: isSmall ? "10px" : "12px",
+                          },
+                        }),
+                        menuList: () => ({
+                          background: "white",
+                          maxHeight: isSmall ? "200px" : "300px",
+                          overflowY: "auto",
+                          width: "100%",
+                          zIndex: 99999,
+                          position: "absolute",
+                          border: isSmall
+                            ? "0.70px solid black"
+                            : "1px solid black",
+                        }),
+                      }}
+                      className="mt-1 lg:mt-3"
+                      placeholder="Select State"
+                      required
+                    />
                   ) : (
                     <div>
                       <input
@@ -521,7 +615,7 @@ export default function CheckoutForm() {
                         onChange={(e) =>
                           setDeliveryDetail("region", e.target.value)
                         }
-                        className="block  h-10 lg:h-11 px-3  mt-1 lg:mt-3 w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0  "
+                        className="block rounded-none h-10 lg:h-11 px-3 mt-1 lg:mt-3 w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0  "
                         placeholder="Select Region"
                         required
                       />
@@ -551,7 +645,7 @@ export default function CheckoutForm() {
                     {...register("postalCode", {
                       required: true,
                     })}
-                    className="block  h-10 lg:h-11 px-3 w-full  mt-1 lg:mt-3 w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0  "
+                    className="block rounded-none h-10 lg:h-11 px-3 w-full  mt-1 lg:mt-3 w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0  "
                     placeholder="Enter Postal Code"
                     required
                   />
@@ -576,19 +670,23 @@ export default function CheckoutForm() {
                       result &&
                         setValue("country", {
                           value: result?.value,
+                          label: result?.label,
                           isoCode: result?.isoCode,
                         });
                     }}
                     value={country}
                     options={getAllCountries()}
-                    className="h-10 lg:h-11 mt-2 z-0"
+                    className="h-10 lg:h-11 z-0 mt-1 lg:mt-3"
                     placeholder="Select Country"
                     required
                     styles={{
                       control: () => ({
-                        height: "45px",
-                        border: "1px solid black",
+                        height: isSmall ? "40px" : "45px",
+                        border: isSmall
+                          ? "0.70px solid black"
+                          : "1px solid black",
                         fontFamily: "Neue Montreal",
+                        fontSize: isSmall ? "12px" : "14px",
                         padding: "0 10px",
                         display: "flex",
                         justifyContent: "space-between",
@@ -604,26 +702,26 @@ export default function CheckoutForm() {
                           color: "black",
                         },
                       }),
-                      indicatorSeparator: (styles) => ({
-                        ...styles,
-                        ...{
-                          background: "black",
-                        },
+                      indicatorSeparator: () => ({
+                        display: "none",
                       }),
                       option: (styles) => ({
                         ...styles,
                         ...{
                           fontFamily: "Neue Montreal",
+                          fontSize: isSmall ? "12px" : "14px",
                         },
                       }),
                       menuList: () => ({
                         background: "white",
-                        maxHeight: "300px",
+                        maxHeight: isSmall ? "200px" : "300px",
                         overflowY: "auto",
                         width: "100%",
                         zIndex: 99999,
                         position: "absolute",
-                        border: "1px solid black",
+                        border: isSmall
+                          ? "0.70px solid black"
+                          : "1px solid black",
                       }),
                     }}
                   />

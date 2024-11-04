@@ -24,7 +24,8 @@ export default function RootLayout({
   const { setCart } = useCartStore();
 
   useEffect(() => {
-    if (!customer) {2
+    if (!customer) {
+      2;
       setCustomer();
     }
 
@@ -35,8 +36,14 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      {/* <body className={classNames( playfair.className, roboto_mono.className )}> */}
-      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
       <body className={font.className}>
         <MedusaApp>
           <LazyLoader>{children}</LazyLoader>

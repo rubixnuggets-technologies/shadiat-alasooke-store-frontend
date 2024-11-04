@@ -1,6 +1,7 @@
 "use client";
 import Button from "@/src/components/ui/button";
 import loadFeatures from "@/src/framer/load-features";
+import { bookConsultation } from "@/utils/actions/zoho";
 import useOutsideClickDetector from "@/utils/hooks/useOutsideClickDetector";
 import { LazyMotion, AnimatePresence, m } from "framer-motion";
 import { useState } from "react";
@@ -12,6 +13,8 @@ interface ConsultationDetails {
   email: string;
   phoneNumber: string;
   additionalMessage: string;
+  date: string;
+  time: string;
 }
 
 interface DropdownProps {
@@ -55,15 +58,9 @@ export default function ConsultationForm() {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<ConsultationDetails>();
-
-  const submiForm: SubmitHandler<ConsultationDetails> = async (data) => {
-    try {
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const [consultationType, setConsultationType] = useState({
     isVisible: false,
@@ -99,13 +96,42 @@ export default function ConsultationForm() {
     }))
   );
 
-  const consultationTypeDropdownRef = useOutsideClickDetector(() =>
-    setConsultationType((state) => ({
-      ...state,
+  const [submissionStatus, setSubsmissionStatus] = useState("IDLE");
 
-      isVisible: false,
-    }))
-  );
+  const resetFormState = () => {
+    setValue("name", "");
+    setValue("additionalMessage", "");
+    setValue("date", "");
+    setValue("time", "");
+    setValue("email", "");
+    setValue("phoneNumber", "");
+
+    setConsultant({ isVisible: false, value: "" });
+    setConsultationType({ isVisible: false, value: "" });
+  };
+
+  const submiForm: SubmitHandler<ConsultationDetails> = async (data) => {
+    setSubsmissionStatus("LOADING");
+
+    try {
+      await bookConsultation({
+        Name: data.name,
+        Email: data.email,
+        Phone_Number: data.phoneNumber,
+        Consultant: consultant.value,
+        Consultation_Type: consultationType?.value,
+        Additional_Message: data.additionalMessage,
+        Date: data?.date,
+        Time: data?.date,
+      });
+
+      resetFormState();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setSubsmissionStatus("IDLE");
+    }
+  };
 
   return (
     <div className="flex w-full flex-row mt-7">
@@ -117,6 +143,7 @@ export default function ConsultationForm() {
         <div className="form-group border-b-0 flex w-full flex-col">
           <input
             type="text"
+            disabled={submissionStatus === "LOADING"}
             className="text-xs lg:text-sm border-0 w-full auth__input focus:outline-none"
             {...register("name", {
               required: true,
@@ -132,6 +159,7 @@ export default function ConsultationForm() {
         <div className="form-group border-b-0 flex w-full flex-col">
           <input
             type="email"
+            disabled={submissionStatus === "LOADING"}
             className="text-xs lg:text-sm border-0 w-full auth__input focus:outline-none"
             {...register("email", {
               required: true,
@@ -146,10 +174,11 @@ export default function ConsultationForm() {
 
         <div className="form-group border-b-0 flex w-full flex-col">
           <input
-            type="text"
+            type="number"
             {...register("phoneNumber", {
               required: true,
             })}
+            disabled={submissionStatus === "LOADING"}
             className="text-xs lg:text-sm border-0 w-full auth__input focus:outline-none"
             onChange={(e) => {}}
             placeholder="PHONE NUMBER*"
@@ -192,19 +221,33 @@ export default function ConsultationForm() {
           <div className="form-group border-b-0 flex w-full flex-col">
             <input
               type="date"
+              disabled={submissionStatus === "LOADING"}
               className="text-xs lg:text-sm border-0 w-full auth__input focus:outline-none"
-              onChange={(e) => {}}
               placeholder="DATE FOR CONSULTATION*"
+              {...register("date", {
+                required: true,
+              })}
             />
+
+            {errors.date && (
+              <p className="mt-1 text-coral-700 text-xs">*Required Field</p>
+            )}
           </div>
 
           <div className="form-group border-b-0 flex w-full flex-col">
             <input
               type="time"
+              disabled={submissionStatus === "LOADING"}
               className="text-xs lg:text-sm border-0 w-full auth__input focus:outline-none"
-              onChange={(e) => {}}
+              {...register("time", {
+                required: true,
+              })}
               placeholder="TIME FOR CONSULTATION*"
             />
+
+            {errors.time && (
+              <p className="mt-1 text-coral-700 text-xs">*Required Field</p>
+            )}
           </div>
         </div>
 
@@ -244,19 +287,20 @@ export default function ConsultationForm() {
         <div className="form-group border-b-0 flex w-full flex-col">
           <input
             type="text"
-            {...register("additionalMessage", {})}
+            disabled={submissionStatus === "LOADING"}
+            {...register("additionalMessage")}
             className="placeholder-[#181615] text-xs lg:text-sm border-0 w-full auth__input focus:outline-none"
-            onChange={(e) => {}}
             placeholder="ADDITIONAL MESSAGE*"
           />
-
-          {errors.phoneNumber && (
-            <p className="mt-1 text-coral-700 text-xs">*Required Field</p>
-          )}
         </div>
 
         <div className="mt-7">
-          <Button type="submit" width="full" title="Book A Consultation" />
+          <Button
+            disabled={submissionStatus === "LOADING"}
+            type="submit"
+            width="full"
+            title="Book A Consultation"
+          />
         </div>
       </form>
     </div>

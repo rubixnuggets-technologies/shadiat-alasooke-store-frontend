@@ -1,7 +1,7 @@
-"use client";
 import { ImageLoader } from "@/utils/helpers/Cloudinary";
 import Image from "next/image";
 import Link from "next/link";
+import NewsletterSubscription from "./NewsletterSubscription";
 
 const HERO_URL = "/alasooke-project/mzdijupfwpi4tscjk5ya";
 
@@ -10,31 +10,7 @@ const Footer = () => {
     <footer className="bg-brown-dark-100 mt-8 py-8 lg:py-24">
       <div className="layout-container">
         <div className="layout">
-          <div>
-            <h1 className="text-[20px] lg:text-3xl text-brown-2100 text-center mb-2">
-              Stay Updated with Shadiat Alasooke
-            </h1>
-
-            <div className="max-w-[236px] m-auto lg:max-w-full">
-              <p className="text-center text-xs lg:text-base text-brown-2100">
-                Subscribe to our newsletter for the latest updates, exclusive
-                offers, and fashion tips.
-              </p>
-            </div>
-
-            <div className="mt-6 lg:mt-10 flex justify-center">
-              <div className="border-[1px] w-full w-full mx-9 lg:w-[600px] h-9 lg:h-12 flex flex-row border-brown-2100">
-                <input
-                  className="w-full bg-brown-dark-100 text-xs placeholder-brown-dark-2000 lg:text-base text-2100 px-4"
-                  placeholder="Enter your email address"
-                />
-
-                <button className="bg-brown-dark-2100 text-white text-xs lg:text-base font-bold w-44">
-                  Susbscribe
-                </button>
-              </div>
-            </div>
-          </div>
+          <NewsletterSubscription />
 
           <div className="mt-14 lg:mt-24">
             <ul className="flex flex-col lg:grid lg:grid-cols-6 gap-14 lg:gap-24 content-stretch">
@@ -114,7 +90,7 @@ const Footer = () => {
                   <div className="mt-4 lg:mt-8">
                     <ul className="flex flex-col gap-4 lg:gap-8">
                       <li>
-                        <Link href="/about">
+                        <Link href="/book-a-consultation">
                           <p> Book a Consultation </p>{" "}
                         </Link>
                       </li>
