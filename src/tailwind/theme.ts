@@ -9,6 +9,7 @@ const theme = {
     dark_blue: "#002B5B",
     gold: {
       100: "#FFFBE7",
+      1400: "#B99C00",
       1500: "#A28800",
     },
     green: {

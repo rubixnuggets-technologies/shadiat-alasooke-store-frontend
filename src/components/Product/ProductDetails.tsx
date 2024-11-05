@@ -14,7 +14,7 @@ import { usePathname, useRouter } from "next/navigation";
 const ProductDetails = ({ product }: { product: Product }) => {
   const [itemVariant, setVariant] = useState(product?.variants[0]);
   const router = useRouter();
-
+  
   const { customer, bookmarkProduct, removeBookmark, modifyCustomerCartId } =
     useCustomerStore();
 
@@ -97,12 +97,34 @@ const ProductDetails = ({ product }: { product: Product }) => {
             </p>
 
             {itemVariant && (
-              <div className="mt-4 lg:mt-8">
+              <div className="mt-4 lg:mt-8 flex flex-row ">
                 <p className="text-base lg:text-lg text-brown-2100">
                   {formatCurrency(
                     itemVariant?.prices[0]?.amount * productQuantity
                   )}
                 </p>
+
+                {itemVariant?.inventory_quantity <= 0 ? (
+                  <div className="ml-4 flex flex-row">
+                    <div className="flex items-center">
+                      <div className="h-[8px] w-[8px] rounded-full bg-coral-700" />
+                    </div>
+                    <p className="text-coral-700 ml-2 text-base text-italic">
+                      out of stock{" "}
+                    </p>
+                  </div>
+                ) : (
+                  itemVariant?.inventory_quantity <= 4 && (
+                    <div className="ml-4 flex flex-row">
+                      <div className="flex items-center">
+                        <div className="h-[8px] w-[8px] rounded-full bg-gold-1400 " />
+                      </div>
+                      <p className="text-gold-1400 ml-2 text-base text-italic">
+                        Low on stock{" "}
+                      </p>
+                    </div>
+                  )
+                )}
               </div>
             )}
 

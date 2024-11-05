@@ -29,7 +29,7 @@ export default async function Page({ params }) {
         />
       </div>
 
-      <div className="layout">
+      <div className="max-w-[618px] m-auto">
         <ul className="grid gap-6">
           {data.map((item, index) => (
             <li key={item?._id}>

@@ -7,6 +7,7 @@ import { LazyMotion, AnimatePresence, m } from "framer-motion";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IoChevronDown } from "react-icons/io5";
+import BookingSuccess from "../Modals/BookingSuccess";
 
 interface ConsultationDetails {
   name: string;
@@ -57,7 +58,7 @@ export default function ConsultationForm() {
   const {
     register,
     handleSubmit,
-    watch,
+    reset,
     setValue,
     formState: { errors },
   } = useForm<ConsultationDetails>();
@@ -97,14 +98,10 @@ export default function ConsultationForm() {
   );
 
   const [submissionStatus, setSubsmissionStatus] = useState("IDLE");
+  const [modalVisiblity, setModalVisibility] = useState(false);
 
   const resetFormState = () => {
-    setValue("name", "");
-    setValue("additionalMessage", "");
-    setValue("date", "");
-    setValue("time", "");
-    setValue("email", "");
-    setValue("phoneNumber", "");
+    reset();
 
     setConsultant({ isVisible: false, value: "" });
     setConsultationType({ isVisible: false, value: "" });
@@ -122,9 +119,10 @@ export default function ConsultationForm() {
         Consultation_Type: consultationType?.value,
         Additional_Message: data.additionalMessage,
         Date: data?.date,
-        Time: data?.date,
+        Time: `${data?.date}T${data?.time}:00`
       });
 
+      setModalVisibility(true);
       resetFormState();
     } catch (error) {
       console.error(error);
@@ -135,6 +133,11 @@ export default function ConsultationForm() {
 
   return (
     <div className="flex w-full flex-row mt-7">
+      <BookingSuccess
+        open={modalVisiblity}
+        onClose={() => setModalVisibility(false)}
+      />
+
       <form
         onSubmit={handleSubmit(submiForm)}
         className="flex flex-col gap-4 w-full"

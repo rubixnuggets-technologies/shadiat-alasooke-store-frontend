@@ -95,6 +95,42 @@ export const bookConsultation = async (data: ConsultationDetails) => {
       }),
     });
 
+    const response = await request.json();
+
+    return response
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+interface PreOrderDetails {
+  Name: string
+  Email: string
+  Phone_Number: string
+  Preferred_Contact_Method: string
+  Additional_Message: string
+  Collection_Type: string
+}
+
+export const preOrderNative = async (data: PreOrderDetails) => {
+  try {
+    const token = await generateToken();
+
+    if (!token.access_token) {
+      throw new Error("Invalid token");
+    }
+
+    const request = await fetch(`${ZOHO_API_ENDPOINT}/crm/v7/Pre_Order`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token.access_token}`,
+      },
+      body: JSON.stringify({
+        data: [data],
+      }),
+    });
+
     return await request.json();
   } catch (error) {
     console.error(error);

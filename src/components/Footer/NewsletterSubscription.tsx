@@ -2,14 +2,16 @@
 import { addEmail } from "@/utils/actions/zoho";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { IoMdCheckmark } from "react-icons/io";
 
 export default function NewsletterSubscription() {
-  const [subscriptionStatus, setSubscriptionStatus] = useState("IDLE");
+  const [subscriptionStatus, setSubscriptionStatus] = useState<
+    "IDLE" | "SUCCESS" | "ERROR" | "LOADING"
+  >("IDLE");
 
   const {
     register,
     handleSubmit,
-    watch,
     setValue,
     formState: { errors },
   } = useForm<{
@@ -26,7 +28,7 @@ export default function NewsletterSubscription() {
     } catch (error) {
       console.log(error);
     } finally {
-      setSubscriptionStatus("SUCCESS");
+      setTimeout(() => setSubscriptionStatus("IDLE"), 10000);
     }
   };
 
@@ -56,7 +58,7 @@ export default function NewsletterSubscription() {
             })}
             disabled={subscriptionStatus === "LOADING"}
             type="email"
-            className="w-full bg-brown-dark-100 focus:outline-none text-xs rounded-none placeholder-brown-dark-2000 lg:text-base text-2100 px-4"
+            className="w-full bg-brown-dark-100 focus:outline-none text-xs rounded-none placeholder-brown-dark-2000 text-2100 px-4"
             placeholder="Enter your email address"
           />
 
@@ -70,6 +72,20 @@ export default function NewsletterSubscription() {
           </button>
         </form>
       </div>
+
+      {subscriptionStatus === "SUCCESS" && (
+        <div className="max-w-[600px] m-auto flex mt-4">
+          <div className="h-5 w-5 bg-[#3EB489] mr-1 flex justify-center items-center rounded-full">
+            <IoMdCheckmark color="white" className="text-lg" />
+          </div>
+
+          <div className="flex items-center">
+            <p className="text-sm text-brown-dark-2100">
+              Your subscription was successful
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

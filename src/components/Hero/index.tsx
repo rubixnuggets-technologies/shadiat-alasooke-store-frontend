@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { ImageLoader } from "@/utils/helpers/Cloudinary";
 import { Hero as IHero } from "@/utils/types/schema";
 import cn from "classnames";
@@ -39,7 +39,7 @@ const Hero = ({ data }: { data: IHero[] }) => {
         {...SliderSettings}
       >
         {data &&
-          data.map(({ title, button_link, cover, cta_text }, idx) => {
+          data.map(({ title, button_link, button_text, cover, cta_text }, idx) => {
             return (
               <div key={idx} className="right-0">
                 <div
@@ -67,7 +67,7 @@ const Hero = ({ data }: { data: IHero[] }) => {
 
                       <div className="flex justify-center lg:justify-start">
                         <Link href={button_link || "#"}>
-                          <Button title="Shop Now" />
+                          <Button title={button_text} />
                         </Link>
                       </div>
                     </div>
