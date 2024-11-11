@@ -29,7 +29,7 @@ export default function CartTable() {
           <tr>
             <th scope="col" className="py-6">
               <div className="flex flex-row">
-                <div className="mr-2 lg:mr-4 flex items-center">
+                {/* <div className="mr-2 lg:mr-4 flex items-center">
                   <Checkbox
                     isActive={
                       cart?.items?.length >= 1 &&
@@ -37,7 +37,7 @@ export default function CartTable() {
                     }
                     selectCheckbox={markAllProducts}
                   />
-                </div>
+                </div> */}
 
                 <div className="flex items-center">
                   <p className="text-xs lg:text-xl text-brown-2100">

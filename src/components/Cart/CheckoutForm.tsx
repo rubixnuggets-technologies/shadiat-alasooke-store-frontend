@@ -47,7 +47,7 @@ interface CheckoutDetails {
     value: string;
     isoCode: string;
     label?: string;
-  }
+  };
 }
 
 const ZIP_COUNTRIES = [
@@ -96,8 +96,7 @@ export default function CheckoutForm() {
   const { customer, updateBillingAddress } = useCustomerStore();
   const [isLocationVisible, setLocationVisibility] = useState(false);
 
-  const { setDeliveryDetail, deliveryDetails, addDeliveryAddress } =
-    useCartStore();
+  const { addDeliveryAddress } = useCartStore();
 
   const [shouldStoreCheckoutInfo, storeCheckoutInfo] = useState(
     !isEmpty(customer?.shipping_addresses)
@@ -195,7 +194,7 @@ export default function CheckoutForm() {
     }
   };
 
-  const [address, country, state] = watch(["address", "country", "state"]);
+  const [country, state] = watch(["country", "state"]);
 
   useEffect(() => {
     if (!selectedDestinationCityOption) return;
@@ -213,10 +212,6 @@ export default function CheckoutForm() {
         let address = "";
 
         data?.result?.address_components?.forEach((component) => {
-
-          console.log("COMPONENT", component);
-          
-
           if (component?.types?.includes("street_number")) {
             address = `${component?.long_name} `;
           }
@@ -248,9 +243,7 @@ export default function CheckoutForm() {
             });
           }
 
-          if (
-            component?.types?.includes("administrative_area_level_1") 
-          ) {
+          if (component?.types?.includes("administrative_area_level_1")) {
             setValue("state", {
               value: component.long_name,
               label: component.long_name,
@@ -612,9 +605,6 @@ export default function CheckoutForm() {
                         {...register("region", {
                           required: !isZipCode,
                         })}
-                        onChange={(e) =>
-                          setDeliveryDetail("region", e.target.value)
-                        }
                         className="block rounded-none h-10 lg:h-11 px-3 mt-1 lg:mt-3 w-full text-xs lg:text-sm text-gray-900 bg-transparent border-[0.70px] lg:border-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0  "
                         placeholder="Select Region"
                         required

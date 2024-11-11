@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import ProductDetails from "@/src/components/Product/ProductDetails";
 import { Product } from "@medusajs/medusa";
 import RecentlyViewed from "@/src/components/Product/RecentlyViewed";
-import Breadcrumb from "@/src/components/ui/Breadcrumb";
 
 const getPage = async (slug: string): Promise<{ product: Product }> => {
   try {
@@ -28,7 +27,7 @@ const Page = async ({ params }: { params: { product: string } }) => {
     <div>
       <ProductDetails product={product} />
 
-      <RecentlyViewed currentProduct={product.handle} />
+      <RecentlyViewed currentProduct={product?.handle} />
     </div>
   );
 };

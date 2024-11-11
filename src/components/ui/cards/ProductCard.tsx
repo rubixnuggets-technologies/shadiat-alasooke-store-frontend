@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { TfiPlus } from "react-icons/tfi";
 import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
 
@@ -14,6 +14,7 @@ import { useCustomerStore } from "@/src/state/customer";
 import { useRouter } from "next/navigation";
 
 import { head } from "lodash";
+import Spinner from "../../loaders/Spinner";
 
 export default function ProductCard({
   product,
@@ -22,14 +23,13 @@ export default function ProductCard({
   product: Product;
   itemsType: string;
 }) {
+  const [status, setStatus] = useState("IDLE");
   const { customer, modifyCustomerCartId, bookmarkProduct, removeBookmark } =
     useCustomerStore();
 
   const { resetSearch } = useSearchStore();
   const router = useRouter();
-  const { addProductToCart } = useCartStore()
-
-  // const { addProductToCart } = useDexieDB();
+  const { addProductToCart } = useCartStore();
 
   const { regions } = useRegions();
   const cartStore = useCartStore();
@@ -46,6 +46,8 @@ export default function ProductCard({
     if (!customer) {
       return router.push("/customer/login");
     }
+
+    setStatus("LOADING");
 
     if (!customer?.metadata?.cartId) {
       const userLocalRegion = regions?.find(
@@ -65,6 +67,7 @@ export default function ProductCard({
         cart_id: createdCart?.id,
       });
 
+      setStatus("IDLE");
       return router.push("/cart");
     }
 
@@ -74,6 +77,7 @@ export default function ProductCard({
       cart_id: customer?.metadata?.cartId,
     });
 
+    setStatus("IDLE");
     return router.push("/cart");
   };
 
@@ -113,11 +117,13 @@ export default function ProductCard({
 
         {itemsType === "PRODUCTS" && (
           <div
-            onClick={quickAddToCart}
+            onClick={() => {
+              status !== "LOADING" && quickAddToCart();
+            }}
             className="flex justify-center hover:cursor-pointer"
           >
             <div className="h-6 w-6 absolute bottom-4 z-5 rounded-full bg-white flex items-center justify-center">
-              <TfiPlus size={14} />
+              {status === "LOADING" ? <Spinner /> : <TfiPlus size={14} />}
             </div>
           </div>
         )}

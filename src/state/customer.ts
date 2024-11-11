@@ -61,33 +61,32 @@ export const useCustomerStore = create<ICustomerState>((set) => ({
   },
 
   updateBillingAddress: async (address) => {
-    console.log("BILLING ADDRESS =>", address);
-
-    console.log("CREATE BILLING ADDRESS =>", address);
+    // console.log("BILLING ADDRESS =>", address);
+    // console.log("CREATE BILLING ADDRESS =>", address);
 
     try {
-      const stripFullname = address.fullName.split(" ");
+      const stripFullname = address.fullname.split(" ");
 
       const { customer } = await MedusaClient.customers.addresses.addAddress({
         address: {
-          // first_name: stripFullname[0] || "",
-          // last_name: stripFullname[1] || "",
-          // address_1: address.address,
-          // city: address.city,
-          // country_code: "ng",
-          // postal_code: address.postalCode,
-          // phone: address.phoneNumber,
+          first_name: stripFullname[0] || "",
+          last_name: stripFullname[1] || "",
+          address_1: address.address,
+          city: address.city,
+          country_code: "ng",
+          postal_code: address.postalCode,
+          phone: address.phoneNumber,
 
-          first_name: "Celia",
-          last_name: "Schumm",
-          address_1: "225 Bednar Curve",
-          address_2: "225 Bednar Curve",
-          city: "Danielville",
-          country_code: "US",
-          postal_code: "85137",
-          phone: "981-596-6748 x90188",
-          company: "Wyman LLC",
-          province: "Georgia",
+          // first_name: "Celia", 
+          // last_name: "Schumm",
+          // address_1: "225 Bednar Curve",
+          // address_2: "225 Bednar Curve",
+          // city: "Danielville",
+          // country_code: "US",
+          // postal_code: "85137",
+          // phone: "981-596-6748 x90188",
+          // company: "Wyman LLC",
+          // province: "Georgia",
           metadata: { }
         },
       });

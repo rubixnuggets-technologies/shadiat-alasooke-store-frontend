@@ -68,13 +68,13 @@ const Footer = () => {
                   <div className="mt-4 lg:mt-8">
                     <ul className="flex flex-col gap-4 lg:gap-8">
                       <li>
-                        <Link href="/explore/shop-aso-oke">
+                        <Link href="/shop-aso-oke">
                           <p className="text-sm lg:text-base"> Shop Aso Oke </p>{" "}
                         </Link>
                       </li>
 
                       <li>
-                        <Link href="/explore/shop-rtw">
+                        <Link href="/ready-to-wear">
                           <p className="text-sm lg:text-base"> Shop RTW </p>{" "}
                         </Link>
                       </li>

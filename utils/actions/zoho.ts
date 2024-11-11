@@ -110,6 +110,7 @@ interface PreOrderDetails {
   Preferred_Contact_Method: string
   Additional_Message: string
   Collection_Type: string
+  Product_Link: string
 }
 
 export const preOrderNative = async (data: PreOrderDetails) => {

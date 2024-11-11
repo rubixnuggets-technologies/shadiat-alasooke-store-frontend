@@ -5,6 +5,7 @@ export interface IProductState {
   isFilterPaneVisible: boolean;
   products: Product[] | null;
   productsCount: number;
+  status: "IDLE" | "LOADING" | "ERROR";
 
   toggleFilterPane: () => void;
   sortProducts: (sort: string, products?: Product[]) => void;
@@ -25,10 +26,10 @@ export interface IProductState {
 
 const initialState: Pick<
   IProductState,
-  "productsCount" | "isFilterPaneVisible" | "products"
+  "productsCount" | "isFilterPaneVisible" | "products" | "status"
 > = {
   isFilterPaneVisible: true,
-
+  status: "IDLE",
   products: null,
   productsCount: 0,
 };
@@ -44,6 +45,10 @@ export const useProductStore = create<IProductState>((set) => ({
   },
 
   queryProducts: async ({ filter = [], limit, collectionId, page, sort }) => {
+    set({
+      status: "LOADING",
+    });
+
     try {
       const request = await fetch(
         `/api/products?query=${JSON.stringify(filter)}&limit=${limit}&page=${page}&collection=${collectionId}&sort=${sort}`
@@ -51,8 +56,12 @@ export const useProductStore = create<IProductState>((set) => ({
 
       const { data } = await request.json();
 
-      set({ products: data?.products, productsCount: data?.total });
+      set({ products: data?.products, productsCount: data?.total, status: "IDLE" });
     } catch (error) {
+      set({
+        status: "ERROR",
+      });
+
       console.log(error);
     }
   },

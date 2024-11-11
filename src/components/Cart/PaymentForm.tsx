@@ -15,9 +15,9 @@ const Circle = ({ active }: { active: boolean }) => (
 );
 
 export default function PaymentForm() {
-  const { setPaymentDetail, paymentDetails } = useCartStore();
+  // const { setPaymentDetail, paymentDetails } = useCartStore();
 
-  const [paymentMode] = useState("CREDIT_CARD");
+  // const [paymentMode] = useState("CREDIT_CARD");
 
   return (
     <div className="flex flex-col lg:grid mt-6 lg:mt-1 lg:grid-cols-2 gap-14 lg:gap-32">
@@ -39,7 +39,7 @@ export default function PaymentForm() {
               </div>
             </div>
 
-            {paymentMode === "CREDIT_CARD" && (
+            {/* {paymentMode === "CREDIT_CARD" && (
               <div className="mx-2 mb-2">
                 <form className="flex flex-col gap-2">
                   <div className="relative z-0 w-full   group">
@@ -104,7 +104,7 @@ export default function PaymentForm() {
                   </div>
                 </form>
               </div>
-            )}
+            )} */}
           </li>
 
           <li>

@@ -1,6 +1,5 @@
 import MedusaClient from "@/utils/Medusa/MedusaClient";
 import { create } from "zustand";
-import { AddressPayload } from "@medusajs/medusa";
 import { Cart } from "medusa-react";
 import zukeeper from "zukeeper";
 import { db } from "@/utils/Storage/db";
@@ -32,6 +31,7 @@ export interface ICheckoutState {
     | "PAYMENT_SUCCESS";
 
   cart: Cart | null;
+  status: "IDLE" | "LOADING" | "ERROR";
   checkoutHistory: string[];
 
   deliveryDetails: Record<IDeliveryDetail, string>;
@@ -48,17 +48,8 @@ export interface ICheckoutState {
   }) => Promise<void>;
 
   setDeliveryDetail: (key: string, value: string) => void;
-  setPaymentDetail: () => void;
-  startPayment: ({
-    cartId,
-    paymentDetails,
-  }: {
-    cartId: string;
-    paymentDetails: any;
-  }) => void;
-  removeCart: ({ cartId }: { cartId: string }) => void;
-  completeCartOrder: (cartId: string) => void;
-  createCart: (regionId?: string, customerId?: string) => Promise<any>;
+  completeCartOrder: (cartId: string) => Promise<void>;
+  createCart: (regionId?: string, customerId?: string) => Promise<void>;
   addDeliveryAddress: ({
     cartId,
     deliveryDetails,
@@ -67,7 +58,7 @@ export interface ICheckoutState {
     cartId: string;
     deliveryDetails: any;
     deliveryMethod: any;
-  }) => void;
+  }) => Promise<void>;
   resetCartStore: () => void;
   removeProductFromCart: ({
     item_id,
@@ -88,7 +79,7 @@ export interface ICheckoutState {
   setCheckoutStage: (stage: ICheckoutState["checkoutStage"]) => void;
   setCart: ({ cart_id, cart }: { cart_id?: string; cart?: Cart }) => void;
 
-  storeRecentlyViewedProduct: (product: Product) => Promise<void> | void
+  storeRecentlyViewedProduct: (product: Product) => Promise<void> | void;
 }
 
 export const CART_VIEW = "CART_VIEW";
@@ -103,10 +94,12 @@ const initialState: Pick<
   | "deliveryDetails"
   | "paymentDetails"
   | "checkoutHistory"
+  | "status"
 > = {
   checkoutStage: CART_VIEW,
   checkoutHistory: [],
   cart: null,
+  status: "IDLE",
 
   deliveryDetails: {
     fullName: "",
@@ -152,13 +145,15 @@ export const useCartStore = create<ICheckoutState>((set, state) => ({
         await db.recently_viewed_products.add(product);
       }
 
-      return
+      return;
     } catch (error) {
       console.log(error);
     }
   },
 
   addProductToCart: async ({ variant_id, quantity, cart_id }) => {
+    set({ status: "LOADING" });
+
     try {
       const { cart } = await MedusaClient.carts.lineItems.create(cart_id, {
         variant_id,
@@ -168,6 +163,10 @@ export const useCartStore = create<ICheckoutState>((set, state) => ({
       set({ cart });
     } catch (error) {
       console.log("ADD TO CART ERR:", error);
+
+      set({ status: "ERROR" });
+    } finally {
+      set({ status: "IDLE" });
     }
   },
 
@@ -209,6 +208,8 @@ export const useCartStore = create<ICheckoutState>((set, state) => ({
   },
 
   createCart: async (regionId, customerId) => {
+    set({ status: "LOADING" });
+
     try {
       const response = await MedusaClient.carts.create({
         region_id: regionId,
@@ -224,10 +225,13 @@ export const useCartStore = create<ICheckoutState>((set, state) => ({
 
       return response;
     } catch (e) {
+      set({ status: "ERROR" });
+
       console.log(e);
+    } finally {
+      set({ status: "IDLE" });
     }
   },
-
   setCart: async ({ cart_id, cart }) => {
     if (!cart_id && !cart) return null;
 
@@ -248,6 +252,8 @@ export const useCartStore = create<ICheckoutState>((set, state) => ({
     if (!cartId) {
       return;
     }
+
+    set({ status: "LOADING" });
 
     try {
       await MedusaClient.carts.update(cartId, {
@@ -286,7 +292,11 @@ export const useCartStore = create<ICheckoutState>((set, state) => ({
 
       return cart;
     } catch (e) {
+      set({ status: "ERROR" });
+
       console.log(e);
+    } finally {
+      set({ status: "IDLE" });
     }
   },
 
@@ -308,23 +318,4 @@ export const useCartStore = create<ICheckoutState>((set, state) => ({
       console.log(e);
     }
   },
-
-  setPaymentDetail: (key: string, value: string) =>
-    set((state: ICheckoutState) => ({
-      paymentDetails: {
-        ...state.paymentDetails,
-        [key]: value,
-      },
-    })),
-
-  removeCart: async ({ cartId }) => {
-    try {
-    } catch (e) {
-      console.log(e);
-    }
-  },
 }));
-
-// window.store = useCartStore;
-
-// export { useCartStore };

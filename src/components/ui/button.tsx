@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import classNames from "classnames";
+import Spinner from "../loaders/Spinner";
 
 interface Props {
   title: string;
@@ -9,6 +10,7 @@ interface Props {
   override_classname?: string;
   icon?: ReactNode;
   type?: "submit" | "reset" | "button";
+  loading?: boolean;
 
   width?: string;
   height?: string;
@@ -21,6 +23,7 @@ const Button = ({
   disabled = false,
   color,
   icon,
+  loading,
 
   width,
   textClassname,
@@ -30,7 +33,7 @@ const Button = ({
     <button
       type={type}
       onClick={clickAction}
-      disabled={disabled}
+      disabled={disabled || loading}
       className={classNames(
         "transition ease-in-out delay-150",
         `bg-transparent flex flex-row items-center justify-center border-[1px]   h-9 lg:h-[48px] px-8 border-1 w-${width}`,
@@ -45,6 +48,12 @@ const Button = ({
     >
       {icon}
       {title}
+
+      {loading && (
+        <div className="ml-3">
+          <Spinner />
+        </div>
+      )}
     </button>
   );
 };

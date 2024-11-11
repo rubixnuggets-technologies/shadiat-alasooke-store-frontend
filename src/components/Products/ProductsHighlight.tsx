@@ -11,6 +11,11 @@ import { m, LazyMotion, AnimatePresence } from "framer-motion";
 import loadFeatures from "@/src/framer/load-features";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { usePathname } from "next/navigation";
+import SkeletonLoader from "../loaders/SkeletonLoader";
+import {
+  MOBILE_BREAKPOINT,
+  useMediaQuery,
+} from "@/utils/hooks/useStyleWidthQuery";
 
 interface ProductsHighlightProps {
   itemsPerPage?: number;
@@ -35,8 +40,13 @@ export default function ProductsHighlight({
   slug,
   itemsType,
 }: ProductsHighlightProps) {
-  const { isFilterPaneVisible, products, queryProducts, productsCount } =
-    useProductStore();
+  const {
+    isFilterPaneVisible,
+    status,
+    products,
+    queryProducts,
+    productsCount,
+  } = useProductStore();
   const [pageCount, setProductPage] = useState(0);
 
   useEffect(() => {
@@ -50,11 +60,14 @@ export default function ProductsHighlight({
   }, [collectionKey, pageCount]);
 
   const pathName = usePathname();
+  const isSmall = useMediaQuery(MOBILE_BREAKPOINT);
 
   return (
     <div>
       <div className="layout ">
-        <h1 className="text-[20px] text-brown-dark-2100 lg:text-[40px]">{title}</h1>
+        <h1 className="text-[20px] text-brown-dark-2100 lg:text-[40px]">
+          {title}
+        </h1>
       </div>
 
       <LazyMotion strict features={loadFeatures}>
@@ -62,22 +75,14 @@ export default function ProductsHighlight({
           className={cn(
             "grid",
             isFilterPaneVisible && filters
+            
               ? "flex flex-col lg:grid-cols-[450px_auto]"
               : "grid-cols-[auto]"
           )}
         >
           <AnimatePresence>
             {isFilterPaneVisible && filters && (
-              <m.div
-              // initial={{ width: "auto", opacity: 0 }}
-              // animate={{ width: "auto", opacity: 1 }}
-              // exit={{ width: 0, opacity: 0 }}
-
-              // initial={{ opacity: 0, display: "none" }}
-              // animate={{ opacity: 1, display: "flex" }}
-              // transition={{ duration: 2 }}
-              // exit={{ opacity: 0, display: "none" }}
-              >
+              <m.div>
                 <ProductFilterPane
                   collectionKey={collectionKey}
                   itemsPerPage={itemsPerPage}
@@ -88,13 +93,25 @@ export default function ProductsHighlight({
           </AnimatePresence>
 
           <div className={cn("mt-9 lg:mt-14", filters ? "ml-0 lg:ml-12" : "")}>
-            <ul className="grid grid-cols-9 lg:grid-cols-10">
-              {products?.map((product) => (
-                <li className="" key={product.id}>
-                  <ProductCard {...{ product, showPrice, itemsType }} />
-                </li>
-              ))}
-            </ul>
+            {status === "LOADING" ? (
+              <ul className="grid grid-cols-9 gap-8 lg:grid-cols-10">
+                {Array(isSmall ? 6 : 12)
+                  .fill("")
+                  .map((_, index) => (
+                    <li key={index}>
+                      <SkeletonLoader />
+                    </li>
+                  ))}
+              </ul>
+            ) : (
+              <ul className="grid grid-cols-9 lg:grid-cols-10">
+                {products?.map((product) => (
+                  <li className="" key={product.id}>
+                    <ProductCard {...{ product, showPrice, itemsType }} />
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
       </LazyMotion>

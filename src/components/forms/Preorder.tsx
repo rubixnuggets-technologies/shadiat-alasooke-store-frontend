@@ -17,7 +17,7 @@ interface OrderInfo {
   collectionMethod: string;
 }
 
-export default function PreOrderForm() {
+export default function PreOrderForm({ productId }: { productId: string }) {
   const {
     register,
     handleSubmit,
@@ -63,6 +63,7 @@ export default function PreOrderForm() {
         Additional_Message: data?.additionalMessage,
         Collection_Type: data?.collectionType,
         Phone_Number: data?.phone,
+        Product_Link: `${process.env.NEXT_PUBLIC_MEDUSA_ENDPOINT}/a/products/${productId}`,
       });
 
       setSubmissionStatus("SUCCESS");

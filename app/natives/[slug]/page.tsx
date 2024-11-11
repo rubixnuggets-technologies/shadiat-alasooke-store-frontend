@@ -77,7 +77,7 @@ export default async function CartWrapper({ params: { slug } }) {
                   will get back to you soon for further details
                 </p>
 
-                <PreOrderForm />
+                <PreOrderForm productId={product?.id} />
               </div>
             </div>
           </div>

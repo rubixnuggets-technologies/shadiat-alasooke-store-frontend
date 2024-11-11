@@ -20,7 +20,7 @@ export default function CartSummary({
   nextClickAction?: () => void;
   deliveryOption?: any;
 }) {
-  const { cart, checkoutStage } = useCartStore();
+  const { cart, checkoutStage, status } = useCartStore();
 
   return (
     <div className="max-w-96 w-96">
@@ -123,6 +123,7 @@ export default function CartSummary({
           <Button
             clickAction={nextClickAction}
             width="full"
+            loading={status === "LOADING"}
             title="Continue to Payment"
           />
         )}

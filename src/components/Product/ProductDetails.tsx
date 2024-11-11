@@ -10,16 +10,20 @@ import { getUserData } from "@/utils/actions/user";
 import { useCustomerStore } from "@/src/state/customer";
 import Breadcrumb from "../ui/Breadcrumb";
 import { usePathname, useRouter } from "next/navigation";
+import Spinner from "../loaders/Spinner";
+import { isEmpty } from "lodash";
+import classNames from "classnames";
 
 const ProductDetails = ({ product }: { product: Product }) => {
   const [itemVariant, setVariant] = useState(product?.variants[0]);
   const router = useRouter();
-  
+
   const { customer, bookmarkProduct, removeBookmark, modifyCustomerCartId } =
     useCustomerStore();
 
   const [productQuantity, setProductQuantity] = useState(1);
-  const { addProductToCart, storeRecentlyViewedProduct } = useCartStore();
+  const { addProductToCart, storeRecentlyViewedProduct, status } =
+    useCartStore();
 
   const pathname = usePathname();
 
@@ -134,25 +138,36 @@ const ProductDetails = ({ product }: { product: Product }) => {
           </div>
 
           <div>
-            <div className="mb-8 flex flex-row">
-              <div className="flex items-center mr-5 lg:mr-6">
-                <p className="text-sm lg:text-lg"> Size </p>
+            {isEmpty(product?.variants) ? (
+              <div className="flex mb-4 flex-row">
+                <div className="flex items-center">
+                  <div className="h-[8px] w-[8px] rounded-full bg-coral-700" />
+                </div>
+                <p className="text-coral-700 ml-2 text-base text-italic">
+                  out of stock{" "}
+                </p>
               </div>
+            ) : (
+              <div className="mb-8 flex flex-row">
+                <div className="flex items-center mr-5 lg:mr-6">
+                  <p className="text-sm lg:text-lg"> Size </p>
+                </div>
 
-              <ul className="flex flex-row flex-wrap gap-4">
-                {product?.variants.map((variant) => (
-                  <li onClick={() => setVariant(variant)} key={variant?.id}>
-                    <div
-                      className={`flex py-2 lg:h-12 hover:cursor-pointer px-3 lg:px-6 items-center justify-center flex-row gap-2 lg:gap-3 ${itemVariant?.id === variant.id ? "border-[2px]" : "border-[1px]"} border-brown-1500`}
-                    >
-                      <p className="text-base lg:text-lg capitalize">
-                        {variant?.title}
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                <ul className="flex flex-row flex-wrap gap-4">
+                  {product?.variants.map((variant) => (
+                    <li onClick={() => setVariant(variant)} key={variant?.id}>
+                      <div
+                        className={`flex py-2 lg:h-12 hover:cursor-pointer px-3 lg:px-6 items-center justify-center flex-row gap-2 lg:gap-3 ${itemVariant?.id === variant.id ? "border-[2px]" : "border-[1px]"} border-brown-1500`}
+                      >
+                        <p className="text-base lg:text-lg capitalize">
+                          {variant?.title}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
           <div>
@@ -187,10 +202,28 @@ const ProductDetails = ({ product }: { product: Product }) => {
               </div>
 
               <div
-                onClick={handleAddToCart}
-                className="border-[1px] h-12  flex items-center justify-center hover:cursor-pointer"
+                onClick={() => {
+                  if (
+                    isEmpty(product?.variants) ||
+                    itemVariant?.inventory_quantity <= 0
+                  ) {
+                    return;
+                  }
+
+                  handleAddToCart();
+                }}
+                className={classNames(
+                  "border-[1px] h-12 flex items-center justify-center hover:cursor-pointer",
+                  (isEmpty(product?.variants) ||
+                    itemVariant?.inventory_quantity <= 0) &&
+                    "opacity-50"
+                )}
               >
-                <p className="uppercase"> Add To Cart </p>
+                <div className="mr-4 flex items-center">
+                  <p className="uppercase"> Add To Cart </p>
+                </div>
+
+                {status === "LOADING" && <Spinner />}
               </div>
 
               {productBookmark ? (

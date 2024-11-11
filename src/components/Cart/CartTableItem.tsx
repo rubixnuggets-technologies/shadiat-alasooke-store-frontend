@@ -55,9 +55,9 @@ export default function CartTableItem({
       >
         <div className="flex flex-row">
           <div className="flex">
-            <div className="mr-2 lg:mr-4 flex items-center">
+            {/* <div className="mr-2 lg:mr-4 flex items-center">
               <Checkbox isActive={isMarked} selectCheckbox={() => {}} />
-            </div>
+            </div> */}
 
             <div className="w-[33px] h-[43px] lg:w-[33px] lg:h-[43px] relative">
               <Image
