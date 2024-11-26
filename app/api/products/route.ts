@@ -49,7 +49,7 @@ export async function GET(request: NextRequest, res: NextResponse) {
 
     const productService = await initializeProductModule({
       database: {
-        clientUrl: process.env.POSTGRES_URL,
+        clientUrl: process.env.NEXT_PUBLIC_POSTGRES_URL,
       },
     });
 
