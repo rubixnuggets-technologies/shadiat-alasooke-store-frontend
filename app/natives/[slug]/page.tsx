@@ -46,7 +46,7 @@ export default async function CartWrapper({ params: { slug } }) {
         />
       </div>
 
-      <div >
+      <div>
         <div className="layout">
           <div className="flex flex-col lg:grid lg:grid-cols-[732px_auto]">
             <ProductGallery product={product} />
@@ -113,7 +113,12 @@ export default async function CartWrapper({ params: { slug } }) {
 
 export const generateStaticParams = async () => {
   try {
-    const productService = await initializeProductModule();
+    const productService = await initializeProductModule({
+      database: {
+        clientUrl:
+          process.env.NEXT_PUBLIC_POSTGRES_URL || process.env.POSTGRES_URL,
+      },
+    });
 
     const { products } = await productService.retrieveCollection(
       NATIVE_PRODUCTS_COLLECTION_KEY,
