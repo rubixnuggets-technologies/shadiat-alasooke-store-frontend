@@ -45,11 +45,10 @@ export async function GET(request: NextRequest, res: NextResponse) {
       });
     }
 
-    console.log("process.env.POSTGRES_URL =>", process.env.POSTGRES_URL,);
-
     const productService = await initializeProductModule({
       database: {
-        clientUrl: process.env.NEXT_PUBLIC_POSTGRES_URL,
+        // TODO: POSTGRES_URL is undefined on Amplify. 
+        clientUrl: process.env.NEXT_PUBLIC_POSTGRES_URL || process.env.POSTGRES_URL  ,
       },
     });
 
