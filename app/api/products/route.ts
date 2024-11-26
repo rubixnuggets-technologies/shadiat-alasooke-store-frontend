@@ -45,7 +45,11 @@ export async function GET(request: NextRequest, res: NextResponse) {
       });
     }
 
-    const productService = await initializeProductModule();
+    const productService = await initializeProductModule({
+      database: {
+        clientUrl: process.env.POSTGRES_URL,
+      },
+    });
 
     if (collectionId) {
       let filters = {

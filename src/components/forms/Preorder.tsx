@@ -63,7 +63,7 @@ export default function PreOrderForm({ productId }: { productId: string }) {
         Additional_Message: data?.additionalMessage,
         Collection_Type: data?.collectionType,
         Phone_Number: data?.phone,
-        Product_Link: `${process.env.NEXT_PUBLIC_MEDUSA_ENDPOINT}/a/products/${productId}`,
+        Product_Link: `${process.env.NEXT_PUBLIC_MEDUSA_ENDPOINT}/app/a/products/${productId}`,
       });
 
       setSubmissionStatus("SUCCESS");
