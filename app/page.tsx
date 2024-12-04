@@ -11,6 +11,8 @@ export const metadata: Metadata = {
 };
 
 const getPageData = async () => {
+  console.log("ENV VARS =>", process.env)
+
   const data = await SanityClient().fetch(HOME_PAGE_QUERY);
 
   return {
