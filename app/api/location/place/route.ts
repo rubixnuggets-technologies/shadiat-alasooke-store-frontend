@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 const GEOLOCATION_API_KEY = process.env.GEOLOCATION_API_KEY;
 
+console.log("ENV VARS =>", process.env)
+
 export async function GET(request: NextRequest, res: NextResponse) {
   if (!GEOLOCATION_API_KEY) {
     return Response.json(
@@ -29,7 +31,6 @@ export async function GET(request: NextRequest, res: NextResponse) {
         }
       );
     } 
-    // https://maps.googleapis.com/maps/api/place/details/json?key=AIzaSyBpPrOa4TyDAYLWJnToBK1aNJ9zkTyYoJE&place_id=ChIJ__nkiA2ROxARGasoyW4-tUE&region=ng
     const req = await fetch(
       `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=${GEOLOCATION_API_KEY}&region=ng`,
       {
