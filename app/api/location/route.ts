@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 const GEOLOCATION_API_KEY = process.env.GEOLOCATION_API_KEY;
 
+console.log("ENV VARS =>", process.env)
+
 export async function GET(request: NextRequest, res: NextResponse) {
   if (!GEOLOCATION_API_KEY) {
     return Response.json(
