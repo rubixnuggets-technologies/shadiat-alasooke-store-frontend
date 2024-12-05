@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const GEOLOCATION_API_KEY = process.env.NEXT_PUBLIC_GEOLOCATION_API_KEY;
+const GEOLOCATION_API_KEY = process.env.GEOLOCATION_API_KEY;
 
 export async function GET(request: NextRequest, res: NextResponse) {
   if (!GEOLOCATION_API_KEY) {
     return Response.json(
       {
-        error: "NEXT_PUBLIC_GEOLOCATION_API_KEY is missing!",
+        error: "GEOLOCATION_API_KEY is missing!",
       },
       {
         status: 500,
