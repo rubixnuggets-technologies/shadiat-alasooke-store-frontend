@@ -6,8 +6,8 @@ frontend:
         - npm ci
     build:
       commands:
-        - env | grep -e GEOLOCATION_API_KEY >> .env.local
-        - env | grep -e NEXT_PUBLIC_ >> .env.local
+        - env | grep -e GEOLOCATION_API_KEY >> .env.production
+        - env | grep -e NEXT_PUBLIC_ >> .env.production
         - npm run build
   artifacts:
     baseDirectory: .next
